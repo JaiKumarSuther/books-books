@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google"; // Using Inter as per design.json
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 import Header from "./components/Header";
 
 const inter = Inter({
@@ -45,7 +46,14 @@ export default function RootLayout({
         <footer className="bg-bg-footer text-white pt-12 pb-6">
           <div className="max-w-[1280px] mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h3 className="text-xl font-bold mb-4 text-white">Books & Books</h3>
+              <div className="relative h-12 w-40 mb-4">
+                <Image
+                  src="/logo.png"
+                  alt="Books & Books"
+                  fill
+                  className="object-contain object-left invert"
+                />
+              </div>
               <p className="text-gray-400 text-sm leading-relaxed">
                 Your reliable partner for quality education supplies. We provide books, uniforms, and stationery at affordable prices.
               </p>
