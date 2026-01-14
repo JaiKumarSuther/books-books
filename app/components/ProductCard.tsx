@@ -1,108 +1,77 @@
 "use client";
 
-import Link from 'next/link';
-import { Star, ShoppingCart, LucideIcon } from "lucide-react";
-import { motion } from "framer-motion";
-import { Product } from "../data/products";
+import Link from "next/link";
+import { Heart, ShoppingCart } from "lucide-react";
+import Price from "./Price";
+import Rating from "./Rating";
 
 interface ProductCardProps {
-    product: Product;
-    Icon: LucideIcon;
-    variant?: "default" | "blue" | "purple" | "orange";
+    item: {
+        id?: string;
+        title?: string;
+        name?: string; // Fallback for my existing data
+        price: string | number;
+        oldPrice?: string | number;
+        badge?: string;
+        available?: number;
+        rating?: number;
+        image?: string;
+        href?: string;
+    }
 }
 
-const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-};
-
-export default function ProductCard({ product, Icon, variant = "default" }: ProductCardProps) {
-    const styles = {
-        default: {
-            borderHover: "hover:border-primary/50",
-            bgHover: "group-hover:bg-gray-100",
-            iconText: "group-hover:text-primary",
-            titleText: "group-hover:text-primary",
-            btnHover: "hover:bg-primary",
-        },
-        blue: {
-            borderHover: "hover:border-blue-300",
-            bgHover: "group-hover:bg-blue-50/50",
-            iconText: "group-hover:text-blue-600",
-            titleText: "group-hover:text-blue-600",
-            btnHover: "hover:bg-blue-600",
-        },
-        purple: {
-            borderHover: "hover:border-purple-300",
-            bgHover: "group-hover:bg-purple-50/50",
-            iconText: "group-hover:text-purple-600",
-            titleText: "group-hover:text-purple-600",
-            btnHover: "hover:bg-purple-600",
-        },
-        orange: {
-            borderHover: "hover:border-orange-300",
-            bgHover: "group-hover:bg-orange-50/50",
-            iconText: "group-hover:text-orange-600",
-            titleText: "group-hover:text-orange-600",
-            btnHover: "hover:bg-orange-600",
-        },
-    };
-
-    const theme = styles[variant];
+export default function ProductCard({ item }: ProductCardProps) {
+    // Normalize data (handle both 'title' from user snippet and 'name' from my products.ts)
+    const title = item.title || item.name || "Product Name";
+    const href = item.href || (item.id ? `/products/${item.id}` : "/products");
+    const price = typeof item.price === 'number' ? item.price : Number(item.price.toString().replace(/[^0-9.-]+/g, ""));
 
     return (
-        <motion.div
-            layout
-            variants={fadeInUp}
-            initial="hidden"
-            animate="visible"
-            exit={{ opacity: 0, scale: 0.9 }}
-            className={`group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col ${theme.borderHover}`}
-        >
-            <Link href={`/products/${product.id}`} className="block h-full flex flex-col">
-                {/* Image Placeholder */}
-                <div className={`aspect-[5/4] bg-gray-50 relative p-5 flex items-center justify-center ${theme.bgHover} transition-colors`}>
-                    <div className={`w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm text-gray-300 ${theme.iconText} group-hover:scale-110 transition-all duration-300`}>
-                        <Icon size={24} />
-                    </div>
-                    <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-700 shadow-sm">
-                        {product.category}
+        <div className="group rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md h-full flex flex-col">
+            <div className="flex items-start justify-between gap-2">
+                {item.badge ? (
+                    <span className="rounded-md bg-rose-600 px-2 py-1 text-[11px] font-semibold text-white">
+                        {item.badge}
                     </span>
-                </div>
+                ) : (
+                    <span />
+                )}
+                <button className="rounded-lg border border-gray-200 bg-white p-2 text-gray-600 hover:bg-gray-50">
+                    <Heart size={16} />
+                </button>
+            </div>
 
-                {/* Content */}
-                <div className="p-4 flex flex-col flex-grow">
-                    <div className="flex justify-between items-start mb-2">
-                        <h3 className={`font-bold text-gray-900 line-clamp-1 min-h-[24px] ${theme.titleText} transition-colors`}>
-                            {product.name}
-                        </h3>
-                    </div>
+            {/* image placeholder */}
+            <div className="relative mt-3 aspect-[4/3] w-full rounded-lg bg-gray-50 overflow-hidden flex items-center justify-center">
+                {item.image && item.image !== "/placeholder" ? (
+                    <img src={item.image} alt={title} className="object-cover w-full h-full" />
+                ) : (
+                    <div className="text-gray-300 font-bold bg-gray-100 w-full h-full flex items-center justify-center">IMG</div>
+                )}
+            </div>
 
-                    <div className="flex items-center gap-1 mb-3">
-                        {[...Array(5)].map((_, i) => (
-                            <Star
-                                key={i}
-                                size={12}
-                                className={`${i < Math.floor(product.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
-                            />
-                        ))}
-                        <span className="text-xs text-gray-400 ml-1">({product.rating})</span>
-                    </div>
-
-                    <p className="text-xs text-gray-500 line-clamp-2 mb-4 flex-grow">
-                        {product.description}
+            <div className="mt-4 space-y-2 flex flex-col flex-grow">
+                <p className="text-sm font-semibold text-gray-900 line-clamp-2">{title}</p>
+                <Rating value={item.rating ?? 4} />
+                <Price value={price.toLocaleString()} old={item.oldPrice} />
+                {typeof item.available === "number" ? (
+                    <p className="text-xs text-gray-500">
+                        Available: <span className="font-semibold text-gray-700">{item.available}</span>
                     </p>
+                ) : null}
 
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
-                        <span className="text-lg font-bold text-gray-900">
-                            Rs. {product.price.toLocaleString()}
-                        </span>
-                        <button className={`w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 ${theme.btnHover} hover:text-white transition-all shadow-sm`}>
-                            <ShoppingCart size={16} />
-                        </button>
-                    </div>
+                <div className="mt-auto pt-3 flex items-center gap-2">
+                    <button className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 flex items-center justify-center gap-2">
+                        <ShoppingCart size={14} /> Add
+                    </button>
+                    <Link
+                        href={href}
+                        className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                    >
+                        View
+                    </Link>
                 </div>
-            </Link>
-        </motion.div>
+            </div>
+        </div>
     );
 }

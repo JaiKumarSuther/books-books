@@ -39,25 +39,28 @@ export default function SchoolBagsPage() {
         <div className="py-12 max-w-[1280px] mx-auto px-4 min-h-screen">
             {/* Header with Image */}
             <motion.div
-                className="relative h-[250px] md:h-[300px] rounded-3xl overflow-hidden mb-12 flex items-end p-8 bg-[#0B1437]"
+                className="relative h-[250px] md:h-[300px] rounded-3xl overflow-hidden mb-12 flex items-center p-8 md:p-12 bg-white border border-gray-100 shadow-sm"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
             >
-                {/* Subtle Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-transparent pointer-events-none" />
-
-                <div className="relative z-20 text-white w-full max-w-3xl">
-                    <span className="bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-lg text-xs font-bold uppercase mb-4 inline-block tracking-wider border border-white/10">
+                {/* Content Container */}
+                <div className="relative z-20 w-full md:w-2/3 flex flex-col justify-center">
+                    <span className="bg-orange-50 text-orange-600 px-4 py-1.5 rounded-lg text-xs font-bold uppercase mb-4 inline-block tracking-wider w-fit">
                         Category
                     </span>
-                    <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+                    <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight text-gray-900">
                         School Bags
                     </h1>
-                    <p className="text-blue-100 max-w-xl text-sm md:text-base leading-relaxed opacity-90">
+                    <p className="text-gray-500 max-w-xl text-sm md:text-base leading-relaxed">
                         Durable, stylish, and spacious bags for carrying your world with you.
                         Designed for comfort and utility.
                     </p>
+                </div>
+
+                {/* Right Side Image Placeholder */}
+                <div className="absolute right-0 top-0 h-full w-1/3 hidden md:flex items-center justify-center bg-orange-50/30">
+                    <Backpack size={140} className="text-orange-200/50" strokeWidth={1.5} />
                 </div>
             </motion.div>
 
@@ -101,7 +104,7 @@ export default function SchoolBagsPage() {
                 <AnimatePresence>
                     {filteredProducts.length > 0 ? (
                         filteredProducts.map(product => (
-                            <ProductCard key={product.id} product={product} Icon={Backpack} variant="orange" />
+                            <ProductCard key={product.id} item={product} />
                         ))
                     ) : (
                         <motion.div
