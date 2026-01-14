@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Heart, ShoppingCart } from "lucide-react";
 import Price from "./Price";
 import Rating from "./Rating";
+import { useCart } from "../context/CartContext";
 
 interface ProductCardProps {
     item: {
@@ -21,10 +22,20 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ item }: ProductCardProps) {
+    const { addToCart } = useCart();
+
     // Normalize data (handle both 'title' from user snippet and 'name' from my products.ts)
     const title = item.title || item.name || "Product Name";
     const href = item.href || (item.id ? `/products/${item.id}` : "/products");
     const price = typeof item.price === 'number' ? item.price : Number(item.price.toString().replace(/[^0-9.-]+/g, ""));
+
+    const handleAddToCart = () => {
+        addToCart({
+            id: item.id || Math.random().toString(),
+            title,
+            price
+        });
+    };
 
     return (
         <div className="group rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md h-full flex flex-col">
@@ -61,7 +72,10 @@ export default function ProductCard({ item }: ProductCardProps) {
                 ) : null}
 
                 <div className="mt-auto pt-3 flex items-center gap-2">
-                    <button className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 flex items-center justify-center gap-2">
+                    <button
+                        onClick={handleAddToCart}
+                        className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                    >
                         <ShoppingCart size={14} /> Add
                     </button>
                     <Link

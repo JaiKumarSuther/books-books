@@ -1,458 +1,363 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import {
-  Search, User, Heart, ShoppingCart, ChevronDown, ChevronRight, Truck, Headphones, BadgePercent,
-  RefreshCcw, BookOpen, Shirt, Pencil, Backpack, Smartphone, Baby, Gamepad2, Car, Tag,
-  Flame, Star, ArrowRight, ArrowLeft, Gift
+  Rocket, RefreshCw, Headphones, Gift, ChevronRight, Star,
+  BookOpen, Calculator, Shirt, Backpack, Menu
 } from "lucide-react";
 
-import MiniBanner from "./components/MiniBanner";
+import HeroSlider from "./components/HeroSlider";
 import ProductCard from "./components/ProductCard";
-import Header from "./components/Header"; // We'll disable the internal header code and use the global one we just updated
+import MiniBanner from "./components/MiniBanner";
 
-// Generated Image Paths
-const HERO_IMG = "/hero_back_to_school.png"; // Placeholder for the actual path logic (I need to copy them first?)
-// Actually, I should use the generated paths if I know them, OR I should have copied them to public. 
-// Since I can't copy easily without a shell command, I will use placeholders and rely on the fact that I previously generated them.
-// Wait, generated images are in artifacts. I must copy them to public for them to work in <img> tags.
-// I will assume I need to handle that. For now I'll point to them assuming they are in public or use placeholder.
+// --- Mock Data ---
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 14 },
-  visible: (i: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, delay: 0.06 * i },
-  }),
-};
+const sidebarCategories = [
+  {
+    label: "Book Bundles",
+    href: "/products/books",
+    icon: BookOpen,
+    promoImage: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80",
+    subcategories: [
+      {
+        title: "Academic Levels",
+        links: [
+          { label: "O-Level (Cambridge)", href: "/products/books?tag=olevel" },
+          { label: "A-Level (Cambridge)", href: "/products/books?tag=alevel" },
+          { label: "Matriculation", href: "/products/books?tag=matric" },
+          { label: "FSc / Intermediate", href: "/products/books?tag=fsc" },
+        ]
+      },
+      {
+        title: "Subjects",
+        links: [
+          { label: "Sciences (Bio/Chem/Phy)", href: "/products/books?tag=science" },
+          { label: "Mathematics", href: "/products/books?tag=math" },
+          { label: "Computer Science", href: "/products/books?tag=cs" },
+          { label: "Humanities", href: "/products/books?tag=humanities" },
+        ]
+      }
+    ]
+  },
+  {
+    label: "Stationery Sets",
+    href: "/products/stationery",
+    icon: Calculator,
+    promoImage: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=600&q=80",
+    subcategories: [
+      {
+        title: "Essentials",
+        links: [
+          { label: "Pens & Pencils", href: "/products/stationery?cat=pens" },
+          { label: "Notebooks & Registers", href: "/products/stationery?cat=notebooks" },
+          { label: "Geometry Boxes", href: "/products/stationery?cat=geometry" },
+        ]
+      },
+      {
+        title: "Art & Craft",
+        links: [
+          { label: "Canvas & Paints", href: "/products/stationery?cat=art" },
+          { label: "Sketchbooks", href: "/products/stationery?cat=sketch" },
+          { label: "Brushes & Tools", href: "/products/stationery?cat=tools" },
+        ]
+      }
+    ]
+  },
+  {
+    label: "School Uniforms",
+    href: "/products/uniforms",
+    icon: Shirt,
+    promoImage: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80",
+    subcategories: [
+      {
+        title: "Boys Uniform",
+        links: [
+          { label: "Shirts (White/Blue)", href: "/products/uniforms?gender=boys" },
+          { label: "Trousers (Grey/Black)", href: "/products/uniforms?gender=boys" },
+          { label: "Ties & Belts", href: "/products/uniforms?gender=boys" },
+        ]
+      },
+      {
+        title: "Girls Uniform",
+        links: [
+          { label: "Shirts & Sash", href: "/products/uniforms?gender=girls" },
+          { label: "Skirts / Tunics", href: "/products/uniforms?gender=girls" },
+          { label: "Scarves", href: "/products/uniforms?gender=girls" },
+        ]
+      }
+    ]
+  },
+  { label: "Bags & Backpacks", href: "/products/school-bags", icon: Backpack },
+  { label: "Art Supplies", href: "/products/stationery", icon: Star },
+  { label: "Exam Preparation", href: "/products/books", icon: BookOpen },
+  { label: "Geometry Boxes", href: "/products/stationery", icon: Calculator },
+  { label: "Water Bottles", href: "/products/accessories", icon: Gift },
+  { label: "Lunch Boxes", href: "/products/accessories", icon: Gift },
+];
+
+const features = [
+  { icon: Rocket, title: "Free Shipping", sub: "For orders over $50" },
+  { icon: RefreshCw, title: "Money Back", sub: "If goods have problems" },
+  { icon: Headphones, title: "Online Support", sub: "24/7 Dedicated support" },
+  { icon: Gift, title: "Gift Promotion", sub: "Free gift with monthly deals" },
+];
+
+const topCategories = [
+  { name: "Textbooks", image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80" },
+  { name: "Uniforms", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80" },
+  { name: "Stationery", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=400&q=80" },
+  { name: "Bags", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80" },
+];
+
+const products = [
+  { id: "1", title: "Cambridge Science Bundle", price: 4500, oldPrice: 5000, rating: 5, image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=600&q=80", badge: "HOT" },
+  { id: "2", title: "Premium School Uniform", price: 3200, rating: 4, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80", badge: "SALE" },
+  { id: "3", title: "Artist Stationery Set", price: 1500, oldPrice: 2000, rating: 5, image: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=600&q=80" },
+  { id: "4", title: "Orthopedic Backpack", price: 5500, rating: 5, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80", badge: "NEW" },
+  { id: "5", title: "O-Level Math Keybook", price: 1200, rating: 4, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80" },
+  { id: "6", title: "Geometry Box Pro", price: 450, rating: 5, image: "https://images.unsplash.com/photo-1616469829581-73993eb86b02?auto=format&fit=crop&w=600&q=80" },
+  { id: "7", title: "Water Bottle (750ml)", price: 850, rating: 4, image: "https://alamgirstore.com.pk/wp-content/uploads/2023/01/School-Water-Bottle.jpeg" },
+  { id: "8", title: "Insulated Lunch Box", price: 1200, rating: 5, image: "https://images.unsplash.com/photo-1598449356475-b9f71db7d847?auto=format&fit=crop&w=600&q=80", badge: "-20%" },
+  { id: "9", title: "School Shoes Black", price: 2500, rating: 4, image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=600&q=80" },
+  { id: "10", title: "Drawing Sketchbook", price: 350, rating: 5, image: "https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=600&q=80" },
+  { id: "11", title: "Scientific Calculator", price: 1800, rating: 5, image: "https://lestallion.com/cdn/shop/articles/7_Top_Scientific_Calculator_For_Students_Doing_Maths_or_Science_in_High_School_7dfe75fd-4dfd-4775-a158-7223dca01e1d.jpg?v=1760596134&width=1100" },
+  { id: "12", title: "Correction Tape Set", price: 250, rating: 3, image: "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=600&q=80" },
+];
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState("stationery");
-
-  const sidebarCategories = useMemo(
-    () => [
-      { icon: Flame, label: "Hot Deals", href: "/deals" },
-      { icon: BookOpen, label: "Books (School / College)", href: "/products/books" },
-      { icon: Shirt, label: "School Uniforms", href: "/products/uniforms" },
-      { icon: Pencil, label: "Stationery", href: "/products/stationery" },
-      { icon: Backpack, label: "School Bags", href: "/products/school-bags" },
-      { icon: Smartphone, label: "Accessories", href: "/products/accessories" },
-      { icon: Baby, label: "Kids Supplies", href: "/products/kids" },
-      { icon: Gamepad2, label: "Toys & Games", href: "/products/toys" },
-      { icon: Car, label: "Travel Bottles / Lunch Boxes", href: "/products/lunchboxes" },
-      { icon: Tag, label: "More Categories", href: "/categories" },
-    ],
-    []
-  );
-
-  const topCategories = useMemo(
-    () => [
-      { icon: BookOpen, label: "Textbooks", href: "/products/books" },
-      { icon: Pencil, label: "Notebooks", href: "/products/stationery" },
-      { icon: Backpack, label: "Bags", href: "/products/school-bags" },
-      { icon: Shirt, label: "Uniforms", href: "/products/uniforms" },
-    ],
-    []
-  );
-
-  const deals = useMemo(
-    () => [
-      { title: "Premium Backpack (Waterproof)", price: "3,499", oldPrice: "4,799", badge: "-25%", available: 127 },
-      { title: "Gel Pens Pack (12 pcs)", price: "399", oldPrice: "550", badge: "-18%", available: 870 },
-      { title: "Oxford Notebook A4 (200 pages)", price: "650", oldPrice: "850", badge: "-27%", available: 280 },
-      { title: "School Shoes (Black)", price: "2,499", oldPrice: "3,199", badge: "-6%", available: 445 },
-    ],
-    []
-  );
-
-  const featuredByTab: Record<string, any[]> = useMemo(
-    () => ({
-      stationery: [
-        { title: "Sony WH-CH520 Style Headphones (Gift Option)", price: "7,900", oldPrice: "9,400", badge: "SALE" },
-        { title: "Security Camera (Night Vision) - For Shop", price: "4,500", oldPrice: "5,900" },
-        { title: "Samsung Calculator (Exam Friendly)", price: "1,150", oldPrice: "1,450" },
-        { title: "Polaroid Strap Touch Instant (Gadget)", price: "6,700" },
-      ],
-      books: [
-        { title: "Class 9 Maths (Punjab Textbook)", price: "450", oldPrice: "520", badge: "Bestseller" },
-        { title: "Oxford English Grammar (Intermediate)", price: "1,250" },
-        { title: "A-Levels Biology Notes (Compiled)", price: "1,999", oldPrice: "2,499" },
-        { title: "Kids Story Books Set (10 pcs)", price: "1,350", badge: "SALE" },
-      ],
-      uniforms: [
-        { title: "Boys Uniform (Shirt + Trouser)", price: "2,850", oldPrice: "3,200" },
-        { title: "Girls Uniform (Shirt + Skirt)", price: "2,950", oldPrice: "3,350", badge: "SALE" },
-        { title: "School Sweater (Winter)", price: "1,750" },
-        { title: "Sports Kit (T-shirt + Trouser)", price: "2,250" },
-      ],
-      bags: [
-        { title: "Trolley Bag (Kids)", price: "6,500", oldPrice: "7,900" },
-        { title: "Laptop Backpack (Office)", price: "4,200" },
-        { title: "Lunch Bag (Insulated)", price: "850", badge: "SALE" },
-        { title: "Pencil Case (Hard Shell)", price: "450" },
-      ],
-    }),
-    []
-  );
-
-  const suggestions = useMemo(
-    () => [
-      { title: "REGAL 2-Seater Fabric Sofa (Demo)", price: "13,700" },
-      { title: "Samsung Galaxy S21 Ultra (Demo)", price: "115,000" },
-      { title: "Apple Watch Series 9 (Demo)", price: "70,000", oldPrice: "82,000", badge: "SALE" },
-      { title: "Graco Slimfit 3-in-1 Car Seat (Demo)", price: "12,500" },
-      { title: "Quindim Retro Ceramic Pendant (Demo)", price: "11,400" },
-      { title: "iPhone 15 Pro Max (Demo)", price: "98,000" },
-      { title: "iPhone 15 Natural Titanium (Demo)", price: "69,000" },
-      { title: "Mirror Jewelry Cabinet (Demo)", price: "4,900" },
-    ],
-    []
-  );
+  const [activeTab, setActiveTab] = useState("Best Sellers");
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
 
-      {/* MAIN GRID */}
-      <main className="mx-auto max-w-[1280px] px-4 pb-16 pt-6">
-        <div className="grid gap-6 lg:grid-cols-[300px_1fr]">
-          {/* LEFT SIDEBAR */}
-          <aside className="space-y-6 hidden lg:block">
-            {/* categories card */}
-            <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-              <div className="flex items-center gap-2 bg-blue-600 px-4 py-3 text-sm font-extrabold text-white">
-                <span className="inline-block h-2 w-2 rounded-full bg-white/90" />
-                ALL CATEGORIES
+      {/* MAIN CONTAINER */}
+      <div className="mx-auto max-w-[1320px] px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
+
+          {/* --- LEFT SIDEBAR (Desktop) --- */}
+          <aside className="hidden lg:block space-y-6 relative z-30">
+            {/* Categories Menu */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 relative">
+              <div className="bg-blue-600 px-5 py-4 flex items-center gap-3 text-white font-bold tracking-wide rounded-t-xl">
+                <Menu size={20} />
+                <span>ALL CATEGORIES</span>
               </div>
+              <div className="py-2">
+                {sidebarCategories.map((c, i) => (
+                  <div key={i} className="group relative">
+                    <Link
+                      href={c.href}
+                      className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors border-b border-gray-50 last:border-0"
+                    >
+                      <div className="flex items-center gap-3">
+                        <c.icon size={16} className="text-gray-400 group-hover:text-blue-600" />
+                        {c.label}
+                      </div>
+                      <ChevronRight size={14} className="text-gray-300 group-hover:text-blue-600" />
+                    </Link>
 
-              <div className="p-2">
-                {sidebarCategories.map((c) => (
-                  <Link
-                    key={c.label}
-                    href={c.href}
-                    className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                  >
-                    <span className="flex items-center gap-3">
-                      <span className="grid h-8 w-8 place-items-center rounded-lg bg-gray-100 text-gray-700">
-                        <c.icon size={16} />
-                      </span>
-                      {c.label}
-                    </span>
-                    <ChevronRight size={16} className="text-gray-400" />
-                  </Link>
+                    {/* MEGA MENU FLYOUT */}
+                    {c.subcategories && (
+                      <div className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white border border-gray-100 shadow-xl rounded-xl p-6 z-50 w-[700px]">
+                        <div className="grid grid-cols-3 gap-8">
+                          {/* Subcategory Columns */}
+                          <div className="col-span-2 grid grid-cols-2 gap-8">
+                            {c.subcategories.map((sub, idx) => (
+                              <div key={idx}>
+                                <h4 className="font-bold text-gray-900 mb-4">{sub.title}</h4>
+                                <ul className="space-y-2">
+                                  {sub.links.map((link, lIdx) => (
+                                    <li key={lIdx}>
+                                      <Link href={link.href} className="text-sm text-gray-500 hover:text-blue-600 hover:underline">
+                                        {link.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Promo Image */}
+                          <div className="col-span-1 relative bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center p-4">
+                            {c.promoImage && (
+                              <>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
+                                <img src={c.promoImage} alt={c.label} className="object-cover w-full h-full mix-blend-multiply opacity-80" />
+                                <div className="absolute bottom-6 left-6 z-20 text-white">
+                                  <p className="text-xs font-bold uppercase mb-1 text-yellow-400">Special Offer</p>
+                                  <p className="font-bold text-xl leading-tight mb-2">30% OFF</p>
+                                  <button className="bg-white text-gray-900 text-[10px] font-bold px-3 py-1.5 rounded-full hover:bg-gray-100">
+                                    SHOP NOW
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* NEW ARRIVALS */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-extrabold text-gray-900">NEW ARRIVALS</p>
-                <div className="flex items-center gap-2">
-                  <button className="rounded-lg border border-gray-200 p-2 hover:bg-gray-50">
-                    <ArrowLeft size={16} />
-                  </button>
-                  <button className="rounded-lg border border-gray-200 p-2 hover:bg-gray-50">
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 flex gap-3">
-                <div className="h-20 w-20 rounded-lg bg-gray-100 flex items-center justify-center text-xs text-gray-400">IMG</div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-900 line-clamp-2">
-                    Gamer Xtreme Style PC (Demo)
-                  </p>
-                  {/* Rating placeholder */}
-                  <div className="flex text-amber-500"><Star size={12} fill="currentColor" /><Star size={12} fill="currentColor" /><Star size={12} fill="currentColor" /><Star size={12} fill="currentColor" /></div>
-                  <p className="mt-1 text-sm font-bold text-gray-900">Rs 12,500</p>
-                </div>
+            {/* Bestsellers Side Widget */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+              <h3 className="font-bold text-gray-800 mb-4 border-l-4 border-blue-600 pl-3">BEST SELLERS</h3>
+              <div className="space-y-4">
+                {products.slice(0, 3).map((p) => (
+                  <div key={p.id} className="flex gap-3 group cursor-pointer">
+                    <div className="w-16 h-16 bg-gray-100 rounded-md shrink-0 overflow-hidden border border-gray-100">
+                      {/* Placeholder or Image */}
+                      <div className="w-full h-full bg-gray-50 flex items-center justify-center text-[10px] text-gray-400">IMG</div>
+                    </div>
+                    <div>
+                      <Link href={`/products/${p.id}`} className="text-xs font-semibold text-gray-800 group-hover:text-blue-600 line-clamp-2 mb-1">{p.title}</Link>
+                      <div className="flex text-yellow-500 text-[10px] mb-1">
+                        {[...Array(5)].map((_, i) => <Star key={i} size={10} fill={i < p.rating ? "currentColor" : "none"} />)}
+                      </div>
+                      <p className="text-sm font-bold text-blue-600">Rs {p.price.toLocaleString()}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* promo image placeholder */}
-            <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-              {/* Use CSS gradient or if I had an image I'd put it here */}
-              <div className="aspect-[3/4] w-full bg-gradient-to-br from-amber-50 to-rose-50" />
-              <div className="absolute left-4 top-4 rounded-lg bg-rose-600 px-3 py-2 text-xs font-extrabold text-white">
-                BLACK FRIDAY SALE
-              </div>
-            </div>
-
-            {/* testimonial-ish block */}
-            <div className="rounded-xl border border-gray-200 bg-blue-600 p-4 text-white shadow-sm">
-              <p className="text-sm leading-relaxed">
-                “This is a great design and i hope that we will create a website with a good signature. CHN team is
-                reactive and kind.”
-              </p>
-              <div className="mt-4 flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-white/20" />
-                <div>
-                  <p className="text-sm font-extrabold">CASEY</p>
-                  <p className="text-xs text-white/80">Stylist</p>
-                </div>
-              </div>
+            {/* Newsletter Side Widget */}
+            <div className="bg-[#FFF4F4] rounded-xl p-6 text-center border border-red-100">
+              <h3 className="font-extrabold text-xl text-red-500 mb-2">Back To School</h3>
+              <p className="text-gray-600 text-sm mb-4">Get 50% off on your first order this week!</p>
+              <Link href="/deals" className="inline-block bg-red-500 text-white text-xs font-bold px-6 py-2 rounded-full hover:bg-red-600 transition-colors">
+                CHECK NOW
+              </Link>
             </div>
           </aside>
 
-          {/* RIGHT CONTENT */}
-          <section className="space-y-6">
-            {/* HERO + feature row */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="grid gap-4 lg:grid-cols-[1fr]">
-                {/* HERO */}
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="relative overflow-hidden rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-gray-100 h-[300px] md:h-[400px]"
-                >
-                  {/* Background Image injected style if available, else standard content */}
-                  {/* Right now I use the gradient as fallback but structure content over it */}
+          {/* --- RIGHT MAIN CONTENT --- */}
+          <main className="space-y-8">
 
-                  <div className="p-6 md:p-10 relative z-10 w-full md:w-1/2 h-full flex flex-col justify-center">
-                    <div className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-3 py-1 text-xs font-extrabold text-white w-fit">
-                      <BadgePercent size={14} /> 50% OFF
-                    </div>
-                    <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-gray-900 md:text-5xl leading-tight">
-                      books, uniforms, stationery &amp; bags
-                    </h2>
-                    <p className="mt-4 max-w-xl text-sm text-gray-600 md:text-lg">
-                      Your one-stop shop in Pakistan for school and office essentials. Fast delivery, quality products,
-                      and best prices.
-                    </p>
+            {/* 1. HERO SLIDER */}
+            <HeroSlider />
 
-                    <div className="mt-8 flex flex-wrap gap-3">
-                      <Link
-                        href="/products"
-                        className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-bold text-white hover:bg-blue-700 shadow-md"
-                      >
-                        Shop now
-                      </Link>
-                      <Link
-                        href="/products/books"
-                        className="rounded-lg border border-gray-200 bg-white px-6 py-3 text-sm font-bold text-gray-800 hover:bg-gray-50"
-                      >
-                        Browse books
-                      </Link>
-                    </div>
+            {/* 2. FEATURES BAR */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {features.map((f, i) => (
+                <div key={i} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4 hover:-translate-y-1 transition-transform cursor-default">
+                  <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                    <f.icon size={24} />
                   </div>
-
-                  {/* right image placeholder */}
-                  {/* I will assume the image is generated and placed, but for now using a colored block to match the user's snippet design */}
-                  <div className="absolute right-0 top-0 hidden h-full w-[50%] bg-blue-100/50 md:flex items-center justify-center">
-                    {/* Placeholder for Hero Image */}
-                    <div className="w-64 h-64 bg-white/50 rounded-full blur-3xl absolute" />
-                    {/* If I had the URL I'd put <img src="/hero_back_to_school.png" ... /> */}
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-sm">{f.title}</h4>
+                    <p className="text-xs text-gray-500">{f.sub}</p>
                   </div>
-                </motion.div>
+                </div>
+              ))}
+            </div>
 
-                {/* 4 feature boxes */}
-                <div className="grid gap-3 md:grid-cols-4">
-                  {[
-                    { icon: Truck, title: "Free Shipping", sub: "On order over Rs 4,999" },
-                    { icon: RefreshCcw, title: "Money Back", sub: "30 days money back" },
-                    { icon: Headphones, title: "Online Support", sub: "Support online 24/7" },
-                    { icon: Gift, title: "Gift Promotion", sub: "On order over Rs 9,999" },
-                  ].map((x, i) => (
-                    <motion.div
-                      key={x.title}
-                      variants={fadeUp}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                      custom={i}
-                      className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4"
+            {/* 3. TOP CATEGORIES */}
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-gray-800">Top Categories</h3>
+                <div className="flex gap-2">
+                  <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100"><ChevronRight size={16} className="rotate-180" /></button>
+                  <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100"><ChevronRight size={16} /></button>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {topCategories.map((c, i) => (
+                  <div key={i} className="bg-white rounded-xl p-6 flex flex-col items-center justify-center border border-gray-100 shadow-sm hover:shadow-md transition-all group cursor-pointer">
+                    <div className="w-24 h-24 bg-gray-50 rounded-full mb-4 flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-blue-600 transition-colors">
+                      {/* We can use real images if moved to public, else placeholder */}
+                      <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">IMG</div>
+                    </div>
+                    <h4 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{c.name}</h4>
+                    <span className="text-xs text-gray-400 mt-1">12 items</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* 4. DEALS OF THE DAY */}
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-4">
+                  <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                    Today's Best Deals
+                    <span className="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded ml-2">ENDS IN</span>
+                  </h3>
+                  {/* Timer */}
+                  <div className="flex gap-1 text-white text-xs font-bold">
+                    <div className="bg-red-500 px-2 py-1 rounded">14</div>
+                    <span className="text-gray-400 text-lg">:</span>
+                    <div className="bg-red-500 px-2 py-1 rounded">20</div>
+                    <span className="text-gray-400 text-lg">:</span>
+                    <div className="bg-red-500 px-2 py-1 rounded">45</div>
+                  </div>
+                </div>
+                <Link href="/deals" className="text-xs font-bold text-blue-600 hover:underline">See All Deals</Link>
+              </div>
+
+              {/* Single Row Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {products.slice(0, 3).map((p) => (
+                  <div key={p.id} className="h-full">
+                    <ProductCard item={p} />
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* 5. TABS & FEATURED PRODUCTS */}
+            <section>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4 border-b border-gray-200 pb-2">
+                <h3 className="text-lg font-bold text-gray-800">Featured Products</h3>
+                <div className="flex gap-6 text-sm font-semibold text-gray-500 overflow-x-auto">
+                  {['Best Sellers', 'New Arrivals', 'Top Rated'].map(tab => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`whitespace-nowrap pb-2 border-b-2 transition-colors ${activeTab === tab ? "text-blue-600 border-blue-600" : "border-transparent hover:text-gray-800"}`}
                     >
-                      <div className="grid h-11 w-11 place-items-center rounded-xl bg-blue-50 text-blue-700">
-                        <x.icon size={18} />
-                      </div>
-                      <div>
-                        <p className="text-sm font-extrabold text-gray-900">{x.title}</p>
-                        <p className="text-xs text-gray-500">{x.sub}</p>
-                      </div>
-                    </motion.div>
+                      {tab}
+                    </button>
                   ))}
                 </div>
               </div>
-            </div>
 
-            {/* TOP CATEGORIES row */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-extrabold text-gray-900">TOP CATEGORIES</p>
-                <div className="flex items-center gap-2">
-                  <button className="rounded-lg border border-gray-200 p-2 hover:bg-gray-50">
-                    <ArrowLeft size={16} />
-                  </button>
-                  <button className="rounded-lg border border-gray-200 p-2 hover:bg-gray-50">
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {topCategories.map((c) => (
-                  <Link
-                    key={c.label}
-                    href={c.href}
-                    className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 hover:bg-gray-50 transition-colors group"
-                  >
-                    <div className="grid h-12 w-12 place-items-center rounded-full bg-gray-100 text-gray-800 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                      <c.icon size={20} />
-                    </div>
-                    <p className="text-sm font-extrabold text-gray-900">{c.label}</p>
-                  </Link>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {products.map((p) => (
+                  <ProductCard key={p.id} item={p} />
+                ))}
+                {/* Duplicate for grid fill */}
+                {products.slice(0, 3).map((p) => (
+                  <ProductCard key={`dup-${p.id}`} item={{ ...p, id: `dup-${p.id}` }} />
                 ))}
               </div>
-            </div>
+            </section>
 
-            {/* TODAY'S BEST DEALS */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <p className="text-sm font-extrabold text-gray-900">TODAY&apos;S BEST DEALS</p>
-                  {/* static countdown UI like template */}
-                  <div className="flex items-center gap-2">
-                    {["14d", "12", "53", "07"].map((t, i) => (
-                      <span
-                        key={i}
-                        className="rounded-md bg-rose-600 px-2 py-1 text-xs font-extrabold text-white"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+            {/* 6. BOTTOM BANNERS */}
+            <section className="grid md:grid-cols-2 gap-4">
+              <MiniBanner
+                title="School Bags"
+                subtitle="Starting from Rs 5,000"
+                color="bg-purple-100"
+                textColor="text-purple-800"
+                buttonColor="bg-purple-600"
+              />
+              <MiniBanner
+                title="Art Supplies"
+                subtitle="Up to 30% OFF this week"
+                color="bg-amber-100"
+                textColor="text-amber-800"
+                buttonColor="bg-amber-600"
+              />
+            </section>
 
-                <Link href="/products" className="text-xs font-bold text-blue-600 hover:text-blue-700">
-                  View All Products
-                </Link>
-              </div>
-
-              <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {deals.map((d) => (
-                  <ProductCard key={d.title} item={d} />
-                ))}
-              </div>
-
-              {/* mini banners row */}
-              <div className="mt-4 grid gap-3 md:grid-cols-3">
-                <MiniBanner badge="AS LOW AS" title="Starter Stationery Bundle" subtitle="Pens + notebook + ruler" />
-                <MiniBanner badge="CONVENIENT" title="Smart Watches (Demo)" subtitle="Gift options available" />
-                <MiniBanner badge="BACK-TO-SCHOOL" title="Uniform Offers" subtitle="Limited time bundles" />
-              </div>
-            </div>
-
-            {/* FEATURED PRODUCTS + TABS */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-sm font-extrabold text-gray-900">FEATURED PRODUCTS</p>
-                <Link href="/products" className="text-xs font-bold text-blue-600 hover:text-blue-700">
-                  View All Products
-                </Link>
-              </div>
-
-              <div className="mt-3 flex flex-wrap gap-2">
-                {[
-                  { id: "stationery", label: "STATIONERY" },
-                  { id: "books", label: "BOOKS" },
-                  { id: "uniforms", label: "UNIFORMS" },
-                  { id: "bags", label: "BAGS" },
-                ].map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => setActiveTab(t.id)}
-                    className={[
-                      "rounded-lg border px-3 py-2 text-xs font-extrabold transition-colors",
-                      activeTab === t.id
-                        ? "border-blue-600 bg-blue-600 text-white"
-                        : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50",
-                    ].join(" ")}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-
-              <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {(featuredByTab[activeTab] || []).map((p) => (
-                  <ProductCard key={p.title} item={p} />
-                ))}
-              </div>
-            </div>
-
-            {/* FEATURED BRANDS */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-extrabold text-gray-900">FEATURED BRANDS</p>
-                <div className="flex items-center gap-2">
-                  <button className="rounded-lg border border-gray-200 p-2 hover:bg-gray-50">
-                    <ArrowLeft size={16} />
-                  </button>
-                  <button className="rounded-lg border border-gray-200 p-2 hover:bg-gray-50">
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-                {["Oxford", "Samsung", "Otago", "PearlLove", "Qualia"].map((b) => (
-                  <div
-                    key={b}
-                    className="grid h-12 place-items-center rounded-xl border border-gray-200 bg-gray-50 text-sm font-extrabold text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
-                  >
-                    {b}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* SUGGESTION FOR YOU */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <p className="text-sm font-extrabold text-gray-900">SUGGESTION FOR YOU</p>
-              <div className="mt-4 grid gap-4 md:grid-cols-3 lg:grid-cols-4">
-                {suggestions.map((s) => (
-                  <ProductCard key={s.title} item={s} />
-                ))}
-              </div>
-
-              <div className="mt-6 flex justify-center">
-                <Link
-                  href="/products"
-                  className="rounded-lg border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-800 hover:bg-gray-50 transition-colors"
-                >
-                  VIEW MORE
-                </Link>
-              </div>
-            </div>
-          </section>
+          </main>
         </div>
-      </main>
-
-      {/* NEWSLETTER STRIP */}
-      <section className="bg-blue-600">
-        <div className="mx-auto flex max-w-[1280px] flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-lg font-extrabold text-white">NEWSLETTER SIGNUP:</p>
-            <p className="text-sm text-white/90">GET 10% OFF YOUR FIRST ORDER</p>
-          </div>
-          <div className="flex w-full max-w-xl overflow-hidden rounded-lg bg-white">
-            <input
-              className="w-full px-4 py-3 text-sm outline-none"
-              placeholder="Your email address..."
-            />
-            <button className="bg-blue-800 px-5 py-3 text-sm font-extrabold text-white hover:bg-blue-900 transition-colors">
-              SUBSCRIBE
-            </button>
-          </div>
-        </div>
-      </section>
-
-
+      </div>
     </div>
   );
 }

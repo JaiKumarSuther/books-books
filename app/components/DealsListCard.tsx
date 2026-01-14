@@ -5,6 +5,7 @@ import { Heart, ShoppingCart, Repeat, Search, Star } from "lucide-react";
 import Price from "./Price";
 import Rating from "./Rating";
 import { motion } from "framer-motion";
+import { useCart } from "../context/CartContext";
 
 interface DealsListCardProps {
     item: {
@@ -21,7 +22,16 @@ interface DealsListCardProps {
 }
 
 export default function DealsListCard({ item }: DealsListCardProps) {
+    const { addToCart } = useCart();
     const price = typeof item.price === 'number' ? item.price : Number(item.price.toString().replace(/[^0-9.-]+/g, ""));
+
+    const handleAddToCart = () => {
+        addToCart({
+            id: item.id,
+            title: item.title,
+            price
+        });
+    };
 
     return (
         <motion.div
@@ -83,7 +93,10 @@ export default function DealsListCard({ item }: DealsListCardProps) {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <button className="bg-[#0066FF] text-white px-6 py-2.5 rounded-full text-xs font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 uppercase tracking-wide">
+                    <button
+                        onClick={handleAddToCart}
+                        className="bg-[#0066FF] text-white px-6 py-2.5 rounded-full text-xs font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 uppercase tracking-wide active:scale-95 transform"
+                    >
                         <ShoppingCart size={16} />
                         Add to cart
                     </button>

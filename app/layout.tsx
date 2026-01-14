@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   description: "One-stop shop for books, uniforms, and stationery in Pakistan.",
 };
 
+import { CartProvider } from "./context/CartContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,16 +26,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased flex flex-col min-h-screen`}>
-        {/* Client Side Header (includes Top Bar) */}
-        <Header />
+        <CartProvider>
+          {/* Client Side Header (includes Top Bar) */}
+          <Header />
 
-        {/* Main Content */}
-        <main className="flex-grow bg-gray-50">
-          {children}
-        </main>
+          {/* Main Content */}
+          <main className="flex-grow bg-gray-50">
+            {children}
+          </main>
 
-        {/* Footer */}
-        <Footer />
+          {/* Footer */}
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );
