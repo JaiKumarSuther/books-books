@@ -23,7 +23,9 @@ export default function ProductDetailPage() {
 
     useEffect(() => {
         if (params.id) {
-            const foundProduct = allProducts.find((p) => p.id === params.id);
+            // Handle duplicate IDs from homepage (e.g. "dup-b1" -> "b1")
+            const cleanId = (params.id as string).replace('dup-', '');
+            const foundProduct = allProducts.find((p) => p.id === cleanId);
             setProduct(foundProduct || null);
             setQuantity(1); // Reset quantity on product change
         }

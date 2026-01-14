@@ -122,14 +122,8 @@ export default function Header() {
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         {/* Logo */}
                         <div className="flex items-center justify-between gap-4">
-                            <Link href="/" className="flex items-center gap-2">
-                                <div className="h-10 w-10 rounded-xl bg-red-700 flex items-center justify-center text-white font-bold text-xl">B</div>
-                                <div className="leading-tight">
-                                    <p className="text-lg font-extrabold tracking-tight">
-                                        Books<span className="text-red-700">&amp;</span>Books
-                                    </p>
-                                    <p className="text-xs text-gray-500">school &amp; office store</p>
-                                </div>
+                            <Link href="/" className="flex items-center">
+                                <img src="/logo.png" alt="Books & Books" className="h-16 w-auto object-contain" />
                             </Link>
 
                             {/* icons for mobile */}
@@ -204,28 +198,81 @@ export default function Header() {
                         </div>
                     </div>
 
-                    {/* NAV */}
-                    <div className={`${isMobileMenuOpen ? 'flex' : 'hidden'} lg:flex flex-col lg:flex-row items-start lg:items-center gap-4 border-t border-gray-100 pt-4 mt-4 text-sm font-semibold text-gray-700`}>
-                        {[
-                            { label: "Home", href: "/" },
-                            { label: "Products", href: "/products" },
-                            { label: "Books", href: "/products/books" },
-                            { label: "Uniforms", href: "/products/uniforms" },
-                            { label: "Stationery", href: "/products/stationery" },
-                            { label: "School Bags", href: "/products/school-bags" },
-                            { label: "About Us", href: "/about" },
-                            { label: "Contact", href: "/contact" },
-                        ].map((x) => (
-                            <Link key={x.label} href={x.href} className="hover:text-red-700 w-full lg:w-auto py-2 lg:py-0">
-                                {x.label}
+                    {/* DESKTOP NAV */}
+                    <div className="hidden lg:block border-t border-gray-100 mt-4 pt-4">
+                        <div className="flex items-center gap-8 text-sm font-semibold text-gray-700">
+                            {[
+                                { label: "Home", href: "/" },
+                                { label: "Products", href: "/products" },
+                                { label: "Books", href: "/products/books" },
+                                { label: "Uniforms", href: "/products/uniforms" },
+                                { label: "Stationery", href: "/products/stationery" },
+                                { label: "School Bags", href: "/products/school-bags" },
+                                { label: "About Us", href: "/about" },
+                                { label: "Contact", href: "/contact" },
+                            ].map((x) => (
+                                <Link key={x.label} href={x.href} className="hover:text-red-700 transition-colors">
+                                    {x.label}
+                                </Link>
+                            ))}
+                            <Link href="/deals" className="ml-auto text-red-700 hover:text-red-800 font-bold">
+                                TODAY'S DEALS
                             </Link>
-                        ))}
-                        <Link href="/deals" className="lg:ml-auto text-red-700 hover:text-red-800 py-2 lg:py-0">
-                            TODAY&apos;S DEALS
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </header>
+
+            {/* MOBILE MENU DRAWER */}
+            <div className={`fixed top-0 left-0 h-full w-[280px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                <div className="p-4 border-b flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <div className="h-8 w-8 rounded-lg bg-red-700 flex items-center justify-center text-white font-bold">B</div>
+                        <span className="font-bold text-lg">Menu</span>
+                    </div>
+                    <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">
+                        <X size={20} />
+                    </button>
+                </div>
+                <div className="p-4 overflow-y-auto h-[calc(100%-70px)] flex flex-col gap-4">
+                    {[
+                        { label: "Home", href: "/" },
+                        { label: "Products", href: "/products" },
+                        { label: "Books", href: "/products/books" },
+                        { label: "Uniforms", href: "/products/uniforms" },
+                        { label: "Stationery", href: "/products/stationery" },
+                        { label: "School Bags", href: "/products/school-bags" },
+                        { label: "About Us", href: "/about" },
+                        { label: "Contact", href: "/contact" },
+                    ].map((x) => (
+                        <Link
+                            key={x.label}
+                            href={x.href}
+                            className="text-gray-700 font-semibold hover:text-red-700 py-2 border-b border-gray-50 last:border-0"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            {x.label}
+                        </Link>
+                    ))}
+                    <Link
+                        href="/deals"
+                        className="text-red-700 font-bold py-2"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                        TODAY'S DEALS
+                    </Link>
+
+                    {/* Mobile Extra Links */}
+                    <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
+                        <Link href="/track-order" className="flex items-center gap-3 text-sm text-gray-600">
+                            Track Order
+                        </Link>
+                        <Link href="/help" className="flex items-center gap-3 text-sm text-gray-600">
+                            Help Center
+                        </Link>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
