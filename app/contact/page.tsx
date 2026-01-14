@@ -1,21 +1,38 @@
 "use client";
 
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
+import { motion } from "framer-motion";
+
+const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
 
 export default function Contact() {
     return (
         <div className="py-12 md:py-20 max-w-[1024px] mx-auto px-4">
             {/* Header */}
-            <div className="text-center mb-16">
+            <motion.div
+                className="text-center mb-16"
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUp}
+            >
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
                 <p className="text-gray-600 max-w-lg mx-auto">
                     We are here to assist you. Reach out to us for any queries regarding books, uniforms, or school supplies.
                 </p>
-            </div>
+            </motion.div>
 
             <div className="grid md:grid-cols-12 gap-12">
                 {/* Contact Info Column */}
-                <div className="md:col-span-5 space-y-8">
+                <motion.div
+                    className="md:col-span-5 space-y-8"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={fadeInUp}
+                >
                     <h2 className="text-xl font-bold text-gray-900 border-b border-gray-100 pb-4">Contact Information</h2>
 
                     <div className="space-y-6">
@@ -64,10 +81,16 @@ export default function Contact() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Form Column */}
-                <div className="md:col-span-7 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                <motion.div
+                    className="md:col-span-7 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                >
                     <h2 className="text-xl font-bold text-gray-900 mb-6">Send us a Message</h2>
                     <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                         <div className="grid md:grid-cols-2 gap-6">
@@ -115,7 +138,7 @@ export default function Contact() {
                             <Send size={18} /> Send Message
                         </button>
                     </form>
-                </div>
+                </motion.div>
             </div>
         </div>
     );

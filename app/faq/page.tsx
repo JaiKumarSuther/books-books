@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 import { Plus, Minus, HelpCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
 
 export default function FAQ() {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -35,19 +41,32 @@ export default function FAQ() {
 
     return (
         <div className="py-16 md:py-24 max-w-[800px] mx-auto px-4">
-            <div className="text-center mb-16">
+            <motion.div
+                className="text-center mb-16"
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUp}
+            >
                 <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 flex items-center justify-center gap-3">
                     <HelpCircle className="text-primary" size={40} /> Frequently Asked Questions
                 </h1>
                 <p className="text-gray-600 text-lg">
                     Find answers to common questions about our services and policies.
                 </p>
-            </div>
+            </motion.div>
 
-            <div className="space-y-4">
+            <motion.div
+                className="space-y-4"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                    visible: { transition: { staggerChildren: 0.1 } }
+                }}
+            >
                 {faqs.map((faq, index) => (
-                    <div
+                    <motion.div
                         key={index}
+                        variants={fadeInUp}
                         className={`bg-white rounded-xl border transition-all duration-300 overflow-hidden ${openIndex === index ? "border-primary shadow-md" : "border-gray-200 hover:border-gray-300"
                             }`}
                     >
@@ -62,23 +81,38 @@ export default function FAQ() {
                                 {openIndex === index ? <Minus size={20} /> : <Plus size={20} />}
                             </span>
                         </button>
-                        <div
-                            className={`px-6 text-gray-600 leading-relaxed overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-48 pb-6 opacity-100" : "max-h-0 opacity-0"
-                                }`}
-                        >
-                            <p>{faq.answer}</p>
-                        </div>
-                    </div>
+                        <AnimatePresence>
+                            {openIndex === index && (
+                                <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="overflow-hidden"
+                                >
+                                    <div className="px-6 pb-6 text-gray-600 leading-relaxed">
+                                        <p>{faq.answer}</p>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
 
-            <div className="mt-12 text-center bg-gray-50 p-8 rounded-2xl">
+            <motion.div
+                className="mt-12 text-center bg-gray-50 p-8 rounded-2xl"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+            >
                 <h3 className="font-bold text-gray-900 mb-2">Still have questions?</h3>
                 <p className="text-gray-600 mb-6">Can’t find the answer you’re looking for? Please chat to our friendly team.</p>
                 <a href="/contact" className="inline-block bg-primary hover:bg-primary-hover text-white font-semibold py-3 px-8 rounded-lg transition-colors">
                     Get in Touch
                 </a>
-            </div>
+            </motion.div>
         </div>
     );
 }

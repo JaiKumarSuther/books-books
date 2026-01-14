@@ -1,21 +1,50 @@
+"use client";
+
 import { PenTool, Notebook, Palette, Ruler } from "lucide-react";
+import { motion } from "framer-motion";
+
+const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
+
+const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
 
 export default function StationeryPage() {
     return (
         <div className="py-12 max-w-[1280px] mx-auto px-4">
             {/* Header with Image */}
-            <div className="relative h-[300px] bg-gray-100 rounded-3xl overflow-hidden mb-12 flex items-end p-8">
+            <motion.div
+                className="relative h-[300px] bg-gray-100 rounded-3xl overflow-hidden mb-12 flex items-end p-8"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+            >
                 {/* <img src="/product_stationery.png" className="absolute inset-0 w-full h-full object-cover" /> */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="relative z-10 text-white">
                     <span className="bg-primary px-3 py-1 rounded text-xs font-bold uppercase mb-2 inline-block">Category</span>
                     <h1 className="text-4xl md:text-5xl font-bold">Stationery & Art Supplies</h1>
                 </div>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+            >
                 {/* Card 1 */}
-                <div className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                <motion.div variants={fadeInUp} className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div className="flex-shrink-0 w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center">
                         <PenTool size={32} className="text-yellow-600" />
                     </div>
@@ -28,10 +57,10 @@ export default function StationeryPage() {
                             <li>• Markers: Calligraphy & Whiteboard</li>
                         </ul>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Card 2 */}
-                <div className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                <motion.div variants={fadeInUp} className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div className="flex-shrink-0 w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center">
                         <Notebook size={32} className="text-green-600" />
                     </div>
@@ -44,10 +73,10 @@ export default function StationeryPage() {
                             <li>• Diaries: School homework diaries</li>
                         </ul>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Card 3 */}
-                <div className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                <motion.div variants={fadeInUp} className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div className="flex-shrink-0 w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
                         <Palette size={32} className="text-purple-600" />
                     </div>
@@ -59,10 +88,10 @@ export default function StationeryPage() {
                             <li>• Adhesives: UHU, Glue sticks, Tape</li>
                         </ul>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Card 4 */}
-                <div className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+                <motion.div variants={fadeInUp} className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div className="flex-shrink-0 w-16 h-16 bg-red-100 rounded-lg flex items-center justify-center">
                         <Ruler size={32} className="text-red-600" />
                     </div>
@@ -74,8 +103,8 @@ export default function StationeryPage() {
                             <li>• Scales, rulers, protractors</li>
                         </ul>
                     </div>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
         </div>
     );
 }

@@ -1,28 +1,62 @@
+"use client";
+
 import { User, Baby, Snowflake } from "lucide-react";
+import { motion } from "framer-motion";
+
+const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
+
+const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+        },
+    },
+};
 
 export default function UniformsPage() {
     return (
         <div className="py-12 max-w-[1280px] mx-auto px-4">
             {/* Header with Image */}
-            <div className="relative h-[300px] bg-gray-100 rounded-3xl overflow-hidden mb-12 flex items-end p-8">
+            <motion.div
+                className="relative h-[300px] bg-gray-100 rounded-3xl overflow-hidden mb-12 flex items-end p-8"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+            >
                 {/* <img src="/product_uniforms.png" className="absolute inset-0 w-full h-full object-cover" /> */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="relative z-10 text-white">
                     <span className="bg-primary px-3 py-1 rounded text-xs font-bold uppercase mb-2 inline-block">Category</span>
                     <h1 className="text-4xl md:text-5xl font-bold">School Uniforms</h1>
                 </div>
-            </div>
+            </motion.div>
 
-            <div className="mb-16 max-w-3xl">
+            <motion.div
+                className="mb-16 max-w-3xl"
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUp}
+            >
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">High Quality Fabrics</h2>
                 <p className="text-gray-600 leading-relaxed text-lg">
                     We use premium mixed cotton and wash-and-wear fabrics that are breathable for summer and warm for winter. Our stitching is double-locked to ensure durability for active students who need their uniforms to last the entire academic year.
                 </p>
-            </div>
+            </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <motion.div
+                className="grid md:grid-cols-3 gap-8"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+            >
                 {/* Boys Section */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <motion.div variants={fadeInUp} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                     <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
                         <User size={24} />
                     </div>
@@ -32,10 +66,10 @@ export default function UniformsPage() {
                         <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Pants: Khaki, Grey, and Blue (Formal cut)</li>
                         <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Shoes: Black school shoes (Bata, Service)</li>
                     </ul>
-                </div>
+                </motion.div>
 
                 {/* Girls Section */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <motion.div variants={fadeInUp} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                     <div className="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mb-4">
                         <Baby size={24} />
                     </div>
@@ -46,10 +80,10 @@ export default function UniformsPage() {
                         <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Dupattas: White & house colors</li>
                         <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Shoes: Black pumps & joggers</li>
                     </ul>
-                </div>
+                </motion.div>
 
                 {/* Winter Section */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <motion.div variants={fadeInUp} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                     <div className="w-12 h-12 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center mb-4">
                         <Snowflake size={24} />
                     </div>
@@ -59,8 +93,8 @@ export default function UniformsPage() {
                         <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Blazers: Monogrammed blazers</li>
                         <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Hoodies: Casual school hoodies</li>
                     </ul>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
         </div>
     );
 }
