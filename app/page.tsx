@@ -11,6 +11,8 @@ import HeroSlider from "./components/HeroSlider";
 import ProductCard from "./components/ProductCard";
 import MiniBanner from "./components/MiniBanner";
 
+import { booksData, uniformsData, stationeryData, bagsData } from "./data/products";
+
 // --- Mock Data ---
 
 const sidebarCategories = [
@@ -111,19 +113,16 @@ const topCategories = [
 ];
 
 const products = [
-  { id: "1", title: "Cambridge Science Bundle", price: 4500, oldPrice: 5000, rating: 5, image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=600&q=80", badge: "HOT" },
-  { id: "2", title: "Premium School Uniform", price: 3200, rating: 4, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80", badge: "SALE" },
-  { id: "3", title: "Artist Stationery Set", price: 1500, oldPrice: 2000, rating: 5, image: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=600&q=80" },
-  { id: "4", title: "Orthopedic Backpack", price: 5500, rating: 5, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80", badge: "NEW" },
-  { id: "5", title: "O-Level Math Keybook", price: 1200, rating: 4, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80" },
-  { id: "6", title: "Geometry Box Pro", price: 450, rating: 5, image: "https://images.unsplash.com/photo-1616469829581-73993eb86b02?auto=format&fit=crop&w=600&q=80" },
-  { id: "7", title: "Water Bottle (750ml)", price: 850, rating: 4, image: "https://alamgirstore.com.pk/wp-content/uploads/2023/01/School-Water-Bottle.jpeg" },
-  { id: "8", title: "Insulated Lunch Box", price: 1200, rating: 5, image: "https://images.unsplash.com/photo-1598449356475-b9f71db7d847?auto=format&fit=crop&w=600&q=80", badge: "-20%" },
-  { id: "9", title: "School Shoes Black", price: 2500, rating: 4, image: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=600&q=80" },
-  { id: "10", title: "Drawing Sketchbook", price: 350, rating: 5, image: "https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=600&q=80" },
-  { id: "11", title: "Scientific Calculator", price: 1800, rating: 5, image: "https://lestallion.com/cdn/shop/articles/7_Top_Scientific_Calculator_For_Students_Doing_Maths_or_Science_in_High_School_7dfe75fd-4dfd-4775-a158-7223dca01e1d.jpg?v=1760596134&width=1100" },
-  { id: "12", title: "Correction Tape Set", price: 250, rating: 3, image: "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&w=600&q=80" },
-];
+  ...booksData.slice(0, 3),
+  ...stationeryData.slice(0, 3),
+  ...uniformsData.slice(0, 3),
+  ...bagsData.slice(0, 3)
+].map((p, i) => ({
+  ...p,
+  title: p.name,
+  oldPrice: i % 3 === 0 ? p.price * 1.2 : undefined,
+  badge: i === 0 ? "HOT" : i === 4 ? "SALE" : undefined
+}));
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Best Sellers");
@@ -139,7 +138,7 @@ export default function Home() {
           <aside className="hidden lg:block space-y-6 relative z-30">
             {/* Categories Menu */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 relative">
-              <div className="bg-blue-600 px-5 py-4 flex items-center gap-3 text-white font-bold tracking-wide rounded-t-xl">
+              <div className="bg-red-700 px-5 py-4 flex items-center gap-3 text-white font-bold tracking-wide rounded-t-xl">
                 <Menu size={20} />
                 <span>ALL CATEGORIES</span>
               </div>
@@ -148,13 +147,13 @@ export default function Home() {
                   <div key={i} className="group relative">
                     <Link
                       href={c.href}
-                      className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors border-b border-gray-50 last:border-0"
+                      className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 text-sm font-medium text-gray-700 hover:text-red-700 transition-colors border-b border-gray-50 last:border-0"
                     >
                       <div className="flex items-center gap-3">
-                        <c.icon size={16} className="text-gray-400 group-hover:text-blue-600" />
+                        <c.icon size={16} className="text-gray-400 group-hover:text-red-700" />
                         {c.label}
                       </div>
-                      <ChevronRight size={14} className="text-gray-300 group-hover:text-blue-600" />
+                      <ChevronRight size={14} className="text-gray-300 group-hover:text-red-700" />
                     </Link>
 
                     {/* MEGA MENU FLYOUT */}
@@ -169,7 +168,7 @@ export default function Home() {
                                 <ul className="space-y-2">
                                   {sub.links.map((link, lIdx) => (
                                     <li key={lIdx}>
-                                      <Link href={link.href} className="text-sm text-gray-500 hover:text-blue-600 hover:underline">
+                                      <Link href={link.href} className="text-sm text-gray-500 hover:text-red-700 hover:underline">
                                         {link.label}
                                       </Link>
                                     </li>
@@ -205,7 +204,7 @@ export default function Home() {
 
             {/* Bestsellers Side Widget */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-              <h3 className="font-bold text-gray-800 mb-4 border-l-4 border-blue-600 pl-3">BEST SELLERS</h3>
+              <h3 className="font-bold text-gray-800 mb-4 border-l-4 border-red-700 pl-3">BEST SELLERS</h3>
               <div className="space-y-4">
                 {products.slice(0, 3).map((p) => (
                   <div key={p.id} className="flex gap-3 group cursor-pointer">
@@ -214,11 +213,11 @@ export default function Home() {
                       <div className="w-full h-full bg-gray-50 flex items-center justify-center text-[10px] text-gray-400">IMG</div>
                     </div>
                     <div>
-                      <Link href={`/products/${p.id}`} className="text-xs font-semibold text-gray-800 group-hover:text-blue-600 line-clamp-2 mb-1">{p.title}</Link>
+                      <Link href={`/products/${p.id}`} className="text-xs font-semibold text-gray-800 group-hover:text-red-700 line-clamp-2 mb-1">{p.title}</Link>
                       <div className="flex text-yellow-500 text-[10px] mb-1">
                         {[...Array(5)].map((_, i) => <Star key={i} size={10} fill={i < p.rating ? "currentColor" : "none"} />)}
                       </div>
-                      <p className="text-sm font-bold text-blue-600">Rs {p.price.toLocaleString()}</p>
+                      <p className="text-sm font-bold text-red-700">Rs {p.price.toLocaleString()}</p>
                     </div>
                   </div>
                 ))}
@@ -245,7 +244,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {features.map((f, i) => (
                 <div key={i} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4 hover:-translate-y-1 transition-transform cursor-default">
-                  <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-red-50 text-red-700 flex items-center justify-center shrink-0">
                     <f.icon size={24} />
                   </div>
                   <div>
@@ -268,11 +267,11 @@ export default function Home() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {topCategories.map((c, i) => (
                   <div key={i} className="bg-white rounded-xl p-6 flex flex-col items-center justify-center border border-gray-100 shadow-sm hover:shadow-md transition-all group cursor-pointer">
-                    <div className="w-24 h-24 bg-gray-50 rounded-full mb-4 flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-blue-600 transition-colors">
+                    <div className="w-24 h-24 bg-gray-50 rounded-full mb-4 flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-red-700 transition-colors">
                       {/* We can use real images if moved to public, else placeholder */}
                       <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">IMG</div>
                     </div>
-                    <h4 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{c.name}</h4>
+                    <h4 className="font-bold text-gray-800 group-hover:text-red-700 transition-colors">{c.name}</h4>
                     <span className="text-xs text-gray-400 mt-1">12 items</span>
                   </div>
                 ))}
@@ -296,7 +295,7 @@ export default function Home() {
                     <div className="bg-red-500 px-2 py-1 rounded">45</div>
                   </div>
                 </div>
-                <Link href="/deals" className="text-xs font-bold text-blue-600 hover:underline">See All Deals</Link>
+                <Link href="/deals" className="text-xs font-bold text-red-700 hover:underline">See All Deals</Link>
               </div>
 
               {/* Single Row Grid */}
@@ -318,7 +317,7 @@ export default function Home() {
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`whitespace-nowrap pb-2 border-b-2 transition-colors ${activeTab === tab ? "text-blue-600 border-blue-600" : "border-transparent hover:text-gray-800"}`}
+                      className={`whitespace-nowrap pb-2 border-b-2 transition-colors ${activeTab === tab ? "text-red-700 border-red-700" : "border-transparent hover:text-gray-800"}`}
                     >
                       {tab}
                     </button>

@@ -61,7 +61,7 @@ export default function DealsListCard({ item }: DealsListCardProps) {
                     {item.countdown && (
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-1 w-[90%] justify-center">
                             {Object.entries(item.countdown).map(([unit, val], i) => (
-                                <div key={unit} className={`bg-[#0066FF] text-white flex flex-col items-center justify-center w-10 h-10 rounded text-center`}>
+                                <div key={unit} className={`bg-red-700 text-white flex flex-col items-center justify-center w-10 h-10 rounded text-center`}>
                                     <span className="text-xs font-bold leading-none">{val}</span>
                                     <span className="text-[8px] uppercase opacity-80 leading-none mt-0.5">{unit === 'days' ? 'Days' : unit === 'hours' ? 'Hrs' : unit === 'minutes' ? 'Min' : 'Sec'}</span>
                                 </div>
@@ -73,7 +73,7 @@ export default function DealsListCard({ item }: DealsListCardProps) {
 
             {/* Content Section */}
             <div className="flex-1 flex flex-col justify-center">
-                <Link href={`/products/${item.id}`} className="hover:text-blue-600 transition-colors">
+                <Link href={`/products/${item.id}`} className="hover:text-red-700 transition-colors">
                     <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
                 </Link>
 
@@ -95,7 +95,7 @@ export default function DealsListCard({ item }: DealsListCardProps) {
                 <div className="flex items-center gap-3">
                     <button
                         onClick={handleAddToCart}
-                        className="bg-[#0066FF] text-white px-6 py-2.5 rounded-full text-xs font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 uppercase tracking-wide active:scale-95 transform"
+                        className="bg-red-700 text-white px-6 py-2.5 rounded-full text-xs font-bold hover:bg-red-800 transition-colors flex items-center gap-2 uppercase tracking-wide active:scale-95 transform"
                     >
                         <ShoppingCart size={16} />
                         Add to cart

@@ -18,7 +18,7 @@ const slides: Slide[] = [
         image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80",
         title: "Back to School Special",
         subtitle: "Get up to 50% OFF on complete bundles",
-        color: "bg-blue-600"
+        color: "bg-red-700"
     },
     {
         id: 2,
@@ -129,7 +129,7 @@ export default function HeroSlider() {
                     <button
                         key={i}
                         onClick={() => setCurrent(i)}
-                        className={`h-2 w-2 rounded-full transition-all ${i === current ? "w-6 bg-blue-600" : "bg-gray-300"
+                        className={`h-2 w-2 rounded-full transition-all ${i === current ? "w-6 bg-red-700" : "bg-gray-300"
                             }`}
                     />
                 ))}

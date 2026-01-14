@@ -74,7 +74,7 @@ export default function ProductCard({ item }: ProductCardProps) {
                 <div className="mt-auto pt-3 flex items-center gap-2">
                     <button
                         onClick={handleAddToCart}
-                        className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                        className="flex-1 rounded-lg bg-red-700 px-3 py-2 text-xs font-semibold text-white hover:bg-red-800 flex items-center justify-center gap-2 active:scale-95 transition-transform"
                     >
                         <ShoppingCart size={14} /> Add
                     </button>

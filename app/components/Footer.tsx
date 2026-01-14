@@ -15,7 +15,7 @@ export default function Footer() {
                 <div className="space-y-6">
                     {/* Headset Block */}
                     <div className="flex items-start gap-4">
-                        <div className="rounded-full p-0 text-blue-600">
+                        <div className="rounded-full p-0 text-red-700">
                             <Headphones size={48} strokeWidth={1.5} />
                         </div>
                         <div>
@@ -30,7 +30,7 @@ export default function Footer() {
                         <p className="text-sm text-gray-600 leading-relaxed max-w-[300px]">
                             Office 102, Siddiq Trade Centre, Gulberg III, Lahore, Punjab
                         </p>
-                        <p className="text-sm text-gray-600 hover:text-blue-600 cursor-pointer transition-colors">
+                        <p className="text-sm text-gray-600 hover:text-red-700 cursor-pointer transition-colors">
                             support@booksandbooks.pk
                         </p>
                     </div>
@@ -38,7 +38,7 @@ export default function Footer() {
                     {/* Social Icons */}
                     <div className="flex items-center gap-4 pt-2">
                         {[Twitter, Instagram, Facebook, Linkedin].map((Icon, idx) => (
-                            <button key={idx} className="text-gray-900 transition-colors hover:text-blue-600">
+                            <button key={idx} className="text-gray-900 transition-colors hover:text-red-700">
                                 <Icon size={20} fill={idx === 2 ? "currentColor" : "none"} />
                             </button>
                         ))}
@@ -51,7 +51,7 @@ export default function Footer() {
                     <ul className="space-y-3 text-sm text-gray-500">
                         {["Books", "Uniforms", "Stationery", "School Bags", "Kids Supplies", "Lunch Boxes"].map((x) => (
                             <li key={x}>
-                                <Link href="/products" className="hover:text-blue-600 transition-colors">
+                                <Link href="/help" className="hover:text-red-700 transition-colors">
                                     {x}
                                 </Link>
                             </li>

@@ -43,7 +43,7 @@ export default function Header() {
                         <div className="h-full flex flex-col items-center justify-center text-gray-500 gap-2">
                             <ShoppingCart size={48} className="opacity-20" />
                             <p>Your cart is empty</p>
-                            <button onClick={() => setIsCartOpen(false)} className="text-blue-600 text-sm font-bold">Start Shopping</button>
+                            <button onClick={() => setIsCartOpen(false)} className="text-red-700 text-sm font-bold">Start Shopping</button>
                         </div>
                     ) : (
                         <div className="space-y-4">
@@ -67,7 +67,7 @@ export default function Header() {
                         <span>Total:</span>
                         <span>Rs {cartTotal.toLocaleString()}</span>
                     </div>
-                    <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                    <button className="w-full bg-red-700 text-white py-3 rounded-lg font-bold hover:bg-red-800 transition">
                         Checkout Now
                     </button>
                 </div>
@@ -123,10 +123,10 @@ export default function Header() {
                         {/* Logo */}
                         <div className="flex items-center justify-between gap-4">
                             <Link href="/" className="flex items-center gap-2">
-                                <div className="h-10 w-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl">B</div>
+                                <div className="h-10 w-10 rounded-xl bg-red-700 flex items-center justify-center text-white font-bold text-xl">B</div>
                                 <div className="leading-tight">
                                     <p className="text-lg font-extrabold tracking-tight">
-                                        Books<span className="text-blue-600">&amp;</span>Books
+                                        Books<span className="text-red-700">&amp;</span>Books
                                     </p>
                                     <p className="text-xs text-gray-500">school &amp; office store</p>
                                 </div>
@@ -171,10 +171,10 @@ export default function Header() {
                             </div>
                             <div className="relative flex-1">
                                 <input
-                                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 pr-12 text-sm outline-none ring-blue-600/20 focus:bg-white focus:ring-4 transition-all"
+                                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 pr-12 text-sm outline-none ring-red-700/20 focus:bg-white focus:ring-4 transition-all"
                                     placeholder="Search for books, uniforms, stationery..."
                                 />
-                                <button className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-blue-600 p-2 text-white hover:bg-blue-700">
+                                <button className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-red-700 p-2 text-white hover:bg-red-800">
                                     <Search size={18} />
                                 </button>
                             </div>
@@ -190,15 +190,15 @@ export default function Header() {
                             </button>
                             <button
                                 onClick={() => setIsCartOpen(true)}
-                                className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50 group hover:border-blue-600 active:bg-gray-50 transition-all cursor-pointer"
+                                className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50 group hover:border-red-700 active:bg-gray-50 transition-all cursor-pointer"
                             >
                                 <div className="relative">
-                                    <ShoppingCart size={18} className="group-hover:text-blue-600" />
+                                    <ShoppingCart size={18} className="group-hover:text-red-700" />
                                     {cartCount > 0 && <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">{cartCount}</span>}
                                 </div>
                                 <div className="hidden xl:block text-left">
                                     <span className="block text-sm font-bold leading-none">My Cart</span>
-                                    <span className="text-[10px] font-semibold text-gray-500 group-hover:text-blue-600">{cartCount} items</span>
+                                    <span className="text-[10px] font-semibold text-gray-500 group-hover:text-red-700">{cartCount} items</span>
                                 </div>
                             </button>
                         </div>
@@ -216,11 +216,11 @@ export default function Header() {
                             { label: "About Us", href: "/about" },
                             { label: "Contact", href: "/contact" },
                         ].map((x) => (
-                            <Link key={x.label} href={x.href} className="hover:text-blue-600 w-full lg:w-auto py-2 lg:py-0">
+                            <Link key={x.label} href={x.href} className="hover:text-red-700 w-full lg:w-auto py-2 lg:py-0">
                                 {x.label}
                             </Link>
                         ))}
-                        <Link href="/deals" className="lg:ml-auto text-blue-600 hover:text-blue-700 py-2 lg:py-0">
+                        <Link href="/deals" className="lg:ml-auto text-red-700 hover:text-red-800 py-2 lg:py-0">
                             TODAY&apos;S DEALS
                         </Link>
                     </div>
