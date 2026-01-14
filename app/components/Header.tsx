@@ -75,7 +75,7 @@ export default function Header() {
 
             {/* TOP THIN BAR */}
             <div className="border-b border-gray-200 bg-white relative z-30">
-                <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-2 text-xs text-gray-600">
+                <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-2 text-xs text-gray-600">
                     <p className="hidden sm:block">
                         FREE delivery &amp; 40% Discount for first 3 orders! Place your 1st order in.
                     </p>
@@ -118,7 +118,7 @@ export default function Header() {
 
             {/* HEADER */}
             <header className="bg-white sticky top-0 z-20 shadow-sm">
-                <div className="mx-auto max-w-[1280px] px-4 py-5">
+                <div className="mx-auto max-w-[1600px] px-4 py-5">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         {/* Logo */}
                         <div className="flex items-center justify-between gap-4">

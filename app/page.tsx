@@ -132,7 +132,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
 
       {/* MAIN CONTAINER */}
-      <div className="mx-auto max-w-[1320px] px-4 py-6">
+      <div className="mx-auto max-w-[1600px] px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
 
           {/* --- LEFT SIDEBAR (Desktop) --- */}

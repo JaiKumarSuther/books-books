@@ -1,45 +1,57 @@
 "use client";
 
 import Link from "next/link";
-import { Mail, Phone, MapPin } from "lucide-react";
+import {
+    Mail, MapPin, Headphones,
+    Facebook, Twitter, Instagram, Linkedin,
+    CreditCard, Wallet
+} from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="border-t border-gray-200 bg-white">
-            <div className="mx-auto grid max-w-[1280px] gap-8 px-4 py-10 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
-                <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                        <div className="h-10 w-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl">B</div>
-                        <div className="leading-tight">
-                            <p className="text-lg font-extrabold tracking-tight">
-                                Books<span className="text-blue-600">&amp;</span>Books
-                            </p>
-                            <p className="text-xs text-gray-500">school &amp; office store</p>
+        <footer className="border-t border-gray-200 bg-white pt-12 pb-6">
+            <div className="mx-auto grid max-w-[1600px] gap-8 px-4 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
+                {/* Contact Column */}
+                <div className="space-y-6">
+                    {/* Headset Block */}
+                    <div className="flex items-start gap-4">
+                        <div className="rounded-full p-0 text-blue-600">
+                            <Headphones size={48} strokeWidth={1.5} />
+                        </div>
+                        <div>
+                            <p className="text-sm text-gray-500 mb-1">Got questions? Call us 24/7!</p>
+                            <p className="text-xl font-bold text-gray-900 leading-tight">+92 300 1234567</p>
+                            <p className="text-sm text-gray-500 leading-tight">(042) 35789000</p>
                         </div>
                     </div>
 
-                    <div className="mt-3 rounded-xl border border-gray-200 bg-gray-50 p-4">
-                        <p className="text-xs font-semibold text-gray-500">Got questions? Call us 24/7!</p>
-                        <p className="mt-1 text-lg font-extrabold text-gray-900">(800) 345-8588</p>
-                        <p className="mt-1 text-xs text-gray-500">(800) 333-8888</p>
+                    {/* Address Block */}
+                    <div className="space-y-2 mt-4">
+                        <p className="text-sm text-gray-600 leading-relaxed max-w-[300px]">
+                            Office 102, Siddiq Trade Centre, Gulberg III, Lahore, Punjab
+                        </p>
+                        <p className="text-sm text-gray-600 hover:text-blue-600 cursor-pointer transition-colors">
+                            support@booksandbooks.pk
+                        </p>
                     </div>
 
-                    <div className="flex items-start gap-2 text-xs text-gray-500">
-                        <MapPin size={14} className="mt-0.5 shrink-0" />
-                        <span>561 Wellington Road, Street 32, San Francisco</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <Mail size={14} />
-                        <span>support@example.com</span>
+                    {/* Social Icons */}
+                    <div className="flex items-center gap-4 pt-2">
+                        {[Twitter, Instagram, Facebook, Linkedin].map((Icon, idx) => (
+                            <button key={idx} className="text-gray-900 transition-colors hover:text-blue-600">
+                                <Icon size={20} fill={idx === 2 ? "currentColor" : "none"} />
+                            </button>
+                        ))}
                     </div>
                 </div>
 
+                {/* Find in Fast */}
                 <div>
-                    <p className="text-sm font-extrabold text-gray-900">FIND IN FAST</p>
-                    <ul className="mt-3 space-y-2 text-sm text-gray-600">
+                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-5">Find In Fast</h3>
+                    <ul className="space-y-3 text-sm text-gray-500">
                         {["Books", "Uniforms", "Stationery", "School Bags", "Kids Supplies", "Lunch Boxes"].map((x) => (
                             <li key={x}>
-                                <Link href="/products" className="hover:text-blue-600">
+                                <Link href="/products" className="hover:text-blue-600 transition-colors">
                                     {x}
                                 </Link>
                             </li>
@@ -47,12 +59,13 @@ export default function Footer() {
                     </ul>
                 </div>
 
+                {/* Information */}
                 <div>
-                    <p className="text-sm font-extrabold text-gray-900">INFORMATION</p>
-                    <ul className="mt-3 space-y-2 text-sm text-gray-600">
+                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-5">Information</h3>
+                    <ul className="space-y-3 text-sm text-gray-500">
                         {["About Us", "Contact Us", "All Collections", "Privacy Policy", "Terms & Conditions"].map((x) => (
                             <li key={x}>
-                                <Link href="/about" className="hover:text-blue-600">
+                                <Link href="/about" className="hover:text-blue-600 transition-colors">
                                     {x}
                                 </Link>
                             </li>
@@ -60,12 +73,13 @@ export default function Footer() {
                     </ul>
                 </div>
 
+                {/* Extras */}
                 <div>
-                    <p className="text-sm font-extrabold text-gray-900">EXTRAS</p>
-                    <ul className="mt-3 space-y-2 text-sm text-gray-600">
+                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-5">Extras</h3>
+                    <ul className="space-y-3 text-sm text-gray-500">
                         {["Wishlist", "Shopping Cart", "Returns", "FAQs"].map((x) => (
                             <li key={x}>
-                                <Link href="/help" className="hover:text-blue-600">
+                                <Link href="/help" className="hover:text-blue-600 transition-colors">
                                     {x}
                                 </Link>
                             </li>
@@ -74,9 +88,20 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="border-t border-gray-200 py-4">
-                <div className="mx-auto max-w-[1280px] px-4 text-center text-xs text-gray-500">
-                    © {new Date().getFullYear()} Books&amp;Books. All Rights Reserved.
+            {/* Bottom Bar */}
+            <div className="mt-12 border-t border-gray-100 bg-gray-50 py-6">
+                <div className="mx-auto max-w-[1600px] px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p className="text-xs text-gray-500">
+                        © {new Date().getFullYear()} Books&Books. All Rights Reserved. Designed by <span className="text-gray-700 font-semibold">R-Tech</span>.
+                    </p>
+
+                    {/* Payment Icons Placeholder */}
+                    <div className="flex items-center gap-2">
+                        <div className="h-6 w-10 bg-white border border-gray-200 rounded flex items-center justify-center text-[10px] font-bold text-blue-800">VISA</div>
+                        <div className="h-6 w-10 bg-white border border-gray-200 rounded flex items-center justify-center text-[10px] font-bold text-blue-600">Amex</div>
+                        <div className="h-6 w-10 bg-white border border-gray-200 rounded flex items-center justify-center text-[10px] font-bold text-blue-500">PayPal</div>
+                        <div className="h-6 w-10 bg-white border border-gray-200 rounded flex items-center justify-center"><CreditCard size={14} className="text-gray-600" /></div>
+                    </div>
                 </div>
             </div>
         </footer>
