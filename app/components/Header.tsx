@@ -3,9 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const pathname = usePathname();
 
     const toggleMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -14,6 +16,15 @@ export default function Header() {
     const closeMenu = () => {
         setIsMobileMenuOpen(false);
     };
+
+    const navLinks = [
+        { name: "Home", href: "/" },
+        { name: "About Us", href: "/about" },
+        { name: "Products", href: "/products" },
+        { name: "Why Us", href: "/why-choose-us" },
+        { name: "FAQ", href: "/faq" },
+        { name: "Contact", href: "/contact" },
+    ];
 
     return (
         <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
@@ -34,12 +45,19 @@ export default function Header() {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-8 font-medium text-[15px] text-gray-700">
-                    <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-                    <Link href="/about" className="hover:text-primary transition-colors">About Us</Link>
-                    <Link href="/products" className="hover:text-primary transition-colors">Products</Link>
-                    <Link href="/why-choose-us" className="hover:text-primary transition-colors">Why Us</Link>
-                    <Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link>
-                    <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
+                    {navLinks.map((link) => {
+                        const isActive = pathname === link.href;
+                        return (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className={`relative group py-1 transition-colors ${isActive ? "text-primary font-bold" : "hover:text-primary"}`}
+                            >
+                                {link.name}
+                                <span className={`absolute bottom-0 left-0 h-[2px] bg-primary transition-all duration-300 ease-in-out ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}></span>
+                            </Link>
+                        );
+                    })}
                 </nav>
 
                 {/* Hamburger Button */}
