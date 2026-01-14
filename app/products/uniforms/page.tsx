@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from 'next/link';
-import { Shirt, Search, Star, ShoppingCart } from "lucide-react";
+import { Shirt, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { uniformsData } from "../../data/products";
+import ProductCard from "../../components/ProductCard";
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -38,22 +39,25 @@ export default function UniformsPage() {
         <div className="py-12 max-w-[1280px] mx-auto px-4 min-h-screen">
             {/* Header with Image */}
             <motion.div
-                className="relative h-[250px] md:h-[300px] bg-blue-900 rounded-3xl overflow-hidden mb-12 flex items-end p-8"
+                className="relative h-[250px] md:h-[300px] rounded-3xl overflow-hidden mb-12 flex items-end p-8 bg-[#0B1437]"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
             >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"></div>
-                <div className="relative z-20 text-white w-full">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                        <div>
-                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded text-xs font-bold uppercase mb-2 inline-block border border-white/30">Category</span>
-                            <h1 className="text-3xl md:text-5xl font-bold mb-2">School Uniforms</h1>
-                            <p className="text-blue-100 max-w-lg text-sm md:text-base">
-                                Premium quality fabrics stitched to perfection for comfort and durability.
-                            </p>
-                        </div>
-                    </div>
+                {/* Subtle Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-transparent pointer-events-none" />
+
+                <div className="relative z-20 text-white w-full max-w-3xl">
+                    <span className="bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-lg text-xs font-bold uppercase mb-4 inline-block tracking-wider border border-white/10">
+                        Category
+                    </span>
+                    <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+                        School Uniforms
+                    </h1>
+                    <p className="text-blue-100 max-w-xl text-sm md:text-base leading-relaxed opacity-90">
+                        Premium quality fabrics stitched to perfection for comfort and durability.
+                        Available for all seasons.
+                    </p>
                 </div>
             </motion.div>
 
@@ -91,7 +95,7 @@ export default function UniformsPage() {
             {/* Products Grid */}
             {filteredProducts.length > 0 ? (
                 <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
                     variants={staggerContainer}
                     initial="hidden"
                     animate="visible"
@@ -99,60 +103,7 @@ export default function UniformsPage() {
                 >
                     <AnimatePresence>
                         {filteredProducts.map((product) => (
-                            <motion.div
-                                layout
-                                key={product.id}
-                                variants={fadeInUp}
-                                initial="hidden"
-                                animate="visible"
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-blue-200 transition-all duration-300 flex flex-col"
-                            >
-                                <Link href={`/products/${product.id}`} className="block h-full flex flex-col">
-                                    {/* Image Placeholder */}
-                                    <div className="aspect-[3/4] bg-gray-50 relative p-6 flex items-center justify-center group-hover:bg-blue-50/50 transition-colors">
-                                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm text-gray-300 group-hover:text-blue-600 group-hover:scale-110 transition-all duration-300">
-                                            <Shirt size={24} />
-                                        </div>
-                                        <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-700 shadow-sm">
-                                            {product.category}
-                                        </span>
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="p-5 flex flex-col flex-grow">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <h3 className="font-bold text-gray-900 line-clamp-2 min-h-[48px] group-hover:text-blue-600 transition-colors">
-                                                {product.name}
-                                            </h3>
-                                        </div>
-
-                                        <div className="flex items-center gap-1 mb-3">
-                                            {[...Array(5)].map((_, i) => (
-                                                <Star
-                                                    key={i}
-                                                    size={12}
-                                                    className={`${i < Math.floor(product.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
-                                                />
-                                            ))}
-                                            <span className="text-xs text-gray-400 ml-1">({product.rating})</span>
-                                        </div>
-
-                                        <p className="text-sm text-gray-500 line-clamp-2 mb-4 flex-grow">
-                                            {product.description}
-                                        </p>
-
-                                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
-                                            <span className="text-xl font-bold text-gray-900">
-                                                Rs. {product.price.toLocaleString()}
-                                            </span>
-                                            <button className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm">
-                                                <ShoppingCart size={18} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </motion.div>
+                            <ProductCard key={product.id} product={product} Icon={Shirt} variant="blue" />
                         ))}
                     </AnimatePresence>
                 </motion.div>
