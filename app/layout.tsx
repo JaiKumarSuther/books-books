@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google"; // Using Inter as per design.json
 import "./globals.css";
 import Link from "next/link";
+import Header from "./components/Header";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,30 +33,8 @@ export default function RootLayout({
           </div>
         </div>
 
-        {/* Main Header */}
-        <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-          <div className="max-w-[1280px] mx-auto px-4 h-20 flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="text-2xl font-bold text-gray-900 tracking-tight">
-              Books <span className="text-primary">&</span> Books
-            </Link>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-8 font-medium text-[15px] text-gray-700">
-              <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-              <Link href="/about" className="hover:text-primary transition-colors">About Us</Link>
-              <Link href="/products" className="hover:text-primary transition-colors">Products</Link>
-              <Link href="/why-choose-us" className="hover:text-primary transition-colors">Why Us</Link>
-              <Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link>
-              <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
-            </nav>
-
-            {/* Mobile Menu Placeholder (Hamburger would go here) */}
-            <div className="md:hidden">
-              <span className="text-2xl">☰</span>
-            </div>
-          </div>
-        </header>
+        {/* Client Side Header with Mobile Drawer */}
+        <Header />
 
         {/* Main Content */}
         <main className="flex-grow bg-bg-page">

@@ -1,3 +1,5 @@
+import { BookOpen, Book, BookCopy } from "lucide-react";
+
 export default function BooksPage() {
     return (
         <div className="py-12 max-w-[1280px] mx-auto px-4">
@@ -14,7 +16,9 @@ export default function BooksPage() {
             <div className="grid md:grid-cols-2 gap-12">
                 <section>
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 bg-primary-light text-primary rounded-lg flex items-center justify-center text-xl">📖</div>
+                        <div className="w-10 h-10 bg-primary-light text-primary rounded-lg flex items-center justify-center">
+                            <BookOpen size={24} />
+                        </div>
                         <h2 className="text-2xl font-bold text-gray-900">Curriculum Books</h2>
                     </div>
 
@@ -51,7 +55,9 @@ export default function BooksPage() {
 
                 <section>
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 bg-accent-light text-accent rounded-lg flex items-center justify-center text-xl">📕</div>
+                        <div className="w-10 h-10 bg-accent-light text-accent rounded-lg flex items-center justify-center">
+                            <Book size={24} />
+                        </div>
                         <h2 className="text-2xl font-bold text-gray-900">General Reading</h2>
                     </div>
                     <p className="text-gray-600 mb-6 leading-relaxed">
@@ -60,19 +66,19 @@ export default function BooksPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="border border-gray-200 p-6 rounded-xl hover:border-accent transition-colors">
-                            <h3 className="font-bold text-lg mb-2">Dictionaries</h3>
+                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2"><BookCopy size={18} className="text-gray-400" /> Dictionaries</h3>
                             <p className="text-sm text-gray-500">Urdu to English, English to English (Oxford, Ferozsons)</p>
                         </div>
                         <div className="border border-gray-200 p-6 rounded-xl hover:border-accent transition-colors">
-                            <h3 className="font-bold text-lg mb-2">Islamic Books</h3>
+                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2"><BookCopy size={18} className="text-gray-400" /> Islamic Books</h3>
                             <p className="text-sm text-gray-500">Quran with translation, Hadith books, Seerat-un-Nabi</p>
                         </div>
                         <div className="border border-gray-200 p-6 rounded-xl hover:border-accent transition-colors">
-                            <h3 className="font-bold text-lg mb-2">Children's Books</h3>
+                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2"><BookCopy size={18} className="text-gray-400" /> Children's Books</h3>
                             <p className="text-sm text-gray-500">Story books, coloring books, activity books, Urdu stories</p>
                         </div>
                         <div className="border border-gray-200 p-6 rounded-xl hover:border-accent transition-colors">
-                            <h3 className="font-bold text-lg mb-2">Novels</h3>
+                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2"><BookCopy size={18} className="text-gray-400" /> Novels</h3>
                             <p className="text-sm text-gray-500">Classic and contemporary Urdu and English novels</p>
                         </div>
                     </div>

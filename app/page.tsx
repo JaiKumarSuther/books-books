@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { BookOpen, Shirt, Pencil, Backpack } from "lucide-react";
 
 export default function Home() {
   return (
@@ -23,7 +23,6 @@ export default function Home() {
           </div>
           <div className="relative h-[300px] md:h-[400px] bg-gray-200 rounded-2xl overflow-hidden shadow-xl flex items-center justify-center">
             {/* Placeholder for Hero Image */}
-            {/* <Image src="/hero_storefront.png" alt="Books & Books Storefront" fill className="object-cover" /> */}
             <span className="text-gray-400 font-medium">Hero Image Placeholder</span>
           </div>
         </div>
@@ -48,8 +47,8 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Card 1 */}
             <Link href="/products/books" className="group bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all">
-              <div className="w-14 h-14 bg-primary-light text-primary rounded-lg flex items-center justify-center mb-6 text-2xl">
-                📚
+              <div className="w-14 h-14 bg-primary-light text-primary rounded-lg flex items-center justify-center mb-6">
+                <BookOpen size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">School Books</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
@@ -59,8 +58,8 @@ export default function Home() {
 
             {/* Card 2 */}
             <Link href="/products/uniforms" className="group bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all">
-              <div className="w-14 h-14 bg-primary-light text-primary rounded-lg flex items-center justify-center mb-6 text-2xl">
-                👕
+              <div className="w-14 h-14 bg-primary-light text-primary rounded-lg flex items-center justify-center mb-6">
+                <Shirt size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">Uniforms</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
@@ -70,8 +69,8 @@ export default function Home() {
 
             {/* Card 3 */}
             <Link href="/products/stationery" className="group bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all">
-              <div className="w-14 h-14 bg-primary-light text-primary rounded-lg flex items-center justify-center mb-6 text-2xl">
-                ✏️
+              <div className="w-14 h-14 bg-primary-light text-primary rounded-lg flex items-center justify-center mb-6">
+                <Pencil size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">Stationery</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
@@ -81,8 +80,8 @@ export default function Home() {
 
             {/* Card 4 */}
             <Link href="/products/school-bags" className="group bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all">
-              <div className="w-14 h-14 bg-primary-light text-primary rounded-lg flex items-center justify-center mb-6 text-2xl">
-                🎒
+              <div className="w-14 h-14 bg-primary-light text-primary rounded-lg flex items-center justify-center mb-6">
+                <Backpack size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">School Bags</h3>
               <p className="text-gray-600 text-sm leading-relaxed">

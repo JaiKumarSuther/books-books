@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BookOpen, Shirt, Pencil, Backpack } from 'lucide-react';
 
 export default function Products() {
     return (
@@ -14,8 +15,8 @@ export default function Products() {
 
                 {/* Books Card */}
                 <div className="group bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all">
-                    <div className="h-48 bg-gray-100 flex items-center justify-center text-6xl">
-                        📚
+                    <div className="h-48 bg-gray-100 flex items-center justify-center">
+                        <BookOpen size={64} className="text-gray-400 group-hover:text-primary transition-colors" />
                     </div>
                     <div className="p-6">
                         <h2 className="text-2xl font-bold text-gray-900 mb-2">School Books</h2>
@@ -30,8 +31,8 @@ export default function Products() {
 
                 {/* Uniforms Card */}
                 <div className="group bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all">
-                    <div className="h-48 bg-gray-100 flex items-center justify-center text-6xl">
-                        👕
+                    <div className="h-48 bg-gray-100 flex items-center justify-center">
+                        <Shirt size={64} className="text-gray-400 group-hover:text-primary transition-colors" />
                     </div>
                     <div className="p-6">
                         <h2 className="text-2xl font-bold text-gray-900 mb-2">School Uniforms</h2>
@@ -46,8 +47,8 @@ export default function Products() {
 
                 {/* Stationery Card */}
                 <div className="group bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all">
-                    <div className="h-48 bg-gray-100 flex items-center justify-center text-6xl">
-                        ✏️
+                    <div className="h-48 bg-gray-100 flex items-center justify-center">
+                        <Pencil size={64} className="text-gray-400 group-hover:text-primary transition-colors" />
                     </div>
                     <div className="p-6">
                         <h2 className="text-2xl font-bold text-gray-900 mb-2">Stationery</h2>
@@ -62,8 +63,8 @@ export default function Products() {
 
                 {/* Bags Card */}
                 <div className="group bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all">
-                    <div className="h-48 bg-gray-100 flex items-center justify-center text-6xl">
-                        🎒
+                    <div className="h-48 bg-gray-100 flex items-center justify-center">
+                        <Backpack size={64} className="text-gray-400 group-hover:text-primary transition-colors" />
                     </div>
                     <div className="p-6">
                         <h2 className="text-2xl font-bold text-gray-900 mb-2">School Bags</h2>

@@ -1,3 +1,5 @@
+import { Backpack, Utensils, Droplets } from "lucide-react";
+
 export default function SchoolBagsPage() {
     return (
         <div className="py-12 max-w-[1280px] mx-auto px-4">
@@ -14,7 +16,7 @@ export default function SchoolBagsPage() {
             <div className="grid lg:grid-cols-2 gap-12">
                 <section>
                     <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                        <span className="text-3xl">🎒</span> Backpacks
+                        <Backpack size={32} /> Backpacks
                     </h2>
                     <p className="text-gray-600 mb-6 text-lg">
                         We understand that school bags need to be tough. Our collection features reinforced stitching and high-quality zippers to withstand daily use.
@@ -42,16 +44,20 @@ export default function SchoolBagsPage() {
 
                 <section>
                     <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                        <span className="text-3xl">🥪</span> Lunch & Water
+                        <Utensils size={32} /> Lunch & Water
                     </h2>
                     <div className="grid sm:grid-cols-2 gap-6">
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                            <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center text-3xl mb-4">🍱</div>
+                            <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center text-3xl mb-4">
+                                <Utensils size={32} className="text-orange-600" />
+                            </div>
                             <h3 className="font-bold text-gray-900 mb-2">Lunch Boxes</h3>
                             <p className="text-sm text-gray-600">BPA free plastic boxes and insulated hot-pots to keep food warm and fresh.</p>
                         </div>
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                            <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-3xl mb-4">💧</div>
+                            <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-3xl mb-4">
+                                <Droplets size={32} className="text-blue-600" />
+                            </div>
                             <h3 className="font-bold text-gray-900 mb-2">Water Bottles</h3>
                             <p className="text-sm text-gray-600">Steel flasks (keep hot/cold for hours) and durable plastic sports bottles.</p>
                         </div>

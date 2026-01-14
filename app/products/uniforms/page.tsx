@@ -1,3 +1,5 @@
+import { User, Baby, Snowflake } from "lucide-react";
+
 export default function UniformsPage() {
     return (
         <div className="py-12 max-w-[1280px] mx-auto px-4">
@@ -21,7 +23,9 @@ export default function UniformsPage() {
             <div className="grid md:grid-cols-3 gap-8">
                 {/* Boys Section */}
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl mb-4">👦</div>
+                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
+                        <User size={24} />
+                    </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-4">For Boys</h3>
                     <ul className="space-y-3 text-sm text-gray-600">
                         <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Shirts: White and Blue (Half/Full sleeves)</li>
@@ -32,7 +36,9 @@ export default function UniformsPage() {
 
                 {/* Girls Section */}
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div className="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-2xl mb-4">👧</div>
+                    <div className="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mb-4">
+                        <Baby size={24} />
+                    </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-4">For Girls</h3>
                     <ul className="space-y-3 text-sm text-gray-600">
                         <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Shirts/Kameez: White with colored sashes</li>
@@ -44,7 +50,9 @@ export default function UniformsPage() {
 
                 {/* Winter Section */}
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div className="w-12 h-12 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center text-2xl mb-4">❄️</div>
+                    <div className="w-12 h-12 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center mb-4">
+                        <Snowflake size={24} />
+                    </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-4">Winter Wear</h3>
                     <ul className="space-y-3 text-sm text-gray-600">
                         <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Sweaters: V-neck (Blue, Black, Maroon)</li>

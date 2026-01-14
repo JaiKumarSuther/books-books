@@ -1,3 +1,5 @@
+import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
+
 export default function Contact() {
     return (
         <div className="py-16 md:py-24 max-w-[1280px] mx-auto px-4">
@@ -16,7 +18,7 @@ export default function Contact() {
 
                     <div className="space-y-8">
                         <div className="flex items-start gap-4">
-                            <span className="text-2xl opacity-80">📍</span>
+                            <MapPin className="text-white opacity-80" size={24} />
                             <div>
                                 <h3 className="font-semibold text-lg mb-1">Visit Us</h3>
                                 <p className="text-primary-light">Books & Books Store<br />Main Market Area, [City Name], Pakistan.</p>
@@ -24,7 +26,7 @@ export default function Contact() {
                         </div>
 
                         <div className="flex items-start gap-4">
-                            <span className="text-2xl opacity-80">📞</span>
+                            <Phone className="text-white opacity-80" size={24} />
                             <div>
                                 <h3 className="font-semibold text-lg mb-1">Call Us</h3>
                                 <p className="text-primary-light">0300-1234567</p>
@@ -32,7 +34,7 @@ export default function Contact() {
                         </div>
 
                         <div className="flex items-start gap-4">
-                            <span className="text-2xl opacity-80">✉️</span>
+                            <Mail className="text-white opacity-80" size={24} />
                             <div>
                                 <h3 className="font-semibold text-lg mb-1">Email Us</h3>
                                 <p className="text-primary-light">info@booksandbooks.pk</p>
@@ -40,7 +42,7 @@ export default function Contact() {
                         </div>
 
                         <div className="flex items-start gap-4">
-                            <span className="text-2xl opacity-80">🕒</span>
+                            <Clock className="text-white opacity-80" size={24} />
                             <div>
                                 <h3 className="font-semibold text-lg mb-1">Opening Hours</h3>
                                 <p className="text-primary-light">Mon - Sat: 10:00 AM - 9:00 PM<br />Sunday: Closed</p>
@@ -51,8 +53,8 @@ export default function Contact() {
 
                 {/* Map Placeholder or simple message */}
                 <div className="p-10 md:p-16 bg-white flex flex-col justify-center items-center text-center">
-                    <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center text-4xl mb-6">
-                        💬
+                    <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                        <MessageCircle size={48} className="text-gray-600" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-4">Need Quick Assistance?</h3>
                     <p className="text-gray-600 mb-8">
