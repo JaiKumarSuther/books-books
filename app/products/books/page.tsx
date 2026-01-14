@@ -1,7 +1,10 @@
 "use client";
 
-import { BookOpen, Book, BookCopy } from "lucide-react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import Link from 'next/link';
+import { BookOpen, Search, Star, ShoppingCart } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { booksData } from "../../data/products";
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -19,111 +22,169 @@ const staggerContainer = {
 };
 
 export default function BooksPage() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [activeCategory, setActiveCategory] = useState("All");
+
+    const categories = ["All", "Pre-School", "Primary", "Middle", "Matric", "O-Level", "General", "Novels"];
+
+    // Filter Logic
+    const filteredProducts = booksData.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = activeCategory === "All" || product.category === activeCategory;
+        return matchesSearch && matchesCategory;
+    });
+
     return (
-        <div className="py-12 max-w-[1280px] mx-auto px-4">
+        <div className="py-12 max-w-[1280px] mx-auto px-4 min-h-screen">
             {/* Header with Image */}
             <motion.div
-                className="relative h-[300px] bg-gray-100 rounded-3xl overflow-hidden mb-12 flex items-end p-8"
+                className="relative h-[250px] md:h-[300px] bg-gray-900 rounded-3xl overflow-hidden mb-12 flex items-end p-8"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
             >
-                {/* <img src="/product_books.png" className="absolute inset-0 w-full h-full object-cover" /> */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="relative z-10 text-white">
-                    <span className="bg-primary px-3 py-1 rounded text-xs font-bold uppercase mb-2 inline-block">Category</span>
-                    <h1 className="text-4xl md:text-5xl font-bold">School & Academic Books</h1>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"></div>
+
+                {/* Decorative Background Pattern */}
+                <div className="absolute inset-0 opacity-20">
+                    <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
+                    </svg>
+                </div>
+
+                <div className="relative z-20 text-white w-full">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <span className="bg-primary px-3 py-1 rounded text-xs font-bold uppercase mb-2 inline-block shadow-sm">Category</span>
+                            <h1 className="text-3xl md:text-5xl font-bold mb-2">School & Academic Books</h1>
+                            <p className="text-gray-300 max-w-lg text-sm md:text-base">
+                                Find all your course books, guides, and reference materials in one place.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-12">
-                <motion.section
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={fadeInUp}
-                >
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 bg-primary-light text-primary rounded-lg flex items-center justify-center">
-                            <BookOpen size={24} />
-                        </div>
-                        <h2 className="text-2xl font-bold text-gray-900">Curriculum Books</h2>
-                    </div>
+            {/* Search and Filter Section */}
+            <div className="mb-12 space-y-6">
+                {/* Search Bar */}
+                <div className="relative max-w-md mx-auto md:mx-0">
+                    <input
+                        type="text"
+                        placeholder="Search for books by title or class..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all shadow-sm"
+                    />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                </div>
 
-                    <p className="text-gray-600 mb-6 leading-relaxed">
-                        We stock complete course sets for all major educational boards in Pakistan. We ensure the latest editions are always available.
-                    </p>
-                    <motion.ul
-                        className="space-y-4"
-                        variants={staggerContainer}
-                    >
-                        <motion.li variants={fadeInUp} className="flex gap-3 items-start p-4 bg-gray-50 rounded-lg">
-                            <span className="font-bold text-primary whitespace-nowrap">Pre-School:</span>
-                            <span className="text-gray-700">Montessori, KG-1, KG-2 (Oxford, PTB, Afaq Sun Series)</span>
-                        </motion.li>
-                        <motion.li variants={fadeInUp} className="flex gap-3 items-start p-4 bg-gray-50 rounded-lg">
-                            <span className="font-bold text-primary whitespace-nowrap">Primary:</span>
-                            <span className="text-gray-700">Class 1 to 5 (All subjects including Islamiyat and Nazra)</span>
-                        </motion.li>
-                        <motion.li variants={fadeInUp} className="flex gap-3 items-start p-4 bg-gray-50 rounded-lg">
-                            <span className="font-bold text-primary whitespace-nowrap">Middle:</span>
-                            <span className="text-gray-700">Class 6 to 8 (Science, History, Geography, Computer Science)</span>
-                        </motion.li>
-                        <motion.li variants={fadeInUp} className="flex gap-3 items-start p-4 bg-gray-50 rounded-lg">
-                            <span className="font-bold text-primary whitespace-nowrap">Matric:</span>
-                            <span className="text-gray-700">Class 9 and 10 (Science and Arts Groups) - Punjab Text Board</span>
-                        </motion.li>
-                        <motion.li variants={fadeInUp} className="flex gap-3 items-start p-4 bg-gray-50 rounded-lg">
-                            <span className="font-bold text-primary whitespace-nowrap">Inter:</span>
-                            <span className="text-gray-700">F.Sc (Pre-Medical, Pre-Eng), I.C.S, I.Com, F.A</span>
-                        </motion.li>
-                        <motion.li variants={fadeInUp} className="flex gap-3 items-start p-4 bg-gray-50 rounded-lg">
-                            <span className="font-bold text-primary whitespace-nowrap">O/A Levels:</span>
-                            <span className="text-gray-700">Cambridge curriculum books (Redspot past papers, manuals, and text books)</span>
-                        </motion.li>
-                    </motion.ul>
-                </motion.section>
-
-                <motion.section
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={fadeInUp}
-                    transition={{ delay: 0.2 }}
-                >
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 bg-accent-light text-accent rounded-lg flex items-center justify-center">
-                            <Book size={24} />
-                        </div>
-                        <h2 className="text-2xl font-bold text-gray-900">General Reading</h2>
-                    </div>
-                    <p className="text-gray-600 mb-6 leading-relaxed">
-                        Expand your knowledge beyond the classroom with our wide selection of reference materials and literature.
-                    </p>
-
-                    <motion.div
-                        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-                        variants={staggerContainer}
-                    >
-                        <motion.div variants={fadeInUp} className="border border-gray-200 p-6 rounded-xl hover:border-accent transition-colors">
-                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2"><BookCopy size={18} className="text-gray-400" /> Dictionaries</h3>
-                            <p className="text-sm text-gray-500">Urdu to English, English to English (Oxford, Ferozsons)</p>
-                        </motion.div>
-                        <motion.div variants={fadeInUp} className="border border-gray-200 p-6 rounded-xl hover:border-accent transition-colors">
-                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2"><BookCopy size={18} className="text-gray-400" /> Islamic Books</h3>
-                            <p className="text-sm text-gray-500">Quran with translation, Hadith books, Seerat-un-Nabi</p>
-                        </motion.div>
-                        <motion.div variants={fadeInUp} className="border border-gray-200 p-6 rounded-xl hover:border-accent transition-colors">
-                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2"><BookCopy size={18} className="text-gray-400" /> Children's Books</h3>
-                            <p className="text-sm text-gray-500">Story books, coloring books, activity books, Urdu stories</p>
-                        </motion.div>
-                        <motion.div variants={fadeInUp} className="border border-gray-200 p-6 rounded-xl hover:border-accent transition-colors">
-                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2"><BookCopy size={18} className="text-gray-400" /> Novels</h3>
-                            <p className="text-sm text-gray-500">Classic and contemporary Urdu and English novels</p>
-                        </motion.div>
-                    </motion.div>
-                </motion.section>
+                {/* Categories Tabs */}
+                <div className="flex flex-wrap gap-2 md:gap-3">
+                    {categories.map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => setActiveCategory(category)}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === category
+                                ? "bg-primary text-white shadow-md transform scale-105"
+                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                }`}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
             </div>
+
+            {/* Products Grid */}
+            {filteredProducts.length > 0 ? (
+                <motion.div
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                    layout
+                >
+                    <AnimatePresence>
+                        {filteredProducts.map((product) => (
+                            <motion.div
+                                layout
+                                key={product.id}
+                                variants={fadeInUp}
+                                initial="hidden"
+                                animate="visible"
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col"
+                            >
+                                <Link href={`/products/${product.id}`} className="block h-full flex flex-col">
+                                    {/* Image Placeholder */}
+                                    <div className="aspect-[3/4] bg-gray-50 relative p-6 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+                                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm text-gray-300 group-hover:text-primary group-hover:scale-110 transition-all duration-300">
+                                            <BookOpen size={24} />
+                                        </div>
+                                        <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-700 shadow-sm">
+                                            {product.category}
+                                        </span>
+                                    </div>
+
+                                    {/* Content */}
+                                    <div className="p-5 flex flex-col flex-grow">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="font-bold text-gray-900 line-clamp-2 min-h-[48px] group-hover:text-primary transition-colors">
+                                                {product.name}
+                                            </h3>
+                                        </div>
+
+                                        <div className="flex items-center gap-1 mb-3">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star
+                                                    key={i}
+                                                    size={12}
+                                                    className={`${i < Math.floor(product.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                                                />
+                                            ))}
+                                            <span className="text-xs text-gray-400 ml-1">({product.rating})</span>
+                                        </div>
+
+                                        <p className="text-sm text-gray-500 line-clamp-2 mb-4 flex-grow">
+                                            {product.description}
+                                        </p>
+
+                                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
+                                            <span className="text-xl font-bold text-gray-900">
+                                                Rs. {product.price.toLocaleString()}
+                                            </span>
+                                            <button className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-all shadow-sm">
+                                                <ShoppingCart size={18} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </motion.div>
+            ) : (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center py-20"
+                >
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Search size={32} className="text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">No items found</h3>
+                    <p className="text-gray-500">
+                        Try adjusting your search or filters to find what you're looking for.
+                    </p>
+                    <button
+                        onClick={() => { setSearchQuery(""); setActiveCategory("All"); }}
+                        className="mt-6 text-primary font-semibold hover:underline"
+                    >
+                        Clear Filters
+                    </button>
+                </motion.div>
+            )}
         </div>
     );
 }

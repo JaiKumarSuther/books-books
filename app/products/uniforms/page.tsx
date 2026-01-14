@@ -1,7 +1,10 @@
 "use client";
 
-import { User, Baby, Snowflake } from "lucide-react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import Link from 'next/link';
+import { Shirt, Search, Star, ShoppingCart } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { uniformsData } from "../../data/products";
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -13,88 +16,167 @@ const staggerContainer = {
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.15,
+            staggerChildren: 0.1,
         },
     },
 };
 
 export default function UniformsPage() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [activeCategory, setActiveCategory] = useState("All");
+
+    const categories = ["All", "Boys", "Girls", "Winter", "Shoes", "Accessories"];
+
+    // Filter Logic
+    const filteredProducts = uniformsData.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = activeCategory === "All" || product.category === activeCategory;
+        return matchesSearch && matchesCategory;
+    });
+
     return (
-        <div className="py-12 max-w-[1280px] mx-auto px-4">
+        <div className="py-12 max-w-[1280px] mx-auto px-4 min-h-screen">
             {/* Header with Image */}
             <motion.div
-                className="relative h-[300px] bg-gray-100 rounded-3xl overflow-hidden mb-12 flex items-end p-8"
+                className="relative h-[250px] md:h-[300px] bg-blue-900 rounded-3xl overflow-hidden mb-12 flex items-end p-8"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
             >
-                {/* <img src="/product_uniforms.png" className="absolute inset-0 w-full h-full object-cover" /> */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="relative z-10 text-white">
-                    <span className="bg-primary px-3 py-1 rounded text-xs font-bold uppercase mb-2 inline-block">Category</span>
-                    <h1 className="text-4xl md:text-5xl font-bold">School Uniforms</h1>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"></div>
+                <div className="relative z-20 text-white w-full">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded text-xs font-bold uppercase mb-2 inline-block border border-white/30">Category</span>
+                            <h1 className="text-3xl md:text-5xl font-bold mb-2">School Uniforms</h1>
+                            <p className="text-blue-100 max-w-lg text-sm md:text-base">
+                                Premium quality fabrics stitched to perfection for comfort and durability.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </motion.div>
 
-            <motion.div
-                className="mb-16 max-w-3xl"
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-            >
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">High Quality Fabrics</h2>
-                <p className="text-gray-600 leading-relaxed text-lg">
-                    We use premium mixed cotton and wash-and-wear fabrics that are breathable for summer and warm for winter. Our stitching is double-locked to ensure durability for active students who need their uniforms to last the entire academic year.
-                </p>
-            </motion.div>
+            {/* Search and Filter Section */}
+            <div className="mb-12 space-y-6">
+                {/* Search Bar */}
+                <div className="relative max-w-md mx-auto md:mx-0">
+                    <input
+                        type="text"
+                        placeholder="Search for uniforms, sizes, or accessories..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all shadow-sm"
+                    />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                </div>
 
-            <motion.div
-                className="grid md:grid-cols-3 gap-8"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-            >
-                {/* Boys Section */}
-                <motion.div variants={fadeInUp} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
-                        <User size={24} />
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">For Boys</h3>
-                    <ul className="space-y-3 text-sm text-gray-600">
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Shirts: White and Blue (Half/Full sleeves)</li>
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Pants: Khaki, Grey, and Blue (Formal cut)</li>
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Shoes: Black school shoes (Bata, Service)</li>
-                    </ul>
-                </motion.div>
+                {/* Categories Tabs */}
+                <div className="flex flex-wrap gap-2 md:gap-3">
+                    {categories.map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => setActiveCategory(category)}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === category
+                                ? "bg-blue-600 text-white shadow-md transform scale-105"
+                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                }`}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
+            </div>
 
-                {/* Girls Section */}
-                <motion.div variants={fadeInUp} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div className="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mb-4">
-                        <Baby size={24} />
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">For Girls</h3>
-                    <ul className="space-y-3 text-sm text-gray-600">
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Shirts/Kameez: White with colored sashes</li>
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Shalwars: White cotton shalwars</li>
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Dupattas: White & house colors</li>
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Shoes: Black pumps & joggers</li>
-                    </ul>
-                </motion.div>
+            {/* Products Grid */}
+            {filteredProducts.length > 0 ? (
+                <motion.div
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                    layout
+                >
+                    <AnimatePresence>
+                        {filteredProducts.map((product) => (
+                            <motion.div
+                                layout
+                                key={product.id}
+                                variants={fadeInUp}
+                                initial="hidden"
+                                animate="visible"
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-blue-200 transition-all duration-300 flex flex-col"
+                            >
+                                <Link href={`/products/${product.id}`} className="block h-full flex flex-col">
+                                    {/* Image Placeholder */}
+                                    <div className="aspect-[3/4] bg-gray-50 relative p-6 flex items-center justify-center group-hover:bg-blue-50/50 transition-colors">
+                                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm text-gray-300 group-hover:text-blue-600 group-hover:scale-110 transition-all duration-300">
+                                            <Shirt size={24} />
+                                        </div>
+                                        <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-700 shadow-sm">
+                                            {product.category}
+                                        </span>
+                                    </div>
 
-                {/* Winter Section */}
-                <motion.div variants={fadeInUp} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <div className="w-12 h-12 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center mb-4">
-                        <Snowflake size={24} />
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">Winter Wear</h3>
-                    <ul className="space-y-3 text-sm text-gray-600">
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Sweaters: V-neck (Blue, Black, Maroon)</li>
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Blazers: Monogrammed blazers</li>
-                        <li className="flex items-start gap-2"><span className="text-primary mt-1">●</span> Hoodies: Casual school hoodies</li>
-                    </ul>
+                                    {/* Content */}
+                                    <div className="p-5 flex flex-col flex-grow">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="font-bold text-gray-900 line-clamp-2 min-h-[48px] group-hover:text-blue-600 transition-colors">
+                                                {product.name}
+                                            </h3>
+                                        </div>
+
+                                        <div className="flex items-center gap-1 mb-3">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star
+                                                    key={i}
+                                                    size={12}
+                                                    className={`${i < Math.floor(product.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                                                />
+                                            ))}
+                                            <span className="text-xs text-gray-400 ml-1">({product.rating})</span>
+                                        </div>
+
+                                        <p className="text-sm text-gray-500 line-clamp-2 mb-4 flex-grow">
+                                            {product.description}
+                                        </p>
+
+                                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
+                                            <span className="text-xl font-bold text-gray-900">
+                                                Rs. {product.price.toLocaleString()}
+                                            </span>
+                                            <button className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm">
+                                                <ShoppingCart size={18} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
                 </motion.div>
-            </motion.div>
+            ) : (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center py-20"
+                >
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Search size={32} className="text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">No items found</h3>
+                    <p className="text-gray-500">
+                        Try adjusting your search or filters to find what you're looking for.
+                    </p>
+                    <button
+                        onClick={() => { setSearchQuery(""); setActiveCategory("All"); }}
+                        className="mt-6 text-blue-600 font-semibold hover:underline"
+                    >
+                        Clear Filters
+                    </button>
+                </motion.div>
+            )}
         </div>
     );
 }

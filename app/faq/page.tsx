@@ -47,8 +47,9 @@ export default function FAQ() {
                 animate="visible"
                 variants={fadeInUp}
             >
-                <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 flex items-center justify-center gap-3">
-                    <HelpCircle className="text-primary" size={40} /> Frequently Asked Questions
+                <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 text-center">
+                    <HelpCircle className="text-primary w-12 h-12 md:w-10 md:h-10 shrink-0" />
+                    <span>Frequently Asked Questions</span>
                 </h1>
                 <p className="text-gray-600 text-lg">
                     Find answers to common questions about our services and policies.

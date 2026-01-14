@@ -1,7 +1,10 @@
 "use client";
 
-import { PenTool, Notebook, Palette, Ruler } from "lucide-react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import Link from 'next/link';
+import { PenTool, Search, Star, ShoppingCart } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { stationeryData } from "../../data/products";
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -19,92 +22,161 @@ const staggerContainer = {
 };
 
 export default function StationeryPage() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [activeCategory, setActiveCategory] = useState("All");
+
+    const categories = ["All", "Writing", "Paper", "Art", "Geometry"];
+
+    // Filter Logic
+    const filteredProducts = stationeryData.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = activeCategory === "All" || product.category === activeCategory;
+        return matchesSearch && matchesCategory;
+    });
+
     return (
-        <div className="py-12 max-w-[1280px] mx-auto px-4">
+        <div className="py-12 max-w-[1280px] mx-auto px-4 min-h-screen">
             {/* Header with Image */}
             <motion.div
-                className="relative h-[300px] bg-gray-100 rounded-3xl overflow-hidden mb-12 flex items-end p-8"
+                className="relative h-[250px] md:h-[300px] bg-purple-900 rounded-3xl overflow-hidden mb-12 flex items-end p-8"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
             >
-                {/* <img src="/product_stationery.png" className="absolute inset-0 w-full h-full object-cover" /> */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="relative z-10 text-white">
-                    <span className="bg-primary px-3 py-1 rounded text-xs font-bold uppercase mb-2 inline-block">Category</span>
-                    <h1 className="text-4xl md:text-5xl font-bold">Stationery & Art Supplies</h1>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"></div>
+                <div className="relative z-20 text-white w-full">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded text-xs font-bold uppercase mb-2 inline-block border border-white/30">Category</span>
+                            <h1 className="text-3xl md:text-5xl font-bold mb-2">Stationery & Art</h1>
+                            <p className="text-purple-100 max-w-lg text-sm md:text-base">
+                                From everyday basics to premium art supplies, unleash your creativity.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </motion.div>
 
-            <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-            >
-                {/* Card 1 */}
-                <motion.div variants={fadeInUp} className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div className="flex-shrink-0 w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center">
-                        <PenTool size={32} className="text-yellow-600" />
-                    </div>
-                    <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">Writing Instruments</h3>
-                        <ul className="space-y-1 text-sm text-gray-600">
-                            <li>• Ballpoints: Piano, Dollar, Reynolds</li>
-                            <li>• Pencils: Oro, Goldfish, Deer (HB, 2B)</li>
-                            <li>• Gel Pens: Uniball, Signo, Sarasa</li>
-                            <li>• Markers: Calligraphy & Whiteboard</li>
-                        </ul>
-                    </div>
-                </motion.div>
+            {/* Search and Filter Section */}
+            <div className="mb-12 space-y-6">
+                {/* Search Bar */}
+                <div className="relative max-w-md mx-auto md:mx-0">
+                    <input
+                        type="text"
+                        placeholder="Search for pens, notebooks, or colors..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all shadow-sm"
+                    />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                </div>
 
-                {/* Card 2 */}
-                <motion.div variants={fadeInUp} className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div className="flex-shrink-0 w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center">
-                        <Notebook size={32} className="text-green-600" />
-                    </div>
-                    <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">Paper Products</h3>
-                        <ul className="space-y-1 text-sm text-gray-600">
-                            <li>• Notebooks: Broad, Narrow, Four line</li>
-                            <li>• Registers: Neat & Rough binding</li>
-                            <li>• Practical Notebooks: Science subjects</li>
-                            <li>• Diaries: School homework diaries</li>
-                        </ul>
-                    </div>
-                </motion.div>
+                {/* Categories Tabs */}
+                <div className="flex flex-wrap gap-2 md:gap-3">
+                    {categories.map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => setActiveCategory(category)}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === category
+                                ? "bg-purple-600 text-white shadow-md transform scale-105"
+                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                }`}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
+            </div>
 
-                {/* Card 3 */}
-                <motion.div variants={fadeInUp} className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div className="flex-shrink-0 w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <Palette size={32} className="text-purple-600" />
-                    </div>
-                    <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">Art & Craft</h3>
-                        <ul className="space-y-1 text-sm text-gray-600">
-                            <li>• Colors: Pencils, Crayons, Paints</li>
-                            <li>• Craft Paper: Glazed, Crepe, Foam</li>
-                            <li>• Adhesives: UHU, Glue sticks, Tape</li>
-                        </ul>
-                    </div>
-                </motion.div>
+            {/* Products Grid */}
+            {filteredProducts.length > 0 ? (
+                <motion.div
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                    layout
+                >
+                    <AnimatePresence>
+                        {filteredProducts.map((product) => (
+                            <motion.div
+                                layout
+                                key={product.id}
+                                variants={fadeInUp}
+                                initial="hidden"
+                                animate="visible"
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-purple-200 transition-all duration-300 flex flex-col"
+                            >
+                                <Link href={`/products/${product.id}`} className="block h-full flex flex-col">
+                                    {/* Image Placeholder */}
+                                    <div className="aspect-[3/4] bg-gray-50 relative p-6 flex items-center justify-center group-hover:bg-purple-50/50 transition-colors">
+                                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm text-gray-300 group-hover:text-purple-600 group-hover:scale-110 transition-all duration-300">
+                                            <PenTool size={24} />
+                                        </div>
+                                        <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-700 shadow-sm">
+                                            {product.category}
+                                        </span>
+                                    </div>
 
-                {/* Card 4 */}
-                <motion.div variants={fadeInUp} className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                    <div className="flex-shrink-0 w-16 h-16 bg-red-100 rounded-lg flex items-center justify-center">
-                        <Ruler size={32} className="text-red-600" />
-                    </div>
-                    <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">Geometry & Math</h3>
-                        <ul className="space-y-1 text-sm text-gray-600">
-                            <li>• Geometry boxes (Dux, Dollar)</li>
-                            <li>• Scientific Calculators (Casio)</li>
-                            <li>• Scales, rulers, protractors</li>
-                        </ul>
-                    </div>
+                                    {/* Content */}
+                                    <div className="p-5 flex flex-col flex-grow">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="font-bold text-gray-900 line-clamp-2 min-h-[48px] group-hover:text-purple-600 transition-colors">
+                                                {product.name}
+                                            </h3>
+                                        </div>
+
+                                        <div className="flex items-center gap-1 mb-3">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star
+                                                    key={i}
+                                                    size={12}
+                                                    className={`${i < Math.floor(product.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                                                />
+                                            ))}
+                                            <span className="text-xs text-gray-400 ml-1">({product.rating})</span>
+                                        </div>
+
+                                        <p className="text-sm text-gray-500 line-clamp-2 mb-4 flex-grow">
+                                            {product.description}
+                                        </p>
+
+                                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
+                                            <span className="text-xl font-bold text-gray-900">
+                                                Rs. {product.price.toLocaleString()}
+                                            </span>
+                                            <button className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-purple-600 hover:text-white transition-all shadow-sm">
+                                                <ShoppingCart size={18} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
                 </motion.div>
-            </motion.div>
+            ) : (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center py-20"
+                >
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Search size={32} className="text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">No items found</h3>
+                    <p className="text-gray-500">
+                        Try adjusting your search or filters to find what you're looking for.
+                    </p>
+                    <button
+                        onClick={() => { setSearchQuery(""); setActiveCategory("All"); }}
+                        className="mt-6 text-purple-600 font-semibold hover:underline"
+                    >
+                        Clear Filters
+                    </button>
+                </motion.div>
+            )}
         </div>
     );
 }
