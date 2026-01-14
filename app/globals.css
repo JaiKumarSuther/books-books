@@ -103,8 +103,10 @@ a {
   transition: color 0.2s;
 }
 
-a:hover {
-  color: var(--primary-hover);
+/* Global Button Styles to fix hover issues */
+.bg-primary:hover {
+  background-color: var(--primary-hover);
+  color: white !important;
 }
 
 button {
