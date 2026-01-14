@@ -4,9 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronRight, X } from "lucide-react";
 
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isProductsOpen, setIsProductsOpen] = useState(false);
     const pathname = usePathname();
 
     const toggleMenu = () => {
@@ -15,6 +18,7 @@ export default function Header() {
 
     const closeMenu = () => {
         setIsMobileMenuOpen(false);
+        setIsProductsOpen(false); // Reset dropdown when closing menu
     };
 
     const navLinks = [
@@ -26,12 +30,18 @@ export default function Header() {
         { name: "Contact", href: "/contact" },
     ];
 
+    const productsLinks = [
+        { name: "Books", href: "/products/books" },
+        { name: "Uniforms", href: "/products/uniforms" },
+        { name: "Stationery", href: "/products/stationery" },
+        { name: "School Bags", href: "/products/school-bags" },
+    ];
+
     return (
         <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
             <div className="max-w-[1280px] mx-auto px-4 h-20 flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center" onClick={closeMenu}>
-                    {/* Using logo.png instead of text */}
                     <div className="relative h-16 w-48">
                         <Image
                             src="/logo.png"
@@ -77,51 +87,122 @@ export default function Header() {
             </div>
 
             {/* Mobile Drawer */}
-            <div
-                className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
-            >
-                {/* Backdrop */}
-                <div className="absolute inset-0 bg-black/50" onClick={closeMenu}></div>
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={closeMenu}
+                            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                        />
 
-                {/* Drawer Content */}
-                <div
-                    className={`absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
-                >
-                    <div className="flex flex-col h-full">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                            <span className="font-bold text-lg text-gray-900">Menu</span>
-                            <button onClick={closeMenu} className="p-2 text-gray-500 hover:text-gray-900">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <nav className="flex flex-col p-6 space-y-4 text-base font-medium text-gray-700">
-                            <Link href="/" className="hover:text-primary py-2 border-b border-gray-50" onClick={closeMenu}>Home</Link>
-                            <Link href="/about" className="hover:text-primary py-2 border-b border-gray-50" onClick={closeMenu}>About Us</Link>
-
-                            <div className="py-2 border-b border-gray-50">
-                                <Link href="/products" className="hover:text-primary block mb-2" onClick={closeMenu}>Products</Link>
-                                <div className="pl-4 flex flex-col space-y-2 text-sm text-gray-500">
-                                    <Link href="/products/books" className="hover:text-primary" onClick={closeMenu}>• Books</Link>
-                                    <Link href="/products/uniforms" className="hover:text-primary" onClick={closeMenu}>• Uniforms</Link>
-                                    <Link href="/products/stationery" className="hover:text-primary" onClick={closeMenu}>• Stationery</Link>
-                                    <Link href="/products/school-bags" className="hover:text-primary" onClick={closeMenu}>• School Bags</Link>
-                                </div>
+                        {/* Drawer Content */}
+                        <motion.div
+                            initial={{ x: "100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "100%" }}
+                            transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+                            className="fixed top-0 right-0 h-full w-[280px] bg-white shadow-2xl z-50 md:hidden flex flex-col"
+                        >
+                            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                                <span className="font-bold text-xl text-gray-900">Menu</span>
+                                <button onClick={closeMenu} className="p-2 text-gray-500 hover:text-red-500 transition-colors">
+                                    <X size={24} />
+                                </button>
                             </div>
 
-                            <Link href="/why-choose-us" className="hover:text-primary py-2 border-b border-gray-50" onClick={closeMenu}>Why Choose Us</Link>
-                            <Link href="/faq" className="hover:text-primary py-2 border-b border-gray-50" onClick={closeMenu}>FAQ</Link>
-                            <Link href="/contact" className="hover:text-primary py-2 border-b border-gray-50" onClick={closeMenu}>Contact</Link>
-                        </nav>
+                            <nav className="flex flex-col p-6 space-y-2 overflow-y-auto">
+                                <Link
+                                    href="/"
+                                    className={`py-3 px-4 rounded-lg transition-colors ${pathname === "/" ? "bg-primary-light/10 text-primary font-bold" : "hover:bg-gray-50 text-gray-700"}`}
+                                    onClick={closeMenu}
+                                >
+                                    Home
+                                </Link>
+                                <Link
+                                    href="/about"
+                                    className={`py-3 px-4 rounded-lg transition-colors ${pathname === "/about" ? "bg-primary-light/10 text-primary font-bold" : "hover:bg-gray-50 text-gray-700"}`}
+                                    onClick={closeMenu}
+                                >
+                                    About Us
+                                </Link>
 
-                        <div className="mt-auto p-6 bg-gray-50">
-                            <p className="text-sm text-gray-500 text-center">Books & Books</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                {/* Products Dropdown */}
+                                <div>
+                                    <button
+                                        onClick={() => setIsProductsOpen(!isProductsOpen)}
+                                        className={`w-full flex items-center justify-between py-3 px-4 rounded-lg transition-colors ${pathname.includes("/products") ? "text-primary font-bold" : "hover:bg-gray-50 text-gray-700"}`}
+                                    >
+                                        <span>Products</span>
+                                        {isProductsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                                    </button>
+
+                                    <AnimatePresence>
+                                        {isProductsOpen && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: "auto", opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="pl-4 pr-2 py-1 space-y-1 bg-gray-50/50 rounded-lg mx-2 mb-2">
+                                                    <Link
+                                                        href="/products"
+                                                        onClick={closeMenu}
+                                                        className="block py-2 px-3 text-sm text-gray-600 hover:text-primary hover:bg-white rounded-md transition-all"
+                                                    >
+                                                        All Products
+                                                    </Link>
+                                                    {productsLinks.map((item) => (
+                                                        <Link
+                                                            key={item.name}
+                                                            href={item.href}
+                                                            onClick={closeMenu}
+                                                            className={`block py-2 px-3 text-sm rounded-md transition-all ${pathname === item.href ? "text-primary font-semibold bg-white shadow-sm" : "text-gray-600 hover:text-primary hover:bg-white"}`}
+                                                        >
+                                                            {item.name}
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+
+                                <Link
+                                    href="/why-choose-us"
+                                    className={`py-3 px-4 rounded-lg transition-colors ${pathname === "/why-choose-us" ? "bg-primary-light/10 text-primary font-bold" : "hover:bg-gray-50 text-gray-700"}`}
+                                    onClick={closeMenu}
+                                >
+                                    Why Choose Us
+                                </Link>
+                                <Link
+                                    href="/faq"
+                                    className={`py-3 px-4 rounded-lg transition-colors ${pathname === "/faq" ? "bg-primary-light/10 text-primary font-bold" : "hover:bg-gray-50 text-gray-700"}`}
+                                    onClick={closeMenu}
+                                >
+                                    FAQ
+                                </Link>
+                                <Link
+                                    href="/contact"
+                                    className={`py-3 px-4 rounded-lg transition-colors ${pathname === "/contact" ? "bg-primary-light/10 text-primary font-bold" : "hover:bg-gray-50 text-gray-700"}`}
+                                    onClick={closeMenu}
+                                >
+                                    Contact
+                                </Link>
+                            </nav>
+
+                            <div className="mt-auto p-6 bg-gray-50 border-t border-gray-100">
+                                <p className="text-xs text-gray-400 text-center uppercase tracking-widest font-semibold">Books & Books</p>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
         </header>
     );
 }
