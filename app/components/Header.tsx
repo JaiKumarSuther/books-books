@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function Header() {
@@ -18,8 +19,17 @@ export default function Header() {
         <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
             <div className="max-w-[1280px] mx-auto px-4 h-20 flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="text-2xl font-bold text-gray-900 tracking-tight" onClick={closeMenu}>
-                    Books <span className="text-primary">&</span> Books
+                <Link href="/" className="flex items-center" onClick={closeMenu}>
+                    {/* Using logo.png instead of text */}
+                    <div className="relative h-16 w-48">
+                        <Image
+                            src="/logo.png"
+                            alt="Books & Books"
+                            fill
+                            className="object-contain object-left"
+                            priority
+                        />
+                    </div>
                 </Link>
 
                 {/* Desktop Navigation */}

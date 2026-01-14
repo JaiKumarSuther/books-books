@@ -9,7 +9,7 @@
 
   --secondary: #6C757D;
   --neutral-gray: #6C757D;
-  
+
   --accent: #FF3B3B;
   --accent-light: #FFE5E5;
   --accent-dark: #CC2F2F;
@@ -40,7 +40,8 @@
   --bg-sidebar: #F3F4F6;
   --bg-footer: #111827;
 
-  --foreground: #111827; /* gray-900 default text */
+  --foreground: #111827;
+  /* gray-900 default text */
 }
 
 @theme inline {
@@ -48,7 +49,7 @@
   --color-primary-light: var(--primary-light);
   --color-primary-dark: var(--primary-dark);
   --color-primary-hover: var(--primary-hover);
-  
+
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
   --color-success: var(--success);
@@ -74,18 +75,30 @@ body {
   font-family: var(--font-inter), sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 700;
   color: var(--gray-900);
   line-height: 1.2;
 }
 
-h1 { font-size: 36px; }
-h2 { font-size: 28px; }
-h3 { font-size: 22px; }
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+h3 {
+  font-size: 22px;
+}
 
 a {
-  color: var(--primary);
   text-decoration: none;
   transition: color 0.2s;
 }
