@@ -1,0 +1,110 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google"; // Using Inter as per design.json
+import "./globals.css";
+import Link from "next/link";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Books & Books - School Supplies Store",
+  description: "One-stop shop for books, uniforms, and stationery in Pakistan.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className={`${inter.variable} antialiased flex flex-col min-h-screen`}>
+        {/* Top Bar */}
+        <div className="bg-gray-50 border-b border-gray-200 text-xs py-2 px-4 text-center md:text-left text-gray-600">
+          <div className="max-w-[1280px] mx-auto flex justify-between items-center">
+            <span>Welcome to Books & Books - Your Education Partner</span>
+            <div className="hidden md:flex gap-4">
+              <span>Call us: 0300-1234567</span>
+              <Link href="/contact" className="hover:text-primary">Help Center</Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Header */}
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+          <div className="max-w-[1280px] mx-auto px-4 h-20 flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="text-2xl font-bold text-gray-900 tracking-tight">
+              Books <span className="text-primary">&</span> Books
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-8 font-medium text-[15px] text-gray-700">
+              <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+              <Link href="/about" className="hover:text-primary transition-colors">About Us</Link>
+              <Link href="/products" className="hover:text-primary transition-colors">Products</Link>
+              <Link href="/why-choose-us" className="hover:text-primary transition-colors">Why Us</Link>
+              <Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link>
+              <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
+            </nav>
+
+            {/* Mobile Menu Placeholder (Hamburger would go here) */}
+            <div className="md:hidden">
+              <span className="text-2xl">☰</span>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="flex-grow bg-bg-page">
+          {children}
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-bg-footer text-white pt-12 pb-6">
+          <div className="max-w-[1280px] mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4 text-white">Books & Books</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Your reliable partner for quality education supplies. We provide books, uniforms, and stationery at affordable prices.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-white">Quick Links</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><Link href="/products/books" className="hover:text-white">School Books</Link></li>
+                <li><Link href="/products/uniforms" className="hover:text-white">Uniforms</Link></li>
+                <li><Link href="/products/stationery" className="hover:text-white">Stationery</Link></li>
+                <li><Link href="/products/school-bags" className="hover:text-white">School Bags</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-white">Customer Care</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><Link href="/contact" className="hover:text-white">Contact Us</Link></li>
+                <li><Link href="/faq" className="hover:text-white">FAQ</Link></li>
+                <li><Link href="/why-choose-us" className="hover:text-white">Why Choose Us</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-white">Contact Info</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>Main Market Area, [City Name]</li>
+                <li>0300-1234567</li>
+                <li>info@booksandbooks.pk</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 pt-6 text-center text-gray-500 text-sm">
+            © {new Date().getFullYear()} Books & Books. All rights reserved.
+          </div>
+        </footer>
+      </body>
+    </html>
+  );
+}
