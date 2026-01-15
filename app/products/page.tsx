@@ -121,7 +121,11 @@ export default function ShopPage() {
             <div className="bg-gray-50 border-b border-gray-200 py-6 mb-8">
                 <div className="max-w-[1400px] mx-auto px-4">
                     <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                        <span>Home</span> / <span>Electronics</span> / <span className="text-gray-900">Computers</span>
+                        <span>Home</span> / <span>Products</span> / <span className="text-gray-900 font-medium">
+                            {searchQuery ? `Search: "${searchQuery}"` :
+                                selectedCategories.length === 1 ? selectedCategories[0] :
+                                    selectedCategories.length > 1 ? "Multiple Categories" : "All Items"}
+                        </span>
                     </div>
                     {/* Title not in image explicitly but implied */}
                 </div>

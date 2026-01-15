@@ -65,7 +65,7 @@ export default function DealCard({ product, className = "", compact = false, vie
 
                     {/* Description */}
                     <p className="text-gray-500 text-sm mb-4 line-clamp-2 leading-relaxed">
-                        {product.description || "Next-generation ScreenPad Plus: A 12.7-inch, full-width secondary touchscreen with re-engineered tilt mechanism AAS Ultra, which increases the angle of tilt for comfortable touch operation."}
+                        {product.description || "High-quality product for your educational needs. Durable, reliable, and perfect for students and professionals alike."}
                     </p>
 
                     {/* Price */}
