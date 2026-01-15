@@ -52,7 +52,7 @@ export default function DealsListCard({ item }: DealsListCardProps) {
 
                     {/* Badge */}
                     {item.badge && (
-                        <span className="absolute top-0 left-0 bg-[#FF4D4D] text-white text-[10px] font-bold px-2 py-1 uppercase rounded-tl-xl rounded-br-lg z-10">
+                        <span className="absolute top-0 left-0 bg-secondary text-white text-[10px] font-bold px-2 py-1 uppercase rounded-tl-xl rounded-br-lg z-10">
                             {item.badge}
                         </span>
                     )}
@@ -61,7 +61,7 @@ export default function DealsListCard({ item }: DealsListCardProps) {
                     {item.countdown && (
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-1 w-[90%] justify-center">
                             {Object.entries(item.countdown).map(([unit, val], i) => (
-                                <div key={unit} className={`bg-red-700 text-white flex flex-col items-center justify-center w-10 h-10 rounded text-center`}>
+                                <div key={unit} className={`bg-secondary text-white flex flex-col items-center justify-center w-10 h-10 rounded text-center`}>
                                     <span className="text-xs font-bold leading-none">{val}</span>
                                     <span className="text-[8px] uppercase opacity-80 leading-none mt-0.5">{unit === 'days' ? 'Days' : unit === 'hours' ? 'Hrs' : unit === 'minutes' ? 'Min' : 'Sec'}</span>
                                 </div>
@@ -73,7 +73,7 @@ export default function DealsListCard({ item }: DealsListCardProps) {
 
             {/* Content Section */}
             <div className="flex-1 flex flex-col justify-center">
-                <Link href={`/products/${item.id}`} className="hover:text-red-700 transition-colors">
+                <Link href={`/products/${item.id}`} className="hover:text-secondary transition-colors">
                     <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
                 </Link>
 
@@ -87,7 +87,7 @@ export default function DealsListCard({ item }: DealsListCardProps) {
 
                 <div className="mb-4">
                     <div className="flex items-end gap-3">
-                        <span className="text-xl font-bold text-[#FF4D4D]">Rs {price.toLocaleString()}</span>
+                        <span className="text-xl font-bold text-secondary">Rs {price.toLocaleString()}</span>
                         {item.oldPrice && <span className="text-sm text-gray-400 line-through mb-1">Rs {item.oldPrice}</span>}
                     </div>
                 </div>
@@ -95,7 +95,7 @@ export default function DealsListCard({ item }: DealsListCardProps) {
                 <div className="flex items-center gap-3">
                     <button
                         onClick={handleAddToCart}
-                        className="bg-red-700 text-white px-6 py-2.5 rounded-full text-xs font-bold hover:bg-red-800 transition-colors flex items-center gap-2 uppercase tracking-wide active:scale-95 transform"
+                        className="bg-primary text-secondary px-6 py-2.5 rounded-full text-xs font-bold hover:bg-primary-hover transition-colors flex items-center gap-2 uppercase tracking-wide active:scale-95 transform"
                     >
                         <ShoppingCart size={16} />
                         Add to cart

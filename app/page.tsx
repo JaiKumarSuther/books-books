@@ -138,7 +138,7 @@ export default function Home() {
           <aside className="hidden lg:block space-y-6 relative z-30">
             {/* Categories Menu */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 relative">
-              <div className="bg-red-700 px-5 py-4 flex items-center gap-3 text-white font-bold tracking-wide rounded-t-xl">
+              <div className="bg-primary px-5 py-4 flex items-center gap-3 text-secondary font-bold tracking-wide rounded-t-xl">
                 <Menu size={20} />
                 <span>ALL CATEGORIES</span>
               </div>
@@ -147,13 +147,13 @@ export default function Home() {
                   <div key={i} className="group relative">
                     <Link
                       href={c.href}
-                      className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 text-sm font-medium text-gray-700 hover:text-red-700 transition-colors border-b border-gray-50 last:border-0"
+                      className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 text-sm font-medium text-gray-700 hover:text-secondary transition-colors border-b border-gray-50 last:border-0"
                     >
                       <div className="flex items-center gap-3">
-                        <c.icon size={16} className="text-gray-400 group-hover:text-red-700" />
+                        <c.icon size={16} className="text-gray-400 group-hover:text-secondary" />
                         {c.label}
                       </div>
-                      <ChevronRight size={14} className="text-gray-300 group-hover:text-red-700" />
+                      <ChevronRight size={14} className="text-gray-300 group-hover:text-secondary" />
                     </Link>
 
                     {/* MEGA MENU FLYOUT */}
@@ -168,7 +168,7 @@ export default function Home() {
                                 <ul className="space-y-2">
                                   {sub.links.map((link, lIdx) => (
                                     <li key={lIdx}>
-                                      <Link href={link.href} className="text-sm text-gray-500 hover:text-red-700 hover:underline">
+                                      <Link href={link.href} className="text-sm text-gray-500 hover:text-secondary hover:underline">
                                         {link.label}
                                       </Link>
                                     </li>
@@ -204,7 +204,7 @@ export default function Home() {
 
             {/* Bestsellers Side Widget */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-              <h3 className="font-bold text-gray-800 mb-4 border-l-4 border-red-700 pl-3">BEST SELLERS</h3>
+              <h3 className="font-bold text-gray-800 mb-4 border-l-4 border-primary pl-3">BEST SELLERS</h3>
               <div className="space-y-4">
                 {products.slice(0, 3).map((p) => (
                   <div key={p.id} className="flex gap-3 group cursor-pointer">
@@ -213,11 +213,11 @@ export default function Home() {
                       <div className="w-full h-full bg-gray-50 flex items-center justify-center text-[10px] text-gray-400">IMG</div>
                     </div>
                     <div>
-                      <Link href={`/products/${p.id}`} className="text-xs font-semibold text-gray-800 group-hover:text-red-700 line-clamp-2 mb-1">{p.title}</Link>
-                      <div className="flex text-yellow-500 text-[10px] mb-1">
+                      <Link href={`/products/${p.id}`} className="text-xs font-semibold text-gray-800 group-hover:text-secondary line-clamp-2 mb-1">{p.title}</Link>
+                      <div className="flex text-primary text-[10px] mb-1">
                         {[...Array(5)].map((_, i) => <Star key={i} size={10} fill={i < p.rating ? "currentColor" : "none"} />)}
                       </div>
-                      <p className="text-sm font-bold text-red-700">Rs {p.price.toLocaleString()}</p>
+                      <p className="text-sm font-bold text-secondary">Rs {p.price.toLocaleString()}</p>
                     </div>
                   </div>
                 ))}
@@ -225,10 +225,10 @@ export default function Home() {
             </div>
 
             {/* Newsletter Side Widget */}
-            <div className="bg-[#FFF4F4] rounded-xl p-6 text-center border border-red-100">
-              <h3 className="font-extrabold text-xl text-red-500 mb-2">Back To School</h3>
+            <div className="bg-primary-light rounded-xl p-6 text-center border border-primary/20">
+              <h3 className="font-extrabold text-xl text-secondary mb-2">Back To School</h3>
               <p className="text-gray-600 text-sm mb-4">Get 50% off on your first order this week!</p>
-              <Link href="/deals" className="inline-block bg-red-500 text-white text-xs font-bold px-6 py-2 rounded-full hover:bg-red-600 transition-colors">
+              <Link href="/deals" className="inline-block bg-primary text-secondary text-xs font-bold px-6 py-2 rounded-full hover:bg-primary-hover transition-colors">
                 CHECK NOW
               </Link>
             </div>
@@ -244,7 +244,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {features.map((f, i) => (
                 <div key={i} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4 hover:-translate-y-1 transition-transform cursor-default">
-                  <div className="w-12 h-12 rounded-full bg-red-50 text-red-700 flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-primary-light text-secondary flex items-center justify-center shrink-0">
                     <f.icon size={24} />
                   </div>
                   <div>
@@ -267,11 +267,11 @@ export default function Home() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {topCategories.map((c, i) => (
                   <div key={i} className="bg-white rounded-xl p-6 flex flex-col items-center justify-center border border-gray-100 shadow-sm hover:shadow-md transition-all group cursor-pointer">
-                    <div className="w-24 h-24 bg-gray-50 rounded-full mb-4 flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-red-700 transition-colors">
+                    <div className="w-24 h-24 bg-gray-50 rounded-full mb-4 flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-primary transition-colors">
                       {/* We can use real images if moved to public, else placeholder */}
                       <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">IMG</div>
                     </div>
-                    <h4 className="font-bold text-gray-800 group-hover:text-red-700 transition-colors">{c.name}</h4>
+                    <h4 className="font-bold text-gray-800 group-hover:text-secondary transition-colors">{c.name}</h4>
                     <span className="text-xs text-gray-400 mt-1">12 items</span>
                   </div>
                 ))}
@@ -284,18 +284,18 @@ export default function Home() {
                 <div className="flex items-center gap-4">
                   <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
                     Today's Best Deals
-                    <span className="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded ml-2">ENDS IN</span>
+                    <span className="bg-secondary text-white text-[10px] px-2 py-0.5 rounded ml-2">ENDS IN</span>
                   </h3>
                   {/* Timer */}
                   <div className="flex gap-1 text-white text-xs font-bold">
-                    <div className="bg-red-500 px-2 py-1 rounded">14</div>
+                    <div className="bg-secondary px-2 py-1 rounded">14</div>
                     <span className="text-gray-400 text-lg">:</span>
-                    <div className="bg-red-500 px-2 py-1 rounded">20</div>
+                    <div className="bg-secondary px-2 py-1 rounded">20</div>
                     <span className="text-gray-400 text-lg">:</span>
-                    <div className="bg-red-500 px-2 py-1 rounded">45</div>
+                    <div className="bg-secondary px-2 py-1 rounded">45</div>
                   </div>
                 </div>
-                <Link href="/deals" className="text-xs font-bold text-red-700 hover:underline">See All Deals</Link>
+                <Link href="/deals" className="text-xs font-bold text-secondary hover:underline">See All Deals</Link>
               </div>
 
               {/* Single Row Grid */}
@@ -317,7 +317,7 @@ export default function Home() {
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`whitespace-nowrap pb-2 border-b-2 transition-colors ${activeTab === tab ? "text-red-700 border-red-700" : "border-transparent hover:text-gray-800"}`}
+                      className={`whitespace-nowrap pb-2 border-b-2 transition-colors ${activeTab === tab ? "text-secondary border-secondary" : "border-transparent hover:text-gray-800"}`}
                     >
                       {tab}
                     </button>
@@ -341,16 +341,16 @@ export default function Home() {
               <MiniBanner
                 title="School Bags"
                 subtitle="Starting from Rs 5,000"
-                color="bg-purple-100"
-                textColor="text-purple-800"
-                buttonColor="bg-purple-600"
+                color="bg-primary-light"
+                textColor="text-secondary"
+                buttonColor="bg-secondary"
               />
               <MiniBanner
                 title="Art Supplies"
                 subtitle="Up to 30% OFF this week"
-                color="bg-amber-100"
-                textColor="text-amber-800"
-                buttonColor="bg-amber-600"
+                color="bg-[#FFF8E1]"
+                textColor="text-secondary"
+                buttonColor="bg-primary text-secondary"
               />
             </section>
 

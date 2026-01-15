@@ -20,42 +20,39 @@
         "colorSystem": {
             "foundation": {
                 "primary": {
-                    "value": "#0D6EFD",
-                    "name": "Electric Blue",
+                    "value": "#FACC06",
+                    "name": "Supernova Yellow",
                     "usage": [
                         "Primary CTAs",
                         "Links",
                         "Active states",
-                        "Countdown timers",
                         "Brand accents"
                     ],
                     "variants": {
-                        "light": "#E7F1FF",
-                        "dark": "#0B5ED7",
-                        "hover": "#0A58CA"
+                        "light": "#FFFDEA",
+                        "dark": "#664D03",
+                        "hover": "#D9B205"
                     }
                 },
                 "secondary": {
-                    "value": "#6C757D",
-                    "name": "Neutral Gray",
+                    "value": "#664D03",
+                    "name": "Antique Bronze",
                     "usage": [
                         "Secondary text",
                         "Borders",
-                        "Disabled states"
+                        "Headers"
                     ]
                 },
                 "accent": {
-                    "value": "#FF3B3B",
-                    "name": "Alert Red",
+                    "value": "#FACC06",
+                    "name": "Supernova Yellow",
                     "usage": [
                         "Sale badges",
-                        "Discount tags",
-                        "Stock warnings",
-                        "Delete actions"
+                        "Discount tags"
                     ],
                     "variants": {
-                        "light": "#FFE5E5",
-                        "dark": "#CC2F2F"
+                        "light": "#FFFDEA",
+                        "dark": "#664D03"
                     }
                 }
             },

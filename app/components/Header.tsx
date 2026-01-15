@@ -43,7 +43,7 @@ export default function Header() {
                         <div className="h-full flex flex-col items-center justify-center text-gray-500 gap-2">
                             <ShoppingCart size={48} className="opacity-20" />
                             <p>Your cart is empty</p>
-                            <button onClick={() => setIsCartOpen(false)} className="text-red-700 text-sm font-bold">Start Shopping</button>
+                            <button onClick={() => setIsCartOpen(false)} className="text-secondary text-sm font-bold">Start Shopping</button>
                         </div>
                     ) : (
                         <div className="space-y-4">
@@ -54,7 +54,7 @@ export default function Header() {
                                         <p className="text-sm font-bold text-gray-900 line-clamp-2">{item.title}</p>
                                         <p className="text-xs text-gray-500">{item.quantity} x Rs {item.price.toLocaleString()}</p>
                                     </div>
-                                    <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:text-red-700 p-1">
+                                    <button onClick={() => removeFromCart(item.id)} className="text-secondary hover:text-red-700 p-1">
                                         <Trash2 size={16} />
                                     </button>
                                 </div>
@@ -67,7 +67,7 @@ export default function Header() {
                         <span>Total:</span>
                         <span>Rs {cartTotal.toLocaleString()}</span>
                     </div>
-                    <button className="w-full bg-red-700 text-white py-3 rounded-lg font-bold hover:bg-red-800 transition">
+                    <button className="w-full bg-primary text-secondary py-3 rounded-lg font-bold hover:bg-primary-hover transition">
                         Checkout Now
                     </button>
                 </div>
@@ -123,7 +123,7 @@ export default function Header() {
                         {/* Logo */}
                         <div className="flex items-center justify-between gap-4">
                             <Link href="/" className="flex items-center">
-                                <img src="/logo.png" alt="Books & Books" className="h-16 w-auto object-contain" />
+                                <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-secondary font-bold">B</div>
                             </Link>
 
                             {/* icons for mobile */}
@@ -139,7 +139,7 @@ export default function Header() {
                                     className="rounded-lg border border-gray-200 p-2 hover:bg-gray-50 relative"
                                 >
                                     <ShoppingCart size={18} />
-                                    {cartCount > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">{cartCount}</span>}
+                                    {cartCount > 0 && <span className="absolute -top-1 -right-1 bg-secondary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">{cartCount}</span>}
                                 </button>
                             </div>
                         </div>
@@ -165,10 +165,10 @@ export default function Header() {
                             </div>
                             <div className="relative flex-1">
                                 <input
-                                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 pr-12 text-sm outline-none ring-red-700/20 focus:bg-white focus:ring-4 transition-all"
+                                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 pr-12 text-sm outline-none ring-primary/20 focus:bg-white focus:ring-4 transition-all"
                                     placeholder="Search for books, uniforms, stationery..."
                                 />
-                                <button className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-red-700 p-2 text-white hover:bg-red-800">
+                                <button className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg bg-primary p-2 text-secondary hover:bg-primary-hover">
                                     <Search size={18} />
                                 </button>
                             </div>
@@ -184,15 +184,15 @@ export default function Header() {
                             </button>
                             <button
                                 onClick={() => setIsCartOpen(true)}
-                                className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50 group hover:border-red-700 active:bg-gray-50 transition-all cursor-pointer"
+                                className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50 group hover:border-primary active:bg-gray-50 transition-all cursor-pointer"
                             >
                                 <div className="relative">
-                                    <ShoppingCart size={18} className="group-hover:text-red-700" />
-                                    {cartCount > 0 && <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">{cartCount}</span>}
+                                    <ShoppingCart size={18} className="group-hover:text-secondary" />
+                                    {cartCount > 0 && <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">{cartCount}</span>}
                                 </div>
                                 <div className="hidden xl:block text-left">
                                     <span className="block text-sm font-bold leading-none">My Cart</span>
-                                    <span className="text-[10px] font-semibold text-gray-500 group-hover:text-red-700">{cartCount} items</span>
+                                    <span className="text-[10px] font-semibold text-gray-500 group-hover:text-secondary">{cartCount} items</span>
                                 </div>
                             </button>
                         </div>
@@ -211,11 +211,11 @@ export default function Header() {
                                 { label: "About Us", href: "/about" },
                                 { label: "Contact", href: "/contact" },
                             ].map((x) => (
-                                <Link key={x.label} href={x.href} className="hover:text-red-700 transition-colors">
+                                <Link key={x.label} href={x.href} className="hover:text-secondary transition-colors">
                                     {x.label}
                                 </Link>
                             ))}
-                            <Link href="/deals" className="ml-auto text-red-700 hover:text-red-800 font-bold">
+                            <Link href="/deals" className="ml-auto text-secondary hover:text-primary-dark font-bold">
                                 TODAY'S DEALS
                             </Link>
                         </div>
@@ -227,7 +227,7 @@ export default function Header() {
             <div className={`fixed top-0 left-0 h-full w-[280px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <div className="p-4 border-b flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <div className="h-8 w-8 rounded-lg bg-red-700 flex items-center justify-center text-white font-bold">B</div>
+                        <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-secondary font-bold">B</div>
                         <span className="font-bold text-lg">Menu</span>
                     </div>
                     <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">
@@ -248,7 +248,7 @@ export default function Header() {
                         <Link
                             key={x.label}
                             href={x.href}
-                            className="text-gray-700 font-semibold hover:text-red-700 py-2 border-b border-gray-50 last:border-0"
+                            className="text-gray-700 font-semibold hover:text-secondary py-2 border-b border-gray-50 last:border-0"
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             {x.label}
@@ -256,7 +256,7 @@ export default function Header() {
                     ))}
                     <Link
                         href="/deals"
-                        className="text-red-700 font-bold py-2"
+                        className="text-secondary font-bold py-2"
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         TODAY'S DEALS

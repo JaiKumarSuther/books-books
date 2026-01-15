@@ -46,7 +46,7 @@ export default function UniformsPage() {
             >
                 {/* Content Container */}
                 <div className="relative z-20 w-full md:w-2/3 flex flex-col justify-center">
-                    <span className="bg-red-50 text-red-700 px-4 py-1.5 rounded-lg text-xs font-bold uppercase mb-4 inline-block tracking-wider w-fit">
+                    <span className="bg-primary-light text-secondary px-4 py-1.5 rounded-lg text-xs font-bold uppercase mb-4 inline-block tracking-wider w-fit">
                         Category
                     </span>
                     <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight text-gray-900">
@@ -59,8 +59,8 @@ export default function UniformsPage() {
                 </div>
 
                 {/* Right Side Image Placeholder */}
-                <div className="absolute right-0 top-0 h-full w-1/3 hidden md:flex items-center justify-center bg-red-50/30">
-                    <Shirt size={140} className="text-red-200/50" strokeWidth={1.5} />
+                <div className="absolute right-0 top-0 h-full w-1/3 hidden md:flex items-center justify-center bg-primary-light/30">
+                    <Shirt size={140} className="text-primary/20" strokeWidth={1.5} />
                 </div>
             </motion.div>
 
@@ -85,7 +85,7 @@ export default function UniformsPage() {
                             key={category}
                             onClick={() => setActiveCategory(category)}
                             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === category
-                                ? "bg-red-700 text-white shadow-md transform scale-105"
+                                ? "bg-primary text-secondary shadow-md transform scale-105"
                                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                 }`}
                         >
@@ -125,7 +125,7 @@ export default function UniformsPage() {
                     </p>
                     <button
                         onClick={() => { setSearchQuery(""); setActiveCategory("All"); }}
-                        className="mt-6 text-red-700 font-semibold hover:underline"
+                        className="mt-6 text-secondary font-semibold hover:underline"
                     >
                         Clear Filters
                     </button>

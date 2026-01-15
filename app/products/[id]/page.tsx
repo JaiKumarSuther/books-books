@@ -59,7 +59,7 @@ export default function ProductDetailPage() {
             <div className="max-w-[1280px] mx-auto px-4 py-6">
                 <button
                     onClick={() => router.back()}
-                    className="flex items-center gap-2 text-gray-500 hover:text-primary transition-colors text-sm font-medium"
+                    className="flex items-center gap-2 text-gray-500 hover:text-secondary transition-colors text-sm font-medium"
                 >
                     <ArrowLeft size={16} /> Back to Products
                 </button>
@@ -97,7 +97,7 @@ export default function ProductDetailPage() {
                             ) : (
                                 <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                             )}
-                            <span className="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            <span className="absolute top-4 right-4 bg-secondary text-white text-xs font-bold px-2 py-1 rounded">
                                 -10%
                             </span>
                         </motion.div>
@@ -111,7 +111,7 @@ export default function ProductDetailPage() {
                         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 lh-tight">{product.name}</h1>
 
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="flex items-center gap-0.5 text-yellow-400">
+                            <div className="flex items-center gap-0.5 text-primary">
                                 {[...Array(5)].map((_, i) => (
                                     <Star
                                         key={i}
@@ -127,7 +127,7 @@ export default function ProductDetailPage() {
                         </div>
 
                         <div className="flex items-end gap-3 mb-6">
-                            <span className="text-4xl font-bold text-primary">Rs. {product.price.toLocaleString()}</span>
+                            <span className="text-4xl font-bold text-secondary">Rs. {product.price.toLocaleString()}</span>
                             <span className="text-lg text-gray-400 line-through mb-1.5">Rs. {(product.price * 1.1).toFixed(0)}</span>
                         </div>
 
@@ -158,7 +158,7 @@ export default function ProductDetailPage() {
                                 </div>
 
                                 <div className="flex gap-3 flex-1">
-                                    <button className="flex-1 bg-primary hover:bg-primary-hover text-white font-bold h-12 rounded-lg transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                                    <button className="flex-1 bg-primary hover:bg-primary-hover text-secondary font-bold h-12 rounded-lg transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
                                         <ShoppingCart size={20} /> Add to Cart
                                     </button>
                                     <button className="px-4 border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-colors">
@@ -167,7 +167,7 @@ export default function ProductDetailPage() {
                                 </div>
                             </div>
 
-                            <button className="w-full h-12 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold rounded-lg transition-colors uppercase tracking-wide text-sm">
+                            <button className="w-full h-12 border-2 border-primary text-secondary hover:bg-primary hover:text-secondary font-bold rounded-lg transition-colors uppercase tracking-wide text-sm">
                                 Buy Now
                             </button>
                         </div>
@@ -189,7 +189,7 @@ export default function ProductDetailPage() {
                             <div className="flex">
                                 <span className="w-24 font-medium text-gray-900">Share:</span>
                                 <div className="flex gap-2">
-                                    <button className="hover:text-primary"><Share2 size={16} /></button>
+                                    <button className="hover:text-secondary"><Share2 size={16} /></button>
                                 </div>
                             </div>
                         </div>
@@ -200,21 +200,21 @@ export default function ProductDetailPage() {
                 <div className="mt-20">
                     <div className="flex border-b border-gray-200 mb-8">
                         <button
-                            className={`pb-4 px-6 font-bold text-lg transition-colors relative ${activeTab === 'description' ? 'text-primary' : 'text-gray-500 hover:text-gray-700'}`}
+                            className={`pb-4 px-6 font-bold text-lg transition-colors relative ${activeTab === 'description' ? 'text-secondary' : 'text-gray-500 hover:text-gray-700'}`}
                             onClick={() => setActiveTab('description')}
                         >
                             Description
                             {activeTab === 'description' && (
-                                <motion.div layoutId="underline" className="absolute bottom-0 left-0 w-full h-0.5 bg-primary" />
+                                <motion.div layoutId="underline" className="absolute bottom-0 left-0 w-full h-0.5 bg-secondary" />
                             )}
                         </button>
                         <button
-                            className={`pb-4 px-6 font-bold text-lg transition-colors relative ${activeTab === 'reviews' ? 'text-primary' : 'text-gray-500 hover:text-gray-700'}`}
+                            className={`pb-4 px-6 font-bold text-lg transition-colors relative ${activeTab === 'reviews' ? 'text-secondary' : 'text-gray-500 hover:text-gray-700'}`}
                             onClick={() => setActiveTab('reviews')}
                         >
                             Reviews (4)
                             {activeTab === 'reviews' && (
-                                <motion.div layoutId="underline" className="absolute bottom-0 left-0 w-full h-0.5 bg-primary" />
+                                <motion.div layoutId="underline" className="absolute bottom-0 left-0 w-full h-0.5 bg-secondary" />
                             )}
                         </button>
                     </div>
@@ -253,7 +253,7 @@ export default function ProductDetailPage() {
                                             </div>
                                             <div>
                                                 <h4 className="font-bold text-gray-900 text-sm">User {i}</h4>
-                                                <div className="flex text-yellow-400">
+                                                <div className="flex text-primary">
                                                     {[...Array(5)].map((_, s) => <Star key={s} size={12} fill="currentColor" />)}
                                                 </div>
                                             </div>
@@ -289,12 +289,12 @@ export default function ProductDetailPage() {
                                         </div>
                                     </div>
                                     <div className="p-4">
-                                        <h3 className="font-bold text-gray-900 line-clamp-1 mb-1 group-hover:text-primary transition-colors">
+                                        <h3 className="font-bold text-gray-900 line-clamp-1 mb-1 group-hover:text-secondary transition-colors">
                                             {relProduct.name}
                                         </h3>
                                         <div className="flex items-center justify-between">
                                             <span className="font-bold text-gray-900">Rs. {relProduct.price}</span>
-                                            <div className="flex text-yellow-400">
+                                            <div className="flex text-primary">
                                                 <Star size={12} fill="currentColor" />
                                                 <span className="text-xs text-gray-400 ml-1">({relProduct.rating})</span>
                                             </div>

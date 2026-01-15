@@ -1,18 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  /* Colors from design.json (Foundation) */
-  --primary: #B91C1C;
-  --primary-light: #FEF2F2;
-  --primary-dark: #991B1B;
-  --primary-hover: #7F1D1D;
+  /* Colors from design.json (Foundation) - Krave Mart Theme */
+  --primary: #FACC06;
+  /* Supernova yellow */
+  --primary-light: #FFFDEA;
+  --primary-dark: #664D03;
+  /* Antique Bronze */
+  --primary-hover: #D9B205;
 
-  --secondary: #6C757D;
+  --secondary: #664D03;
+  /* Antique Bronze */
   --neutral-gray: #6C757D;
 
-  --accent: #B91C1C;
-  --accent-light: #FEF2F2;
-  --accent-dark: #991B1B;
+  --accent: #FACC06;
+  --accent-light: #FFFDEA;
+  --accent-dark: #664D03;
 
   /* Semantic Colors */
   --success: #10B981;
@@ -34,8 +37,9 @@
   --black: #000000;
 
   /* Background System */
-  --bg-page: #FFFFFF;
-  --bg-section: #F9FAFB;
+  --bg-page: #F8F9FA;
+  /* Athens Gray */
+  --bg-section: #FFFFFF;
   --bg-card: #FFFFFF;
   --bg-sidebar: #F3F4F6;
   --bg-footer: #111827;

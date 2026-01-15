@@ -7,9 +7,9 @@ interface RatingProps {
 
 export default function Rating({ value = 4 }: RatingProps) {
     return (
-        <div className="flex items-center gap-1 text-amber-500">
+        <div className="flex items-center gap-1 text-primary">
             {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={14} className={i < value ? "fill-amber-500" : "text-gray-300"} />
+                <Star key={i} size={14} className={i < value ? "fill-primary" : "text-gray-300"} />
             ))}
         </div>
     );

@@ -7,42 +7,43 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface Slide {
     id: number;
     image: string;
-    title: string;
+    title: React.ReactNode;
     subtitle: string;
-    color: string;
+    badge: string;
 }
 
 const slides: Slide[] = [
     {
         id: 1,
-        image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80",
-        title: "Back to School Special",
-        subtitle: "Get up to 50% OFF on complete bundles",
-        color: "bg-red-700"
+        image: "/hero-school.png",
+        title: <>BACK TO SCHOOL <span className="text-secondary">BUNDLE</span></>,
+        subtitle: "Premium Backpacks & Stationery Sets",
+        badge: "50% OFF"
     },
     {
         id: 2,
-        image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1200&q=80",
-        title: "New Curiosity Chronicles",
-        subtitle: "Explore the latest adventures in reading",
-        color: "bg-purple-600"
+        image: "/hero-books.png",
+        title: <>KNOWLEDGE IS <span className="text-secondary">POWER</span></>,
+        subtitle: "Academic Books & Reference Guides",
+        badge: "BUY 1 GET 1"
     },
     {
         id: 3,
-        image: "https://images.unsplash.com/photo-1452860606245-21c01362201d?auto=format&fit=crop&w=1200&q=80",
-        title: "Premium School Bags",
-        subtitle: "Durable, ergonomic, and stylish",
-        color: "bg-rose-600"
+        image: "/hero-art.png",
+        title: <>UNLEASH YOUR <span className="text-secondary">CREATIVITY</span></>,
+        subtitle: "Professional Art Supplies & Paints",
+        badge: "NEW ARRIVAL"
     }
 ];
 
 export default function HeroSlider() {
     const [current, setCurrent] = useState(0);
 
+    // Auto-advance
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrent((prev) => (prev + 1) % slides.length);
-        }, 5000);
+        }, 6000);
         return () => clearInterval(timer);
     }, []);
 
@@ -50,87 +51,94 @@ export default function HeroSlider() {
     const prev = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
     return (
-        <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden rounded-xl bg-gray-100 group">
+        <div className="relative h-[350px] md:h-[450px] w-full overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-100 group">
             <AnimatePresence mode="wait">
                 <motion.div
                     key={current}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute inset-0 flex items-center justify-between px-8 md:px-16"
+                    transition={{ duration: 0.6 }}
+                    className="absolute inset-0 flex items-center"
                 >
-                    {/* Background Image/Color Placeholder since we might need distinct BG for text readability */}
-                    <div className={`absolute inset-0 opacity-10 ${slides[current].color}`} />
+                    {/* Background Image Layer - Full Cover */}
+                    {/* We use a gradient overlay to ensure text readability on the left */}
+                    <div
+                        className="absolute right-0 top-0 h-full w-[65%] md:w-[70%] bg-cover bg-center bg-no-repeat"
+                        style={{ backgroundImage: `url(${slides[current].image})` }}
+                    />
+                    {/* White Fade Gradient for smooth text transition */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent w-full md:w-3/5" />
 
-                    {/* Content */}
-                    <div className="relative z-10 max-w-lg space-y-4">
-                        <motion.span
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                            className={`inline-block rounded-md px-3 py-1 text-xs font-bold text-white ${slides[current].color}`}
+                    {/* Content Layer */}
+                    <div className="relative z-10 pl-8 md:pl-16 max-w-xl flex flex-col justify-center h-full">
+
+                        {/* Red Badge - Mimicking the "50% OFF" sticker */}
+                        <motion.div
+                            initial={{ scale: 0, rotation: -180 }}
+                            animate={{ scale: 1, rotation: -12 }}
+                            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
+                            className="absolute top-10 right-10 md:static md:top-auto md:right-auto md:mb-6 w-20 h-20 md:w-24 md:h-24 bg-[#D32F2F] text-white rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-white transform -rotate-12 z-20"
                         >
-                            WEEKLY BEST
-                        </motion.span>
+                            <span className="text-xl md:text-2xl font-extrabold leading-none text-center">{slides[current].badge.split(' ')[0]}</span>
+                            <span className="text-[10px] md:text-xs font-bold leading-none mt-1">{slides[current].badge.split(' ').slice(1).join(' ')}</span>
+                        </motion.div>
+
                         <motion.h2
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
+                            initial={{ x: -30, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 0.3 }}
-                            className="text-3xl font-extrabold text-gray-900 md:text-5xl leading-tight"
+                            className="text-4xl md:text-6xl font-black text-gray-900 leading-[0.9] tracking-tight mb-4 uppercase italic"
+                            style={{ textShadow: "2px 2px 0px rgba(0,0,0,0.05)" }}
                         >
                             {slides[current].title}
                         </motion.h2>
+
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: 100 }}
+                            transition={{ delay: 0.5, duration: 0.5 }}
+                            className="h-1.5 w-24 bg-primary mb-4"
+                        />
+
                         <motion.p
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.4 }}
-                            className="text-lg text-gray-600"
+                            className="text-lg md:text-xl text-gray-600 font-bold mb-8 max-w-md"
                         >
                             {slides[current].subtitle}
                         </motion.p>
+
                         <motion.button
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.5 }}
-                            className={`mt-4 rounded-full px-8 py-3 text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all ${slides[current].color}`}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="w-fit px-8 py-3.5 bg-secondary text-white text-sm md:text-base font-black rounded-full shadow-lg shadow-secondary/30 hover:shadow-xl transition-all uppercase tracking-wider flex items-center gap-2"
                         >
-                            SHOP NOW
+                            SHOP NOW <ChevronRight size={18} />
                         </motion.button>
                     </div>
-
-                    {/* Image */}
-                    <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                        className="relative z-10 hidden md:block w-1/2 h-full"
-                    >
-                        {/* Using a background contain approach for the image to ensure it fits */}
-                        <div
-                            className="w-full h-full bg-contain bg-center bg-no-repeat"
-                            style={{ backgroundImage: `url(${slides[current].image})` }}
-                        />
-                    </motion.div>
                 </motion.div>
             </AnimatePresence>
 
-            {/* Controls */}
-            <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-800 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white">
-                <ChevronLeft size={24} />
+            {/* Navigation Buttons */}
+            <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-800 hover:bg-gray-50 transition-colors z-20">
+                <ChevronLeft size={20} />
             </button>
-            <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-800 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white">
-                <ChevronRight size={24} />
+            <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-gray-800 hover:bg-gray-50 transition-colors z-20">
+                <ChevronRight size={20} />
             </button>
 
             {/* Dots */}
-            <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+            <div className="absolute bottom-6 left-8 md:left-16 flex gap-2 z-20">
                 {slides.map((_, i) => (
                     <button
                         key={i}
                         onClick={() => setCurrent(i)}
-                        className={`h-2 w-2 rounded-full transition-all ${i === current ? "w-6 bg-red-700" : "bg-gray-300"
-                            }`}
+                        className={`h-1.5 rounded-full transition-all duration-300 ${i === current ? "w-8 bg-secondary" : "w-2 bg-gray-300 hover:bg-gray-400"}`}
                     />
                 ))}
             </div>
