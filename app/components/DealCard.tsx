@@ -39,11 +39,13 @@ export default function DealCard({ product, className = "", compact = false, vie
                             SALE
                         </span>
                     )}
-                    <img
-                        src={product.image}
-                        alt={product.title}
-                        className="w-full h-full object-contain p-4 mix-blend-multiply"
-                    />
+                    <Link href={`/products/${product.id}`} className="block w-full h-full">
+                        <img
+                            src={product.image}
+                            alt={product.title}
+                            className="w-full h-full object-contain p-4 mix-blend-multiply"
+                        />
+                    </Link>
                 </div>
 
                 {/* Content */}
@@ -115,11 +117,13 @@ export default function DealCard({ product, className = "", compact = false, vie
                 )}
 
                 {/* Main Image */}
-                <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-full object-contain p-4 transition-transform duration-500"
-                />
+                <Link href={`/products/${product.id}`} className="block w-full h-full">
+                    <img
+                        src={product.image}
+                        alt={product.title}
+                        className="w-full h-full object-contain p-4 transition-transform duration-500"
+                    />
+                </Link>
 
                 {/* ACTION ICONS (Left Side) - Only show on hover */}
                 <div className="absolute top-2 left-2 flex flex-col gap-2 p-1 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0 z-20">
