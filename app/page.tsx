@@ -12,6 +12,7 @@ import ProductCard from "./components/ProductCard";
 import MiniBanner from "./components/MiniBanner";
 
 import { booksData, uniformsData, stationeryData, bagsData } from "./data/products";
+import CategoriesSlider from "./components/CategoriesSlider";
 
 // --- Mock Data ---
 
@@ -109,6 +110,7 @@ const topCategories = [
   { name: "Textbooks", image: "/cat-textbooks.png" },
   { name: "Uniforms", image: "/cat-uniforms.png" },
   { name: "Stationery", image: "/cat-stationery.png" },
+  { name: "Specials", image: "/hero-school.png", featured: true },
   { name: "Bags", image: "/cat-bags.png" },
   { name: "Lunch & Water", image: "/cat-lunch.png" },
   { name: "Art Supplies", image: "/cat-art.png" },
@@ -239,7 +241,7 @@ export default function Home() {
           </aside>
 
           {/* --- RIGHT MAIN CONTENT --- */}
-          <main className="space-y-8">
+          <main className="space-y-8 min-w-0">
 
             {/* 1. HERO SLIDER */}
             <HeroSlider />
@@ -260,30 +262,7 @@ export default function Home() {
             </div>
 
             {/* 3. TOP CATEGORIES */}
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-gray-800">Top Categories</h3>
-                <div className="flex gap-2">
-                  <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100"><ChevronRight size={16} className="rotate-180" /></button>
-                  <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100"><ChevronRight size={16} /></button>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {topCategories.map((c, i) => (
-                  <div key={i} className="bg-white rounded-xl p-6 flex flex-col items-center justify-center border border-gray-100 shadow-sm hover:shadow-md transition-all group cursor-pointer">
-                    <div className="w-24 h-24 bg-gray-50 rounded-full mb-4 flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-primary transition-colors">
-                      {c.image ? (
-                        <img src={c.image} alt={c.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">IMG</div>
-                      )}
-                    </div>
-                    <h4 className="font-bold text-gray-800 group-hover:text-secondary transition-colors">{c.name}</h4>
-                    <span className="text-xs text-gray-400 mt-1">12 items</span>
-                  </div>
-                ))}
-              </div>
-            </section>
+            <CategoriesSlider categories={topCategories} />
 
             {/* 4. DEALS OF THE DAY */}
             <section>
