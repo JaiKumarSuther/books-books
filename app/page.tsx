@@ -21,84 +21,84 @@ import DealsSlider from "./components/DealsSlider";
 const sidebarCategories = [
   {
     label: "Book Bundles",
-    href: "/products/books",
+    href: "/products?category=Pre-School", // Example mapping
     icon: BookOpen,
     promoImage: "/hero-books.png",
     subcategories: [
       {
         title: "Academic Levels",
         links: [
-          { label: "O-Level (Cambridge)", href: "/products/books?tag=olevel" },
-          { label: "A-Level (Cambridge)", href: "/products/books?tag=alevel" },
-          { label: "Matriculation", href: "/products/books?tag=matric" },
-          { label: "FSc / Intermediate", href: "/products/books?tag=fsc" },
+          { label: "O-Level (Cambridge)", href: "/products?category=O-Level" },
+          { label: "A-Level (Cambridge)", href: "/products?category=O-Level" },
+          { label: "Matriculation", href: "/products?category=Matric" },
+          { label: "FSc / Intermediate", href: "/products?category=Matric" },
         ]
       },
       {
         title: "Subjects",
         links: [
-          { label: "Sciences (Bio/Chem/Phy)", href: "/products/books?tag=science" },
-          { label: "Mathematics", href: "/products/books?tag=math" },
-          { label: "Computer Science", href: "/products/books?tag=cs" },
-          { label: "Humanities", href: "/products/books?tag=humanities" },
+          { label: "Sciences (Bio/Chem/Phy)", href: "/products?category=Pre-School" },
+          { label: "Mathematics", href: "/products?category=Primary" },
+          { label: "Computer Science", href: "/products?category=Middle" },
+          { label: "Humanities", href: "/products?category=General" },
         ]
       }
     ]
   },
   {
     label: "Stationery Sets",
-    href: "/products/stationery",
+    href: "/products?category=Writing",
     icon: Calculator,
     promoImage: "/hero-art.png",
     subcategories: [
       {
         title: "Essentials",
         links: [
-          { label: "Pens & Pencils", href: "/products/stationery?cat=pens" },
-          { label: "Notebooks & Registers", href: "/products/stationery?cat=notebooks" },
-          { label: "Geometry Boxes", href: "/products/stationery?cat=geometry" },
+          { label: "Pens & Pencils", href: "/products?category=Writing" },
+          { label: "Notebooks & Registers", href: "/products?category=Paper" },
+          { label: "Geometry Boxes", href: "/products?category=Geometry" },
         ]
       },
       {
         title: "Art & Craft",
         links: [
-          { label: "Canvas & Paints", href: "/products/stationery?cat=art" },
-          { label: "Sketchbooks", href: "/products/stationery?cat=sketch" },
-          { label: "Brushes & Tools", href: "/products/stationery?cat=tools" },
+          { label: "Canvas & Paints", href: "/products?category=Art" },
+          { label: "Sketchbooks", href: "/products?category=Art" },
+          { label: "Brushes & Tools", href: "/products?category=Art" },
         ]
       }
     ]
   },
   {
     label: "School Uniforms",
-    href: "/products/uniforms",
+    href: "/products?category=Boys",
     icon: Shirt,
     promoImage: "/cat-uniforms.png",
     subcategories: [
       {
         title: "Boys Uniform",
         links: [
-          { label: "Shirts (White/Blue)", href: "/products/uniforms?gender=boys" },
-          { label: "Trousers (Grey/Black)", href: "/products/uniforms?gender=boys" },
-          { label: "Ties & Belts", href: "/products/uniforms?gender=boys" },
+          { label: "Shirts (White/Blue)", href: "/products?category=Boys" },
+          { label: "Trousers (Grey/Black)", href: "/products?category=Boys" },
+          { label: "Ties & Belts", href: "/products?category=Accessories" },
         ]
       },
       {
         title: "Girls Uniform",
         links: [
-          { label: "Shirts & Sash", href: "/products/uniforms?gender=girls" },
-          { label: "Skirts / Tunics", href: "/products/uniforms?gender=girls" },
-          { label: "Scarves", href: "/products/uniforms?gender=girls" },
+          { label: "Shirts & Sash", href: "/products?category=Girls" },
+          { label: "Skirts / Tunics", href: "/products?category=Girls" },
+          { label: "Scarves", href: "/products?category=Girls" },
         ]
       }
     ]
   },
-  { label: "Bags & Backpacks", href: "/products/school-bags", icon: Backpack },
-  { label: "Art Supplies", href: "/products/stationery", icon: Star },
-  { label: "Exam Preparation", href: "/products/books", icon: BookOpen },
-  { label: "Geometry Boxes", href: "/products/stationery", icon: Calculator },
-  { label: "Water Bottles", href: "/products/accessories", icon: Gift },
-  { label: "Lunch Boxes", href: "/products/accessories", icon: Gift },
+  { label: "Bags & Backpacks", href: "/products?category=Backpack", icon: Backpack },
+  { label: "Art Supplies", href: "/products?category=Art", icon: Star },
+  { label: "Exam Preparation", href: "/products?category=O-Level", icon: BookOpen },
+  { label: "Geometry Boxes", href: "/products?category=Geometry", icon: Calculator },
+  { label: "Water Bottles", href: "/products?category=Essentials", icon: Gift },
+  { label: "Lunch Boxes", href: "/products?category=Essentials", icon: Gift },
 ];
 
 const features = [
@@ -109,15 +109,15 @@ const features = [
 ];
 
 const topCategories = [
-  { name: "Textbooks", image: "/cat-textbooks.png" },
-  { name: "Uniforms", image: "/cat-uniforms.png" },
-  { name: "Stationery", image: "/cat-stationery.png" },
-  { name: "Specials", image: "/hero-school.png" },
-  { name: "Bags", image: "/cat-bags.png" },
-  { name: "Lunch & Water", image: "/cat-lunch.png" },
-  { name: "Art Supplies", image: "/cat-art.png" },
+  { name: "O-Level", image: "/cat-textbooks.png" }, // Representative
+  { name: "Boys", image: "/cat-uniforms.png" },    // Uniforms
+  { name: "Writing", image: "/cat-stationery.png" }, // Stationery
+  { name: "Novels", image: "/hero-school.png" },    // Specials
+  { name: "Backpack", image: "/cat-bags.png" },     // Bags
+  { name: "Essentials", image: "/cat-lunch.png" },  // Lunch
+  { name: "Art", image: "/cat-art.png" },
   { name: "Shoes", image: "/cat-shoes.png" },
-  { name: "Notebooks", image: "/cat-notebooks.png" },
+  { name: "Paper", image: "/cat-notebooks.png" },
 ];
 
 const products = [

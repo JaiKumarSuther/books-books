@@ -6,6 +6,8 @@ export interface Product {
     image: string;
     description: string;
     rating: number;
+    oldPrice?: number;
+    discount?: number;
 }
 
 export const booksData: Product[] = [

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Shirt, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { uniformsData } from "../../data/products";
-import ProductCard from "../../components/ProductCard";
+import DealCard from "../../components/DealCard";
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -106,7 +106,16 @@ export default function UniformsPage() {
                 >
                     <AnimatePresence>
                         {filteredProducts.map((product) => (
-                            <ProductCard key={product.id} item={product} />
+                            <DealCard
+                                key={product.id}
+                                product={{
+                                    ...product,
+                                    title: product.name,
+                                    oldPrice: product.oldPrice || 0,
+                                    discount: product.discount || 0,
+                                    rating: product.rating || 0
+                                }}
+                            />
                         ))}
                     </AnimatePresence>
                 </motion.div>

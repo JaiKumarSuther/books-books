@@ -60,8 +60,9 @@ export default function CategoriesSlider({ categories }: CategoriesSliderProps) 
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
                 {categories.map((c, i) => (
-                    <div
+                    <Link
                         key={i}
+                        href={`/products?category=${encodeURIComponent(c.name)}`}
                         className="group min-w-[160px] md:min-w-[180px] p-4 rounded-xl flex flex-col items-center justify-center gap-4 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-xl bg-white border border-gray-100 hover:border-primary hover:bg-primary snap-start"
                     >
                         <div className="w-28 h-28 rounded-full overflow-hidden flex items-center justify-center bg-gray-50 border border-gray-100 group-hover:border-secondary/20 group-hover:shadow-inner transition-colors">
@@ -81,7 +82,7 @@ export default function CategoriesSlider({ categories }: CategoriesSliderProps) 
                                 {c.name}
                             </h4>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </section>

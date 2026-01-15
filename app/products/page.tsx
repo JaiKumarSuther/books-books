@@ -1,112 +1,195 @@
 "use client";
 
-import Link from 'next/link';
-import { BookOpen, Shirt, Pencil, Backpack, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useState, useMemo, useEffect } from "react";
+import DealCard from "../components/DealCard";
+import ShopFilters from "../components/shop/ShopFilters";
+import ShopToolbar from "../components/shop/ShopToolbar";
+import { booksData, uniformsData, stationeryData, bagsData, Product } from "../data/products";
+import { useSearchParams } from "next/navigation";
 
-const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-};
+// Combine data
+const allProducts = [...booksData, ...uniformsData, ...stationeryData, ...bagsData];
 
-const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.15,
-        },
-    },
-};
+// Get unique categories
+const categories = Array.from(new Set(allProducts.map(p => p.category))).sort();
 
-export default function Products() {
+// Mock Brands/Manufacturers (Derive from real data if possible, else mock)
+// For books, we can assume "Oxford" or "Publier" based on description/title, but let's make some tailored bands.
+const brands = ["Oxford", "Pilot", "Dollar", "Bata", "Service", "Local", "Redspot", "Camlin", "Dux"];
+
+// Mock Colors
+const colors = ["Blue", "Red", "White", "Black", "Green", "Yellow", "Silver", "Pink"];
+
+// Get min/max price for initial range
+const minPrice = Math.min(...allProducts.map(p => p.price));
+const maxPrice = Math.max(...allProducts.map(p => p.price));
+
+export default function ShopPage() {
+    const searchParams = useSearchParams();
+
+    // State
+    const [searchQuery, setSearchQuery] = useState("");
+
+    // Multi-select Filters
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+    const [selectedColors, setSelectedColors] = useState<string[]>([]);
+
+    const [priceRange, setPriceRange] = useState<[number, number]>([minPrice, maxPrice]);
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [gridCols, setGridCols] = useState(4); // Default 4 cols
+    const [sortBy, setSortBy] = useState("default");
+
+    // Initialize from URL params if present
+    useEffect(() => {
+        const cat = searchParams.get('category');
+        if (cat && categories.includes(cat) && !selectedCategories.includes(cat)) {
+            setSelectedCategories([cat]);
+        }
+    }, [searchParams]);
+
+    // Filtering & Sorting
+    const filteredProducts = useMemo(() => {
+        let result = allProducts;
+
+        // 1. Search
+        if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            result = result.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
+        }
+
+        // 2. Category (Multi-select)
+        if (selectedCategories.length > 0) {
+            result = result.filter(p => selectedCategories.includes(p.category));
+        }
+
+        // 3. Brand (Mock Filter - just checking if name/desc contains brand string)
+        if (selectedBrands.length > 0) {
+            result = result.filter(p => selectedBrands.some(b =>
+                p.name.includes(b) || p.description.includes(b) || (b === "Local" && !p.name.includes("Oxford")) // Fallback logic
+            ));
+        }
+
+        // 4. Color (Mock Filter)
+        if (selectedColors.length > 0) {
+            result = result.filter(p => selectedColors.some(c =>
+                p.name.includes(c) || p.description.includes(c) || (c === "White" && p.name.includes("White")) // Simple check
+            ));
+        }
+
+        // 5. Price
+        result = result.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
+
+        // 6. Sort
+        if (sortBy === "price-low") {
+            result = [...result].sort((a, b) => a.price - b.price);
+        } else if (sortBy === "price-high") {
+            result = [...result].sort((a, b) => b.price - a.price);
+        } else if (sortBy === "rating") {
+            result = [...result].sort((a, b) => b.rating - a.rating);
+        } else if (sortBy === "name") {
+            result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        return result;
+    }, [searchQuery, selectedCategories, selectedBrands, selectedColors, priceRange, sortBy]);
+
+    // Reset Handler
+    const handleReset = () => {
+        setSearchQuery("");
+        setSelectedCategories([]);
+        setSelectedBrands([]);
+        setSelectedColors([]);
+        setPriceRange([minPrice, maxPrice]);
+        setSortBy("default");
+    };
+
+    // Dynamic Grid Class
+    const getGridClass = () => {
+        if (viewMode === 'list') return "grid-cols-1";
+        switch (gridCols) {
+            case 2: return "grid-cols-2";
+            case 3: return "grid-cols-2 lg:grid-cols-3";
+            case 4: return "grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
+            default: return "grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
+        }
+    };
+
     return (
-        <div className="py-16 md:py-24 max-w-[1280px] mx-auto px-4">
-            <motion.div
-                className="text-center mb-16"
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-            >
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Products</h1>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Explore our wide range of education supplies. Simple, affordable, and high quality.
-                </p>
-            </motion.div>
+        <div className="min-h-screen bg-white font-sans pb-20">
+            {/* Header / Breadcrumb Area */}
+            <div className="bg-gray-50 border-b border-gray-200 py-6 mb-8">
+                <div className="max-w-[1400px] mx-auto px-4">
+                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                        <span>Home</span> / <span>Electronics</span> / <span className="text-gray-900">Computers</span>
+                    </div>
+                    {/* Title not in image explicitly but implied */}
+                </div>
+            </div>
 
-            <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-            >
+            <div className="max-w-[1400px] mx-auto px-4">
 
-                {/* Books Card */}
-                <motion.div variants={fadeInUp} className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 h-full flex flex-col">
-                    <div className="h-48 bg-gray-50/50 flex items-center justify-center p-8 group-hover:bg-primary-light/5 transition-colors duration-300">
-                        <BookOpen size={64} strokeWidth={1.5} className="text-gray-400 group-hover:text-primary transition-colors duration-300" />
-                    </div>
-                    <div className="p-8 flex flex-col flex-grow">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors duration-300">School Books</h2>
-                        <p className="text-gray-600 text-sm mb-8 leading-relaxed flex-grow">
-                            Curriculum books for all classes, from Montessori to A-Levels.
-                        </p>
-                        <Link href="/products/books" className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 bg-white text-gray-700 font-semibold rounded-xl border-2 border-gray-100 hover:border-primary hover:text-primary transition-all duration-300 group-hover:border-gray-200">
-                            View Collection <ArrowRight size={18} />
-                        </Link>
-                    </div>
-                </motion.div>
+                {/* Filters */}
+                <ShopFilters
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
 
-                {/* Uniforms Card */}
-                <motion.div variants={fadeInUp} className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 h-full flex flex-col">
-                    <div className="h-48 bg-gray-50/50 flex items-center justify-center p-8 group-hover:bg-primary-light/5 transition-colors duration-300">
-                        <Shirt size={64} strokeWidth={1.5} className="text-gray-400 group-hover:text-primary transition-colors duration-300" />
-                    </div>
-                    <div className="p-8 flex flex-col flex-grow">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors duration-300">School Uniforms</h2>
-                        <p className="text-gray-600 text-sm mb-8 leading-relaxed flex-grow">
-                            High-quality stitched uniforms for boys and girls.
-                        </p>
-                        <Link href="/products/uniforms" className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 bg-white text-gray-700 font-semibold rounded-xl border-2 border-gray-100 hover:border-primary hover:text-primary transition-all duration-300 group-hover:border-gray-200">
-                            View Uniforms <ArrowRight size={18} />
-                        </Link>
-                    </div>
-                </motion.div>
+                    selectedCategories={selectedCategories}
+                    setSelectedCategories={setSelectedCategories}
 
-                {/* Stationery Card */}
-                <motion.div variants={fadeInUp} className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 h-full flex flex-col">
-                    <div className="h-48 bg-gray-50/50 flex items-center justify-center p-8 group-hover:bg-primary-light/5 transition-colors duration-300">
-                        <Pencil size={64} strokeWidth={1.5} className="text-gray-400 group-hover:text-primary transition-colors duration-300" />
-                    </div>
-                    <div className="p-8 flex flex-col flex-grow">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors duration-300">Stationery</h2>
-                        <p className="text-gray-600 text-sm mb-8 leading-relaxed flex-grow">
-                            Pens, notebooks, art supplies, and geometry boxes.
-                        </p>
-                        <Link href="/products/stationery" className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 bg-white text-gray-700 font-semibold rounded-xl border-2 border-gray-100 hover:border-primary hover:text-primary transition-all duration-300 group-hover:border-gray-200">
-                            View Stationery <ArrowRight size={18} />
-                        </Link>
-                    </div>
-                </motion.div>
+                    selectedBrands={selectedBrands}
+                    setSelectedBrands={setSelectedBrands}
 
-                {/* Bags Card */}
-                <motion.div variants={fadeInUp} className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 h-full flex flex-col">
-                    <div className="h-48 bg-gray-50/50 flex items-center justify-center p-8 group-hover:bg-primary-light/5 transition-colors duration-300">
-                        <Backpack size={64} strokeWidth={1.5} className="text-gray-400 group-hover:text-primary transition-colors duration-300" />
-                    </div>
-                    <div className="p-8 flex flex-col flex-grow">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors duration-300">School Bags</h2>
-                        <p className="text-gray-600 text-sm mb-8 leading-relaxed flex-grow">
-                            Durable backpacks and lunch accessories.
-                        </p>
-                        <Link href="/products/school-bags" className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 bg-white text-gray-700 font-semibold rounded-xl border-2 border-gray-100 hover:border-primary hover:text-primary transition-all duration-300 group-hover:border-gray-200">
-                            View Bags <ArrowRight size={18} />
-                        </Link>
-                    </div>
-                </motion.div>
+                    selectedColors={selectedColors}
+                    setSelectedColors={setSelectedColors}
 
-            </motion.div>
+                    priceRange={priceRange}
+                    setPriceRange={setPriceRange}
+
+                    categories={categories}
+                    brands={brands}
+                    colors={colors}
+
+                    minPrice={minPrice}
+                    maxPrice={maxPrice}
+                    onReset={handleReset}
+                />
+
+                {/* Toolbar */}
+                <ShopToolbar
+                    viewMode={viewMode}
+                    setViewMode={setViewMode}
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                    gridCols={gridCols}
+                    setGridCols={setGridCols}
+                />
+
+                {/* Grid */}
+                <div className={`grid gap-6 ${getGridClass()}`}>
+                    {filteredProducts.map(product => (
+                        <div key={product.id} className={viewMode === 'list' ? 'flex justify-center' : ''}>
+                            <DealCard
+                                product={{
+                                    ...product,
+                                    title: product.name,
+                                    oldPrice: product.oldPrice || 0,
+                                    discount: product.discount || 0,
+                                    rating: product.rating || 0
+                                }}
+                                className={viewMode === 'list' ? 'w-full max-w-4xl flex-row h-auto min-h-[220px]' : ''}
+                            />
+                        </div>
+                    ))}
+                </div>
+
+                {filteredProducts.length === 0 && (
+                    <div className="text-center py-20 bg-gray-50 rounded-lg">
+                        <p className="text-gray-500">No products match your criteria.</p>
+                        <button onClick={handleReset} className="text-primary font-bold mt-2">Clear All</button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ArrowLeft, Star, ShoppingCart, Heart, Minus, Plus, Share2, ArrowRight, Shirt, BookOpen, PenTool, Backpack } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { booksData, uniformsData, stationeryData, bagsData, Product } from "../../data/products";
+import DealCard from "../../components/DealCard";
 
 // Combine all products into one array for searching
 const allProducts = [...booksData, ...uniformsData, ...stationeryData, ...bagsData];
@@ -276,31 +277,17 @@ export default function ProductDetailPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {relatedProducts.length > 0 ? (
                             relatedProducts.map((relProduct) => (
-                                <Link
-                                    href={`/products/${relProduct.id}`}
-                                    key={relProduct.id}
-                                    className="group bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all"
-                                >
-                                    <div className="aspect-[3/4] bg-gray-50 relative p-6 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-                                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-gray-300 group-hover:text-primary group-hover:scale-110 transition-all">
-                                            {// Use a generic icon or the proper one
-                                                getProductIcon(relProduct.category)
-                                            }
-                                        </div>
-                                    </div>
-                                    <div className="p-4">
-                                        <h3 className="font-bold text-gray-900 line-clamp-1 mb-1 group-hover:text-secondary transition-colors">
-                                            {relProduct.name}
-                                        </h3>
-                                        <div className="flex items-center justify-between">
-                                            <span className="font-bold text-gray-900">Rs. {relProduct.price}</span>
-                                            <div className="flex text-primary">
-                                                <Star size={12} fill="currentColor" />
-                                                <span className="text-xs text-gray-400 ml-1">({relProduct.rating})</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Link>
+                                <div key={relProduct.id} className="h-full">
+                                    <DealCard
+                                        product={{
+                                            ...relProduct,
+                                            title: relProduct.name,
+                                            oldPrice: relProduct.oldPrice || 0,
+                                            discount: relProduct.discount || 0,
+                                            rating: relProduct.rating || 0
+                                        }}
+                                    />
+                                </div>
                             ))
                         ) : (
                             <p className="text-gray-400 col-span-full">No related products found.</p>
