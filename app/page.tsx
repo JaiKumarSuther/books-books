@@ -9,6 +9,7 @@ import {
 
 import HeroSlider from "./components/HeroSlider";
 import ProductCard from "./components/ProductCard";
+import DealCard from "./components/DealCard";
 import MiniBanner from "./components/MiniBanner";
 
 import { booksData, uniformsData, stationeryData, bagsData } from "./data/products";
@@ -377,13 +378,37 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                 {products.map((p) => (
-                  <ProductCard key={p.id} item={p} />
+                  <DealCard
+                    key={p.id}
+                    product={{
+                      id: p.id,
+                      title: p.title || p.name,
+                      image: p.image,
+                      price: typeof p.price === 'number' ? p.price : parseFloat((p.price as any).toString().replace(/[^0-9.]/g, '')),
+                      oldPrice: p.oldPrice || (typeof p.price === 'number' ? p.price * 1.2 : 0),
+                      rating: p.rating || 4,
+                      discount: p.oldPrice ? Math.round(((p.oldPrice - (typeof p.price === 'number' ? p.price : 0)) / p.oldPrice) * 100) : undefined,
+                      // For featured products, we might not have stock info, omit to hide progress bar
+                      /* available: 10, totalStock: 20 */
+                    }}
+                  />
                 ))}
                 {/* Duplicate for grid fill */}
                 {products.slice(0, 3).map((p) => (
-                  <ProductCard key={`dup-${p.id}`} item={{ ...p, id: `dup-${p.id}` }} />
+                  <DealCard
+                    key={`dup-${p.id}`}
+                    product={{
+                      id: `dup-${p.id}`,
+                      title: p.title || p.name,
+                      image: p.image,
+                      price: typeof p.price === 'number' ? p.price : parseFloat((p.price as any).toString().replace(/[^0-9.]/g, '')),
+                      oldPrice: p.oldPrice || (typeof p.price === 'number' ? p.price * 1.2 : 0),
+                      rating: p.rating || 4,
+                      discount: p.oldPrice ? Math.round(((p.oldPrice - (typeof p.price === 'number' ? p.price : 0)) / p.oldPrice) * 100) : undefined
+                    }}
+                  />
                 ))}
               </div>
             </section>
