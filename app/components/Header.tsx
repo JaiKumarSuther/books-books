@@ -123,7 +123,7 @@ export default function Header() {
                         {/* Logo */}
                         <div className="flex items-center justify-between gap-4">
                             <Link href="/" className="flex items-center">
-                                <img src="/books logo.png" alt="Logo" className="h-10 w-auto object-contain" />
+                                <img src="/books logo.png" alt="Logo" className="h-16 w-auto object-contain" />
                             </Link>
 
                             {/* icons for mobile */}

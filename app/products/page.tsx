@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import DealCard from "../components/DealCard";
 import ShopFilters from "../components/shop/ShopFilters";
 import ShopToolbar from "../components/shop/ShopToolbar";
@@ -24,7 +24,7 @@ const colors = ["Blue", "Red", "White", "Black", "Green", "Yellow", "Silver", "P
 const minPrice = Math.min(...allProducts.map(p => p.price));
 const maxPrice = Math.max(...allProducts.map(p => p.price));
 
-export default function ShopPage() {
+function ShopContent() {
     const searchParams = useSearchParams();
 
     // State
@@ -197,5 +197,13 @@ export default function ShopPage() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function ShopPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading shop...</div>}>
+            <ShopContent />
+        </Suspense>
     );
 }
