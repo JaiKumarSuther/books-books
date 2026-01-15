@@ -20,7 +20,7 @@ const sidebarCategories = [
     label: "Book Bundles",
     href: "/products/books",
     icon: BookOpen,
-    promoImage: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80",
+    promoImage: "/hero-books.png",
     subcategories: [
       {
         title: "Academic Levels",
@@ -46,7 +46,7 @@ const sidebarCategories = [
     label: "Stationery Sets",
     href: "/products/stationery",
     icon: Calculator,
-    promoImage: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=600&q=80",
+    promoImage: "/hero-art.png",
     subcategories: [
       {
         title: "Essentials",
@@ -70,7 +70,7 @@ const sidebarCategories = [
     label: "School Uniforms",
     href: "/products/uniforms",
     icon: Shirt,
-    promoImage: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80",
+    promoImage: "/cat-uniforms.png",
     subcategories: [
       {
         title: "Boys Uniform",
@@ -106,10 +106,14 @@ const features = [
 ];
 
 const topCategories = [
-  { name: "Textbooks", image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80" },
-  { name: "Uniforms", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80" },
-  { name: "Stationery", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=400&q=80" },
-  { name: "Bags", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80" },
+  { name: "Textbooks", image: "/cat-textbooks.png" },
+  { name: "Uniforms", image: "/cat-uniforms.png" },
+  { name: "Stationery", image: "/cat-stationery.png" },
+  { name: "Bags", image: "/cat-bags.png" },
+  { name: "Lunch & Water", image: "/cat-lunch.png" },
+  { name: "Art Supplies", image: "/cat-art.png" },
+  { name: "Shoes", image: "/cat-shoes.png" },
+  { name: "Notebooks", image: "/cat-notebooks.png" },
 ];
 
 const products = [
@@ -268,8 +272,11 @@ export default function Home() {
                 {topCategories.map((c, i) => (
                   <div key={i} className="bg-white rounded-xl p-6 flex flex-col items-center justify-center border border-gray-100 shadow-sm hover:shadow-md transition-all group cursor-pointer">
                     <div className="w-24 h-24 bg-gray-50 rounded-full mb-4 flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-primary transition-colors">
-                      {/* We can use real images if moved to public, else placeholder */}
-                      <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">IMG</div>
+                      {c.image ? (
+                        <img src={c.image} alt={c.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">IMG</div>
+                      )}
                     </div>
                     <h4 className="font-bold text-gray-800 group-hover:text-secondary transition-colors">{c.name}</h4>
                     <span className="text-xs text-gray-400 mt-1">12 items</span>
@@ -344,6 +351,7 @@ export default function Home() {
                 color="bg-primary-light"
                 textColor="text-secondary"
                 buttonColor="bg-secondary"
+                image="/cat-bags.png"
               />
               <MiniBanner
                 title="Art Supplies"
@@ -351,6 +359,7 @@ export default function Home() {
                 color="bg-[#FFF8E1]"
                 textColor="text-secondary"
                 buttonColor="bg-primary text-secondary"
+                image="/cat-art.png"
               />
             </section>
 

@@ -9,6 +9,7 @@ interface MiniBannerProps {
     buttonColor?: string; // e.g. "bg-purple-600"
     badge?: string;
     href?: string;
+    image?: string;
 }
 
 export default function MiniBanner({
@@ -18,7 +19,8 @@ export default function MiniBanner({
     textColor = "text-gray-800",
     buttonColor = "bg-gray-800",
     badge,
-    href = "/products"
+    href = "/products",
+    image
 }: MiniBannerProps) {
     return (
         <div className={`relative overflow-hidden rounded-xl border border-gray-100 p-6 sm:p-8 ${color}`}>
@@ -49,9 +51,13 @@ export default function MiniBanner({
             </div>
 
             {/* Image Placeholder - simulating a product shot on the right */}
-            <div className="absolute right-4 bottom-4 w-32 h-32 bg-white/40 rounded-full backdrop-blur-sm flex items-center justify-center">
-                {/* Imagine a product image here */}
-                <div className={`w-24 h-24 rounded-full opacity-20 ${buttonColor}`}></div>
+            {/* Image Placeholder - simulating a product shot on the right */}
+            <div className="absolute right-4 bottom-4 w-32 h-32 bg-white/40 rounded-full backdrop-blur-sm flex items-center justify-center overflow-hidden">
+                {image ? (
+                    <img src={image} alt={title} className="w-full h-full object-cover mix-blend-multiply opacity-90" />
+                ) : (
+                    <div className={`w-24 h-24 rounded-full opacity-20 ${buttonColor}`}></div>
+                )}
             </div>
         </div>
     );
