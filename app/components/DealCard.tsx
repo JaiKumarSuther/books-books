@@ -14,17 +14,93 @@ export interface DealProduct {
     available?: number;
     totalStock?: number;
     rating: number;
+    description?: string; // Added optional description for list view
 }
 
 interface DealCardProps {
     product: DealProduct;
     className?: string;
     compact?: boolean;
+    viewMode?: 'grid' | 'list';
 }
 
-export default function DealCard({ product, className = "", compact = false }: DealCardProps) {
+export default function DealCard({ product, className = "", compact = false, viewMode = 'grid' }: DealCardProps) {
     const { addToCart } = useCart();
 
+    // LIST VIEW
+    if (viewMode === 'list') {
+        return (
+            <div className={`bg-white rounded-lg p-6 transition-all duration-300 flex flex-col md:flex-row gap-8 hover:shadow-lg border border-transparent hover:border-gray-100 ${className}`}>
+                {/* Image Container */}
+                <div className="w-full md:w-[280px] shrink-0 aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center relative overflow-hidden">
+                    {/* Discount Badge */}
+                    {product.discount !== undefined && product.discount > 0 && (
+                        <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 z-20 rounded">
+                            SALE
+                        </span>
+                    )}
+                    <img
+                        src={product.image}
+                        alt={product.title}
+                        className="w-full h-full object-contain p-4 mix-blend-multiply"
+                    />
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 flex flex-col justify-center items-start text-left">
+                    <Link href={`/products/${product.id}`} className="text-xl font-medium text-gray-900 hover:text-[#0066FF] transition-colors mb-2">
+                        {product.title}
+                    </Link>
+
+                    {/* Stars */}
+                    <div className="flex gap-0.5 mb-3">
+                        {[...Array(5)].map((_, i) => (
+                            <Star
+                                key={i}
+                                size={14}
+                                className={`${i < product.rating ? "fill-orange-400 text-orange-400" : "text-gray-300"}`}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-gray-500 text-sm mb-4 line-clamp-2 leading-relaxed">
+                        {product.description || "Next-generation ScreenPad Plus: A 12.7-inch, full-width secondary touchscreen with re-engineered tilt mechanism AAS Ultra, which increases the angle of tilt for comfortable touch operation."}
+                    </p>
+
+                    {/* Price */}
+                    <div className="text-2xl font-bold text-gray-900 mb-6 font-mono tracking-tight">
+                        ${product.price.toFixed(2)}
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => addToCart({ id: product.id, title: product.title, price: product.price, image: product.image })}
+                            className="bg-[#0066FF] hover:bg-blue-700 text-white text-xs font-bold px-6 py-3 rounded-full flex items-center gap-2 transition-colors uppercase tracking-wider"
+                        >
+                            <ShoppingCart size={16} /> Add to Cart
+                        </button>
+
+                        <div className="flex items-center gap-2">
+                            <button className="p-2 text-gray-400 hover:text-red-500 transition-colors bg-transparent border-none">
+                                <Heart size={18} />
+                            </button>
+                            <button className="p-2 text-gray-400 hover:text-[#0066FF] transition-colors bg-transparent border-none">
+                                <RefreshCw size={18} />
+                            </button>
+                            <button className="p-2 text-gray-400 hover:text-[#0066FF] transition-colors bg-transparent border-none">
+                                <Search size={18} />
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        )
+    }
+
+    // GRID VIEW (Default)
     return (
         <div className={`bg-white rounded-none p-4 transition-all duration-300 relative group flex flex-col h-full hover:shadow-[0_0_20px_rgba(0,0,0,0.1)] hover:z-10 ${className}`}>
 
@@ -88,8 +164,6 @@ export default function DealCard({ product, className = "", compact = false }: D
                         <Star
                             key={i}
                             size={10}
-                            // Hollow style like in image? Or filled? Image seems hollow for empty, outlined for filled? 
-                            // The reference uses outlined stars. Let's use simple fill logic.
                             className={`${i < product.rating ? "fill-orange-400 text-orange-400" : "text-gray-300"}`}
                         />
                     ))}
@@ -100,7 +174,7 @@ export default function DealCard({ product, className = "", compact = false }: D
                     <span className="text-gray-900 font-bold text-sm">
                         ${product.price ? product.price.toFixed(2) : "0.00"}
                     </span>
-                    {product.oldPrice > 0 && (
+                    {product.oldPrice !== undefined && product.oldPrice > 0 && (
                         <span className="text-gray-400 text-xs line-through decoration-gray-400">
                             ${product.oldPrice.toFixed(2)}
                         </span>

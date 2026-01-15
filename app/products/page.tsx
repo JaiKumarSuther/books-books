@@ -173,11 +173,13 @@ export default function ShopPage() {
                                 product={{
                                     ...product,
                                     title: product.name,
+                                    description: product.description,
                                     oldPrice: product.oldPrice || 0,
                                     discount: product.discount || 0,
                                     rating: product.rating || 0
                                 }}
-                                className={viewMode === 'list' ? 'w-full max-w-4xl flex-row h-auto min-h-[220px]' : ''}
+                                viewMode={viewMode}
+                                className={viewMode === 'list' ? 'w-full' : ''}
                             />
                         </div>
                     ))}
