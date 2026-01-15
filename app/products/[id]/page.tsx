@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import Link from 'next/link';
 import { ArrowLeft, Star, ShoppingCart, Heart, Minus, Plus, Share2, ArrowRight, Shirt, BookOpen, PenTool, Backpack } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { booksData, uniformsData, stationeryData, bagsData, Product } from "../../data/products";
+import { booksData, uniformsData, stationeryData, bagsData, dealsData, Product } from "../../data/products";
 import DealCard from "../../components/DealCard";
 
 // Combine all products into one array for searching
-const allProducts = [...booksData, ...uniformsData, ...stationeryData, ...bagsData];
+const allProducts = [...booksData, ...uniformsData, ...stationeryData, ...bagsData, ...dealsData as unknown as Product[]];
 
 export default function ProductDetailPage() {
     const params = useParams();

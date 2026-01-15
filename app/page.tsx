@@ -12,7 +12,7 @@ import ProductCard from "./components/ProductCard";
 import DealCard from "./components/DealCard";
 import MiniBanner from "./components/MiniBanner";
 
-import { booksData, uniformsData, stationeryData, bagsData } from "./data/products";
+import { booksData, uniformsData, stationeryData, bagsData, dealsData } from "./data/products";
 import CategoriesSlider from "./components/CategoriesSlider";
 import DealsSlider from "./components/DealsSlider";
 
@@ -269,96 +269,7 @@ export default function Home() {
             {/* 4. DEALS OF THE DAY */}
             <DealsSlider
               endTime={new Date(new Date().getTime() + 145 * 24 * 60 * 60 * 1000).toISOString()}
-              products={[
-                {
-                  id: "deal1",
-                  title: "Spiderman 3D Hard Shell School Backpack",
-                  image: "/products/bag-spiderman.png",
-                  price: 64,
-                  oldPrice: 86,
-                  discount: 26,
-                  available: 327,
-                  totalStock: 500,
-                  rating: 4
-                },
-                {
-                  id: "deal2",
-                  title: "Dux Geometry Box - Complete Math Set",
-                  image: "/products/geometry-box.png",
-                  price: 40,
-                  oldPrice: 49,
-                  discount: 18,
-                  available: 450,
-                  totalStock: 600,
-                  rating: 3
-                },
-                {
-                  id: "deal3",
-                  title: "Steel Water Bottle - Vacuum Insulated",
-                  image: "/products/bottle-steel.png",
-                  price: 36,
-                  oldPrice: 49,
-                  discount: 27,
-                  available: 280,
-                  totalStock: 400,
-                  rating: 5
-                },
-                {
-                  id: "deal4",
-                  title: "Oxford Modern English - Primer A",
-                  image: "/products/oxford-english.png",
-                  price: 67,
-                  oldPrice: 71,
-                  discount: 6,
-                  available: 445,
-                  totalStock: 1000,
-                  rating: 5
-                },
-                {
-                  id: "deal5",
-                  title: "Frozen Theme School Bag",
-                  image: "/products/bag-frozen.png",
-                  price: 70,
-                  oldPrice: 82,
-                  discount: 15,
-                  available: 247,
-                  totalStock: 300,
-                  rating: 4
-                },
-                {
-                  id: "deal6",
-                  title: "Piano Point 0.5mm (Blue) - Box of 10",
-                  image: "/products/pens-set.png",
-                  price: 45,
-                  oldPrice: 76,
-                  discount: 41,
-                  available: 291,
-                  totalStock: 500,
-                  rating: 5
-                },
-                {
-                  id: "deal7",
-                  title: "Special School Uniform Set",
-                  image: "/cat-uniforms.png",
-                  price: 55,
-                  oldPrice: 70,
-                  discount: 21,
-                  available: 150,
-                  totalStock: 300,
-                  rating: 4
-                },
-                {
-                  id: "deal8",
-                  title: "Classic Leather School Shoes",
-                  image: "/cat-shoes.png",
-                  price: 42,
-                  oldPrice: 60,
-                  discount: 30,
-                  available: 200,
-                  totalStock: 500,
-                  rating: 5
-                },
-              ]}
+              products={dealsData}
             />
 
             {/* 5. TABS & FEATURED PRODUCTS */}
