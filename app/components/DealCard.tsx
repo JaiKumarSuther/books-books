@@ -50,7 +50,7 @@ export default function DealCard({ product, className = "", compact = false, vie
 
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-center items-start text-left">
-                    <Link href={`/products/${product.id}`} className="text-xl font-medium text-gray-900 hover:text-[#0066FF] transition-colors mb-2">
+                    <Link href={`/products/${product.id}`} className="text-xl font-medium text-gray-900 hover:text-secondary transition-colors mb-2">
                         {product.title}
                     </Link>
 
@@ -79,7 +79,7 @@ export default function DealCard({ product, className = "", compact = false, vie
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => addToCart({ id: product.id, title: product.title, price: product.price, image: product.image })}
-                            className="bg-[#0066FF] hover:bg-blue-700 text-white text-xs font-bold px-6 py-3 rounded-full flex items-center gap-2 transition-colors uppercase tracking-wider"
+                            className="bg-primary hover:bg-primary-hover text-secondary text-xs font-bold px-6 py-3 rounded-full flex items-center gap-2 transition-colors uppercase tracking-wider"
                         >
                             <ShoppingCart size={16} /> Add to Cart
                         </button>
@@ -88,10 +88,10 @@ export default function DealCard({ product, className = "", compact = false, vie
                             <button className="p-2 text-gray-400 hover:text-red-500 transition-colors bg-transparent border-none">
                                 <Heart size={18} />
                             </button>
-                            <button className="p-2 text-gray-400 hover:text-[#0066FF] transition-colors bg-transparent border-none">
+                            <button className="p-2 text-gray-400 hover:text-secondary transition-colors bg-transparent border-none">
                                 <RefreshCw size={18} />
                             </button>
-                            <button className="p-2 text-gray-400 hover:text-[#0066FF] transition-colors bg-transparent border-none">
+                            <button className="p-2 text-gray-400 hover:text-secondary transition-colors bg-transparent border-none">
                                 <Search size={18} />
                             </button>
                         </div>
@@ -128,7 +128,7 @@ export default function DealCard({ product, className = "", compact = false, vie
                 {/* ACTION ICONS (Left Side) - Only show on hover */}
                 <div className="absolute top-2 left-2 flex flex-col gap-2 p-1 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0 z-20">
                     <button
-                        className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-500 hover:bg-black hover:text-white transition-colors"
+                        className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-500 hover:bg-secondary hover:text-white transition-colors"
                         title="Add to Wishlist"
                     >
                         <Heart size={14} />
@@ -140,7 +140,7 @@ export default function DealCard({ product, className = "", compact = false, vie
                         <RefreshCw size={14} />
                     </button>
                     <button
-                        className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-500 hover:bg-black hover:text-white transition-colors"
+                        className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-500 hover:bg-secondary hover:text-white transition-colors"
                         title="Quick View"
                     >
                         <Search size={14} />
@@ -150,7 +150,7 @@ export default function DealCard({ product, className = "", compact = false, vie
                 {/* ADD TO CART - Bottom Blue Bar */}
                 <button
                     onClick={() => addToCart({ id: product.id, title: product.title, price: product.price, image: product.image })}
-                    className="absolute bottom-0 left-0 w-full bg-[#0066FF] hover:bg-blue-700 text-white font-bold text-xs py-2.5 transition-transform duration-300 translate-y-full group-hover:translate-y-0 flex items-center justify-center gap-2 z-20"
+                    className="absolute bottom-0 left-0 w-full bg-primary hover:bg-primary-hover text-secondary font-bold text-xs py-2.5 transition-transform duration-300 translate-y-full group-hover:translate-y-0 flex items-center justify-center gap-2 z-20"
                 >
                     ADD TO CART
                 </button>
@@ -158,7 +158,7 @@ export default function DealCard({ product, className = "", compact = false, vie
 
             {/* Content Details */}
             <div className="flex flex-col gap-1.5 text-left">
-                <Link href={`/products/${product.id}`} className="text-[13px] text-gray-600 font-medium hover:text-[#0066FF] transition-colors leading-snug line-clamp-2" title={product.title}>
+                <Link href={`/products/${product.id}`} className="text-[13px] text-gray-600 font-medium hover:text-secondary transition-colors leading-snug line-clamp-2" title={product.title}>
                     {product.title}
                 </Link>
 

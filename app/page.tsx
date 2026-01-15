@@ -193,7 +193,7 @@ export default function Home() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
                                 <img src={c.promoImage} alt={c.label} className="object-cover w-full h-full mix-blend-multiply opacity-80" />
                                 <div className="absolute bottom-6 left-6 z-20 text-white">
-                                  <p className="text-xs font-bold uppercase mb-1 text-yellow-400">Special Offer</p>
+                                  <p className="text-xs font-bold uppercase mb-1 text-primary">Special Offer</p>
                                   <p className="font-bold text-xl leading-tight mb-2">30% OFF</p>
                                   <button className="bg-white text-gray-900 text-[10px] font-bold px-3 py-1.5 rounded-full hover:bg-gray-100">
                                     SHOP NOW
@@ -337,7 +337,7 @@ export default function Home() {
               <MiniBanner
                 title="Art Supplies"
                 subtitle="Up to 30% OFF this week"
-                color="bg-[#FFF8E1]"
+                color="bg-primary-light"
                 textColor="text-secondary"
                 buttonColor="bg-primary text-secondary"
                 image="/cat-art.png"

@@ -78,7 +78,7 @@ export default function HeroSlider() {
                             initial={{ scale: 0, rotate: -180 }}
                             animate={{ scale: 1, rotate: -12 }}
                             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
-                            className="absolute top-10 right-10 md:static md:top-auto md:right-auto md:mb-6 w-20 h-20 md:w-24 md:h-24 bg-[#D32F2F] text-white rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-white transform -rotate-12 z-20"
+                            className="absolute top-10 right-10 md:static md:top-auto md:right-auto md:mb-6 w-20 h-20 md:w-24 md:h-24 bg-secondary text-white rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-white transform -rotate-12 z-20"
                         >
                             <span className="text-xl md:text-2xl font-extrabold leading-none text-center">{slides[current].badge.split(' ')[0]}</span>
                             <span className="text-[10px] md:text-xs font-bold leading-none mt-1">{slides[current].badge.split(' ').slice(1).join(' ')}</span>
