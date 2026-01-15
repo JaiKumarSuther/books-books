@@ -123,7 +123,7 @@ export default function Header() {
                         {/* Logo */}
                         <div className="flex items-center justify-between gap-4">
                             <Link href="/" className="flex items-center">
-                                <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-secondary font-bold">B</div>
+                                <img src="/books logo.png" alt="Logo" className="h-10 w-auto object-contain" />
                             </Link>
 
                             {/* icons for mobile */}
@@ -227,7 +227,7 @@ export default function Header() {
             <div className={`fixed top-0 left-0 h-full w-[280px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <div className="p-4 border-b flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-secondary font-bold">B</div>
+                        <img src="/books logo.png" alt="Logo" className="h-8 w-auto object-contain" />
                         <span className="font-bold text-lg">Menu</span>
                     </div>
                     <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">

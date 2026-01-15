@@ -75,8 +75,8 @@ export default function HeroSlider() {
 
                         {/* Red Badge - Mimicking the "50% OFF" sticker */}
                         <motion.div
-                            initial={{ scale: 0, rotation: -180 }}
-                            animate={{ scale: 1, rotation: -12 }}
+                            initial={{ scale: 0, rotate: -180 }}
+                            animate={{ scale: 1, rotate: -12 }}
                             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
                             className="absolute top-10 right-10 md:static md:top-auto md:right-auto md:mb-6 w-20 h-20 md:w-24 md:h-24 bg-[#D32F2F] text-white rounded-full flex flex-col items-center justify-center shadow-lg border-4 border-white transform -rotate-12 z-20"
                         >
