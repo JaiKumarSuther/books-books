@@ -13,6 +13,7 @@ import MiniBanner from "./components/MiniBanner";
 
 import { booksData, uniformsData, stationeryData, bagsData } from "./data/products";
 import CategoriesSlider from "./components/CategoriesSlider";
+import DealsSlider from "./components/DealsSlider";
 
 // --- Mock Data ---
 
@@ -110,7 +111,7 @@ const topCategories = [
   { name: "Textbooks", image: "/cat-textbooks.png" },
   { name: "Uniforms", image: "/cat-uniforms.png" },
   { name: "Stationery", image: "/cat-stationery.png" },
-  { name: "Specials", image: "/hero-school.png", featured: true },
+  { name: "Specials", image: "/hero-school.png" },
   { name: "Bags", image: "/cat-bags.png" },
   { name: "Lunch & Water", image: "/cat-lunch.png" },
   { name: "Art Supplies", image: "/cat-art.png" },
@@ -265,34 +266,99 @@ export default function Home() {
             <CategoriesSlider categories={topCategories} />
 
             {/* 4. DEALS OF THE DAY */}
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4">
-                  <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                    Today's Best Deals
-                    <span className="bg-secondary text-white text-[10px] px-2 py-0.5 rounded ml-2">ENDS IN</span>
-                  </h3>
-                  {/* Timer */}
-                  <div className="flex gap-1 text-white text-xs font-bold">
-                    <div className="bg-secondary px-2 py-1 rounded">14</div>
-                    <span className="text-gray-400 text-lg">:</span>
-                    <div className="bg-secondary px-2 py-1 rounded">20</div>
-                    <span className="text-gray-400 text-lg">:</span>
-                    <div className="bg-secondary px-2 py-1 rounded">45</div>
-                  </div>
-                </div>
-                <Link href="/deals" className="text-xs font-bold text-secondary hover:underline">See All Deals</Link>
-              </div>
-
-              {/* Single Row Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {products.slice(0, 3).map((p) => (
-                  <div key={p.id} className="h-full">
-                    <ProductCard item={p} />
-                  </div>
-                ))}
-              </div>
-            </section>
+            <DealsSlider
+              endTime={new Date(new Date().getTime() + 145 * 24 * 60 * 60 * 1000).toISOString()}
+              products={[
+                {
+                  id: "deal1",
+                  title: "Spiderman 3D Hard Shell School Backpack",
+                  image: "/products/bag-spiderman.png",
+                  price: 64,
+                  oldPrice: 86,
+                  discount: 26,
+                  available: 327,
+                  totalStock: 500,
+                  rating: 4
+                },
+                {
+                  id: "deal2",
+                  title: "Dux Geometry Box - Complete Math Set",
+                  image: "/products/geometry-box.png",
+                  price: 40,
+                  oldPrice: 49,
+                  discount: 18,
+                  available: 450,
+                  totalStock: 600,
+                  rating: 3
+                },
+                {
+                  id: "deal3",
+                  title: "Steel Water Bottle - Vacuum Insulated",
+                  image: "/products/bottle-steel.png",
+                  price: 36,
+                  oldPrice: 49,
+                  discount: 27,
+                  available: 280,
+                  totalStock: 400,
+                  rating: 5
+                },
+                {
+                  id: "deal4",
+                  title: "Oxford Modern English - Primer A",
+                  image: "/products/oxford-english.png",
+                  price: 67,
+                  oldPrice: 71,
+                  discount: 6,
+                  available: 445,
+                  totalStock: 1000,
+                  rating: 5
+                },
+                {
+                  id: "deal5",
+                  title: "Frozen Theme School Bag",
+                  image: "/products/bag-frozen.png",
+                  price: 70,
+                  oldPrice: 82,
+                  discount: 15,
+                  available: 247,
+                  totalStock: 300,
+                  rating: 4
+                },
+                {
+                  id: "deal6",
+                  title: "Piano Point 0.5mm (Blue) - Box of 10",
+                  image: "/products/pens-set.png",
+                  price: 45,
+                  oldPrice: 76,
+                  discount: 41,
+                  available: 291,
+                  totalStock: 500,
+                  rating: 5
+                },
+                {
+                  id: "deal7",
+                  title: "Special School Uniform Set",
+                  image: "/cat-uniforms.png",
+                  price: 55,
+                  oldPrice: 70,
+                  discount: 21,
+                  available: 150,
+                  totalStock: 300,
+                  rating: 4
+                },
+                {
+                  id: "deal8",
+                  title: "Classic Leather School Shoes",
+                  image: "/cat-shoes.png",
+                  price: 42,
+                  oldPrice: 60,
+                  discount: 30,
+                  available: 200,
+                  totalStock: 500,
+                  rating: 5
+                },
+              ]}
+            />
 
             {/* 5. TABS & FEATURED PRODUCTS */}
             <section>

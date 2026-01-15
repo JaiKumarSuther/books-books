@@ -56,44 +56,30 @@ export default function CategoriesSlider({ categories }: CategoriesSliderProps) 
             {/* Slider Container */}
             <div
                 ref={scrollRef}
-                className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x"
+                className="flex gap-4 overflow-x-auto pt-4 pb-4 scrollbar-hide snap-x"
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
                 {categories.map((c, i) => (
                     <div
                         key={i}
-                        className={`min-w-[160px] md:min-w-[180px] p-4 rounded-xl flex flex-col items-center justify-center gap-4 cursor-pointer transition-transform hover:-translate-y-1 snap-start
-              ${c.featured
-                                ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
-                                : "bg-white border border-gray-100 hover:shadow-md text-gray-800"
-                            }`}
+                        className="group min-w-[160px] md:min-w-[180px] p-4 rounded-xl flex flex-col items-center justify-center gap-4 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-xl bg-white border border-gray-100 hover:border-primary hover:bg-primary snap-start"
                     >
-                        <div
-                            className={`w-28 h-28 rounded-full overflow-hidden flex items-center justify-center
-              ${c.featured
-                                    ? "bg-white border-4 border-white/20"
-                                    : "bg-gray-50 border border-gray-100"
-                                }`}
-                        >
+                        <div className="w-28 h-28 rounded-full overflow-hidden flex items-center justify-center bg-gray-50 border border-gray-100 group-hover:border-secondary/20 group-hover:shadow-inner transition-colors">
                             {c.image ? (
                                 <img
                                     src={c.image}
                                     alt={c.name}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
                             ) : (
-                                <span className="text-xs text-gray-400">IMG</span>
+                                <span className="text-xs text-gray-400 group-hover:text-secondary">IMG</span>
                             )}
                         </div>
 
                         <div className="text-center">
-                            {c.featured ? (
-                                <span className="text-sm font-bold underline underline-offset-4 decoration-2 decoration-white/50 hover:decoration-white">
-                                    SHOW NOW
-                                </span>
-                            ) : (
-                                <h4 className="font-medium text-sm">{c.name}</h4>
-                            )}
+                            <h4 className="font-bold text-sm text-gray-800 group-hover:text-secondary transition-colors">
+                                {c.name}
+                            </h4>
                         </div>
                     </div>
                 ))}
