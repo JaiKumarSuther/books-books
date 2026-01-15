@@ -205,11 +205,46 @@ export default function ShopFilters({
                         </div>
                     </div>
 
-                    <div className="relative h-1 w-full bg-gray-100 rounded-full mt-2">
-                        <div className="absolute h-full bg-gray-800 rounded-full" style={{ left: '0%', width: '100%' }}></div>
-                        <div className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-2 border-red-500 rounded-full shadow cursor-pointer -ml-1.5 left-0"></div>
-                        <div className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-2 border-red-500 rounded-full shadow cursor-pointer -ml-1.5 right-0"></div>
-                        {/* This is a static visual representation of the slider as requested. Implementing a true dual-range slider library is complex without external deps. */}
+                    <div className="relative h-6 w-full mt-2">
+                        {/* Track Background */}
+                        <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-200 rounded-full -translate-y-1/2"></div>
+
+                        {/* Active Range Highlight */}
+                        <div
+                            className="absolute top-1/2 h-1 bg-gray-800 rounded-full -translate-y-1/2 pointer-events-none"
+                            style={{
+                                left: `${((localMin - minPrice) / (maxPrice - minPrice)) * 100}%`,
+                                right: `${100 - ((localMax - minPrice) / (maxPrice - minPrice)) * 100}%`
+                            }}
+                        ></div>
+
+                        {/* Range Inputs */}
+                        <input
+                            type="range"
+                            min={minPrice}
+                            max={maxPrice}
+                            value={localMin}
+                            onChange={(e) => {
+                                const val = Math.min(Number(e.target.value), localMax - 1);
+                                setLocalMin(val);
+                            }}
+                            onMouseUp={handlePriceApply}
+                            onTouchEnd={handlePriceApply}
+                            className="absolute top-1/2 left-0 w-full -translate-y-1/2 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-red-500 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-red-500 [&::-moz-range-thumb]:cursor-pointer z-10"
+                        />
+                        <input
+                            type="range"
+                            min={minPrice}
+                            max={maxPrice}
+                            value={localMax}
+                            onChange={(e) => {
+                                const val = Math.max(Number(e.target.value), localMin + 1);
+                                setLocalMax(val);
+                            }}
+                            onMouseUp={handlePriceApply}
+                            onTouchEnd={handlePriceApply}
+                            className="absolute top-1/2 left-0 w-full -translate-y-1/2 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-red-500 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-red-500 [&::-moz-range-thumb]:cursor-pointer z-20"
+                        />
                     </div>
                 </div>
 
