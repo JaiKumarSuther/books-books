@@ -102,7 +102,7 @@ const sidebarCategories = [
 ];
 
 const features = [
-  { icon: Rocket, title: "Free Shipping", sub: "For orders over $50" },
+  { icon: Rocket, title: "Free Shipping", sub: "For orders over Rs 5000" },
   { icon: RefreshCw, title: "Money Back", sub: "If goods have problems" },
   { icon: Headphones, title: "Online Support", sub: "24/7 Dedicated support" },
   { icon: Gift, title: "Gift Promotion", sub: "Free gift with monthly deals" },

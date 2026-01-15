@@ -183,7 +183,7 @@ export default function ShopFilters({
 
                     <div className="flex items-center gap-2 mb-4">
                         <div className="relative flex-1">
-                            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
+                            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs">Rs</span>
                             <input
                                 type="number"
                                 className="w-full pl-5 pr-1 py-1.5 border border-gray-200 rounded text-xs text-center"
@@ -194,7 +194,7 @@ export default function ShopFilters({
                         </div>
                         <span className="text-gray-400 text-xs">to</span>
                         <div className="relative flex-1">
-                            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
+                            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs">Rs</span>
                             <input
                                 type="number"
                                 className="w-full pl-5 pr-1 py-1.5 border border-gray-200 rounded text-xs text-center"

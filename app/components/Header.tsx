@@ -96,7 +96,7 @@ export default function Header() {
                         {/* Currency Dropdown */}
                         <div className="relative">
                             <button className={chip} onClick={() => setCurrOpen(!currOpen)}>
-                                USD <ChevronDown size={14} />
+                                PKR <ChevronDown size={14} />
                             </button>
                             {currOpen && (
                                 <div className="absolute top-full right-0 mt-1 w-24 bg-white border border-gray-100 rounded-lg shadow-lg py-1 z-50">
@@ -204,10 +204,6 @@ export default function Header() {
                             {[
                                 { label: "Home", href: "/" },
                                 { label: "Products", href: "/products" },
-                                { label: "Books", href: "/products/books" },
-                                { label: "Uniforms", href: "/products/uniforms" },
-                                { label: "Stationery", href: "/products/stationery" },
-                                { label: "School Bags", href: "/products/school-bags" },
                                 { label: "About Us", href: "/about" },
                                 { label: "Contact", href: "/contact" },
                             ].map((x) => (
@@ -238,10 +234,6 @@ export default function Header() {
                     {[
                         { label: "Home", href: "/" },
                         { label: "Products", href: "/products" },
-                        { label: "Books", href: "/products/books" },
-                        { label: "Uniforms", href: "/products/uniforms" },
-                        { label: "Stationery", href: "/products/stationery" },
-                        { label: "School Bags", href: "/products/school-bags" },
                         { label: "About Us", href: "/about" },
                         { label: "Contact", href: "/contact" },
                     ].map((x) => (

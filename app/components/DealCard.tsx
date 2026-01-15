@@ -72,7 +72,7 @@ export default function DealCard({ product, className = "", compact = false, vie
 
                     {/* Price */}
                     <div className="text-2xl font-bold text-gray-900 mb-6 font-mono tracking-tight">
-                        ${product.price.toFixed(2)}
+                        Rs. {product.price.toLocaleString()}
                     </div>
 
                     {/* Actions */}
@@ -176,11 +176,11 @@ export default function DealCard({ product, className = "", compact = false, vie
                 {/* Price */}
                 <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-gray-900 font-bold text-sm">
-                        ${product.price ? product.price.toFixed(2) : "0.00"}
+                        Rs. {product.price ? product.price.toLocaleString() : "0"}
                     </span>
                     {product.oldPrice !== undefined && product.oldPrice > 0 && (
                         <span className="text-gray-400 text-xs line-through decoration-gray-400">
-                            ${product.oldPrice.toFixed(2)}
+                            Rs. {product.oldPrice.toLocaleString()}
                         </span>
                     )}
                 </div>
