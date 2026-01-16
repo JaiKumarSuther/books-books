@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 };
 
 import { CartProvider } from "./context/CartContext";
+import { OrderProvider } from "./context/OrderContext";
 
 export default function RootLayout({
   children,
@@ -26,18 +27,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased flex flex-col min-h-screen`}>
-        <CartProvider>
-          {/* Client Side Header (includes Top Bar) */}
-          <Header />
+        <OrderProvider>
+          <CartProvider>
+            {/* Client Side Header (includes Top Bar) */}
+            <Header />
 
-          {/* Main Content */}
-          <main className="flex-grow bg-gray-50">
-            {children}
-          </main>
+            {/* Main Content */}
+            <main className="flex-grow bg-gray-50">
+              {children}
+            </main>
 
-          {/* Footer */}
-          <Footer />
-        </CartProvider>
+            {/* Footer */}
+            <Footer />
+          </CartProvider>
+        </OrderProvider>
       </body>
     </html>
   );

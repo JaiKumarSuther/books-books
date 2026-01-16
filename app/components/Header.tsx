@@ -62,14 +62,27 @@ export default function Header() {
                         </div>
                     )}
                 </div>
-                <div className="absolute bottom-0 w-full bg-gray-50 p-4 border-t">
-                    <div className="flex justify-between mb-4 font-bold text-lg">
+                <div className="absolute bottom-0 w-full bg-gray-50 p-4 border-t space-y-3">
+                    <div className="flex justify-between font-bold text-lg">
                         <span>Total:</span>
                         <span>Rs {cartTotal.toLocaleString()}</span>
                     </div>
-                    <button className="w-full bg-primary text-secondary py-3 rounded-lg font-bold hover:bg-primary-hover transition">
-                        Checkout Now
-                    </button>
+                    <div className="grid grid-cols-2 gap-3">
+                        <Link
+                            href="/cart"
+                            onClick={() => setIsCartOpen(false)}
+                            className="flex items-center justify-center w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-bold hover:bg-white hover:text-black transition"
+                        >
+                            View Cart
+                        </Link>
+                        <Link
+                            href="/checkout"
+                            onClick={() => setIsCartOpen(false)}
+                            className="flex items-center justify-center w-full bg-primary text-secondary py-3 rounded-lg font-bold hover:bg-primary-hover transition"
+                        >
+                            Checkout
+                        </Link>
+                    </div>
                 </div>
             </div>
 
@@ -106,7 +119,7 @@ export default function Header() {
                             )}
                         </div>
 
-                        <Link href="/track-order" className="text-gray-600 hover:text-gray-900">
+                        <Link href="/orders" className="text-gray-600 hover:text-gray-900">
                             Track Order
                         </Link>
                         <Link href="/help" className="text-gray-600 hover:text-gray-900">
@@ -176,9 +189,9 @@ export default function Header() {
 
                         {/* Icons desktop */}
                         <div className="hidden items-center gap-3 lg:flex">
-                            <button className="rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50">
+                            <Link href="/signin" className="rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50">
                                 <User size={18} />
-                            </button>
+                            </Link>
                             <button className="rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50">
                                 <Heart size={18} />
                             </button>

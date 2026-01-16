@@ -13,11 +13,8 @@ type CartItem = {
 type CartContextType = {
     items: CartItem[];
     addToCart: (item: Omit<CartItem, "quantity">) => void;
-    removeFromCart: (id: string) => void;
-    cartCount: number;
-    cartTotal: number;
-    isCartOpen: boolean;
-    setIsCartOpen: (open: boolean) => void;
+    updateQuantity: (id: string, quantity: number) => void;
+    clearCart: () => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -53,19 +50,30 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             }
             return [...prev, { ...newItem, quantity: 1 }];
         });
-        // Optional: auto-open cart or show toast
-        // setIsCartOpen(true); 
+        setIsCartOpen(true);
+    };
+
+    const updateQuantity = (id: string, quantity: number) => {
+        setItems((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
+            )
+        );
     };
 
     const removeFromCart = (id: string) => {
         setItems((prev) => prev.filter((item) => item.id !== id));
     };
 
+    const clearCart = () => {
+        setItems([]);
+    };
+
     const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
     const cartTotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     return (
-        <CartContext.Provider value={{ items, addToCart, removeFromCart, cartCount, cartTotal, isCartOpen, setIsCartOpen }}>
+        <CartContext.Provider value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, cartCount, cartTotal, isCartOpen, setIsCartOpen }}>
             {children}
         </CartContext.Provider>
     );
