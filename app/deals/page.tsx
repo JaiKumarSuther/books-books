@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { LayoutGrid, List, Grid3X3, Grid2X2, ChevronDown, Home } from "lucide-react";
-import DealsListCard from "../components/DealsListCard";
-import ProductCard from "../components/ProductCard";
+import DealCard from "../components/DealCard";
 
 const dealsData = [
     {
@@ -14,8 +13,10 @@ const dealsData = [
         oldPrice: 10200,
         description: "Get the complete set of Cambridge O-Level Science textbooks and workbooks. Includes latest editions for Physics, Chemistry, and Biology. Perfect for exam preparation.",
         rating: 5,
-        badge: "BUNDLE OFF",
-        countdown: { days: 14, hours: 8, minutes: 39, seconds: 5 }
+        discount: 17,
+        image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop",
+        available: 15,
+        totalStock: 50
     },
     {
         id: "deal-2",
@@ -24,8 +25,10 @@ const dealsData = [
         oldPrice: 4500,
         description: "High-quality fabric, comfortable fit, and durable stitching. Includes 2 white shirts, 1 grey trouser, and a school tie. wrinkle-resistant material.",
         rating: 5,
-        badge: "SALE",
-        countdown: { days: 2, hours: 12, minutes: 15, seconds: 0 }
+        discount: 29,
+        image: "https://images.unsplash.com/photo-1577538928305-3807c3993047?q=80&w=2070&auto=format&fit=crop",
+        available: 24,
+        totalStock: 100
     },
     {
         id: "deal-3",
@@ -34,8 +37,10 @@ const dealsData = [
         oldPrice: 3500,
         description: "Everything a young artist needs! Includes color pencils, markers, watercolors, sketchpads, and ergonomic brushes. Non-toxic and safe for kids.",
         rating: 4,
-        badge: "HOT",
-        countdown: { days: 5, hours: 4, minutes: 20, seconds: 30 }
+        discount: 20,
+        image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2071&auto=format&fit=crop",
+        available: 42,
+        totalStock: 150
     },
     {
         id: "deal-4",
@@ -44,8 +49,10 @@ const dealsData = [
         oldPrice: 6500,
         description: "Designed for back health with padded straps and multiple compartments. Water-resistant material protects books and laptops. Includes free rain cover.",
         rating: 5,
-        badge: "CLEARANCE",
-        countdown: { days: 1, hours: 6, minutes: 0, seconds: 0 }
+        discount: 23,
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1887&auto=format&fit=crop",
+        available: 8,
+        totalStock: 30
     },
     {
         id: "deal-5",
@@ -54,13 +61,16 @@ const dealsData = [
         oldPrice: 2400,
         description: "Stock up for the whole year! 12 high-quality spiral binding notebooks with 160 pages each. Smooth paper quality suitable for all ink types.",
         rating: 4,
-        badge: "BULK DEAL",
-        countdown: { days: 7, hours: 0, minutes: 0, seconds: 0 }
+        discount: 25,
+        image: "https://images.unsplash.com/photo-1531346878377-a5be20808c5f?q=80&w=1887&auto=format&fit=crop",
+        available: 65,
+        totalStock: 200
     }
 ];
 
 export default function DealsPage() {
-    const [viewMode, setViewMode] = useState<'list' | 'grid-2' | 'grid-3' | 'grid-4'>('list');
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
+    const [gridCols, setGridCols] = useState<number>(3);
     const [sortBy, setSortBy] = useState('default');
     const [isSortOpen, setIsSortOpen] = useState(false);
 
@@ -73,44 +83,45 @@ export default function DealsPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 py-8 font-sans text-gray-800">
-            <div className="max-w-[1280px] mx-auto px-4">
+            <div className="max-w-[1300px] mx-auto px-4">
 
                 {/* Breadcrumb */}
                 <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-                    <Link href="/" className="hover:text-blue-600 flex items-center gap-1">
+                    <Link href="/" className="hover:text-secondary flex items-center gap-1 font-medium transition-colors">
                         <Home size={14} /> Home
                     </Link>
                     <span>/</span>
-                    <span className="font-semibold text-gray-900">Special Offers</span>
+                    <span className="font-bold text-secondary italic uppercase tracking-tight">Today's Deals</span>
                 </div>
 
                 {/* Toolbar */}
-                <div className="bg-white p-3 rounded-lg border border-gray-200 flex flex-wrap items-center justify-between gap-4 mb-8 shadow-sm">
+                <div className="bg-white p-3 rounded-2xl border border-gray-100 flex flex-wrap items-center justify-between gap-4 mb-8 shadow-sm">
                     <div className="flex items-center gap-2">
                         <button
-                            onClick={() => setViewMode('grid-2')}
-                            className={`p-2 rounded ${viewMode === 'grid-2' ? 'text-blue-600 bg-blue-50' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'}`}
+                            onClick={() => { setViewMode('grid'); setGridCols(2); }}
+                            className={`p-2 rounded-xl transition-all ${viewMode === 'grid' && gridCols === 2 ? 'text-secondary bg-primary shadow-sm' : 'text-gray-400 hover:text-secondary hover:bg-gray-50'}`}
                             title="2 Columns"
                         >
                             <Grid2X2 size={20} />
                         </button>
                         <button
-                            onClick={() => setViewMode('grid-3')}
-                            className={`p-2 rounded ${viewMode === 'grid-3' ? 'text-blue-600 bg-blue-50' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'}`}
+                            onClick={() => { setViewMode('grid'); setGridCols(3); }}
+                            className={`p-2 rounded-xl transition-all ${viewMode === 'grid' && gridCols === 3 ? 'text-secondary bg-primary shadow-sm' : 'text-gray-400 hover:text-secondary hover:bg-gray-50'}`}
                             title="3 Columns"
                         >
                             <Grid3X3 size={20} />
                         </button>
                         <button
-                            onClick={() => setViewMode('grid-4')}
-                            className={`p-2 rounded ${viewMode === 'grid-4' ? 'text-blue-600 bg-blue-50' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'}`}
+                            onClick={() => { setViewMode('grid'); setGridCols(4); }}
+                            className={`p-2 rounded-xl transition-all ${viewMode === 'grid' && gridCols === 4 ? 'text-secondary bg-primary shadow-sm' : 'text-gray-400 hover:text-secondary hover:bg-gray-50'}`}
                             title="4 Columns"
                         >
                             <LayoutGrid size={20} />
                         </button>
+                        <div className="w-px h-6 bg-gray-200 mx-1" />
                         <button
                             onClick={() => setViewMode('list')}
-                            className={`p-2 rounded ${viewMode === 'list' ? 'text-blue-600 bg-blue-50' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'}`}
+                            className={`p-2 rounded-xl transition-all ${viewMode === 'list' ? 'text-secondary bg-primary shadow-sm' : 'text-gray-400 hover:text-secondary hover:bg-gray-50'}`}
                             title="List View"
                         >
                             <List size={20} />
@@ -118,30 +129,30 @@ export default function DealsPage() {
                     </div>
 
                     <div className="flex items-center gap-2 ml-auto relative">
-                        <span className="text-sm font-semibold text-gray-700">Sort by:</span>
+                        <span className="text-sm font-bold text-gray-500 uppercase tracking-widest text-[10px]">Sort by:</span>
                         <div className="relative">
                             <button
                                 onClick={() => setIsSortOpen(!isSortOpen)}
-                                className="flex items-center gap-2 text-sm border border-gray-200 px-3 py-1.5 rounded hover:border-gray-300 bg-white"
+                                className="flex items-center gap-2 text-sm font-black border border-gray-100 px-4 py-2 rounded-xl hover:border-primary transition-all bg-white shadow-sm text-secondary uppercase tracking-tighter"
                             >
                                 {sortBy === 'default' ? 'Default' :
-                                    sortBy === 'price-low-high' ? 'Price: Low to High' :
-                                        sortBy === 'price-high-low' ? 'Price: High to Low' : 'Rating'}
-                                <ChevronDown size={14} />
+                                    sortBy === 'price-low-high' ? 'Price: Low-High' :
+                                        sortBy === 'price-high-low' ? 'Price: High-Low' : 'Rating'}
+                                <ChevronDown size={14} className={`transition-transform duration-300 ${isSortOpen ? 'rotate-180' : ''}`} />
                             </button>
 
                             {isSortOpen && (
-                                <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20">
+                                <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-50 overflow-hidden">
                                     {[
-                                        { label: 'Default', value: 'default' },
+                                        { label: 'Default Sorting', value: 'default' },
                                         { label: 'Price: Low to High', value: 'price-low-high' },
                                         { label: 'Price: High to Low', value: 'price-high-low' },
-                                        { label: 'Rating', value: 'rating' },
+                                        { label: 'Customer Rating', value: 'rating' },
                                     ].map((opt) => (
                                         <button
                                             key={opt.value}
                                             onClick={() => { setSortBy(opt.value); setIsSortOpen(false); }}
-                                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                                            className="block w-full text-left px-4 py-3 text-sm font-bold text-gray-600 hover:bg-primary/10 hover:text-secondary transition-colors"
                                         >
                                             {opt.label}
                                         </button>
@@ -152,25 +163,22 @@ export default function DealsPage() {
                     </div>
                 </div>
 
-                {/* Products Grid/List */}
-                {viewMode === 'list' ? (
-                    <div className="space-y-4">
-                        {sortedDeals.map((item) => (
-                            <DealsListCard key={item.id} item={item} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className={`grid gap-6 ${viewMode === 'grid-2' ? 'grid-cols-1 sm:grid-cols-2' :
-                        viewMode === 'grid-3' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
-                            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-                        }`}>
-                        {sortedDeals.map((item) => (
-                            // Use standard ProductCard for grid views
-                            // Note: ProductCard expects 'item' prop which fits our structure mostly
-                            <ProductCard key={item.id} item={item} />
-                        ))}
-                    </div>
-                )}
+                {/* Products Container */}
+                <div className={`grid gap-6 ${viewMode === 'list'
+                        ? 'grid-cols-1'
+                        : gridCols === 2 ? 'sm:grid-cols-2'
+                            : gridCols === 3 ? 'sm:grid-cols-2 lg:grid-cols-3'
+                                : 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                    }`}>
+                    {sortedDeals.map((item) => (
+                        <DealCard
+                            key={item.id}
+                            product={item}
+                            viewMode={viewMode}
+                            className={viewMode === 'list' ? "border border-gray-100 shadow-sm rounded-2xl overflow-hidden" : ""}
+                        />
+                    ))}
+                </div>
 
             </div>
         </div>
