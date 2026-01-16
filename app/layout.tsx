@@ -21,6 +21,7 @@ import { OrderProvider } from "./context/OrderContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
+import AddToCartModal from "./components/AddToCartModal";
 
 export default function RootLayout({
   children,
@@ -45,6 +46,7 @@ export default function RootLayout({
                 {/* Footer */}
                 <Footer />
                 <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
+                <AddToCartModal />
               </CartProvider>
             </WishlistProvider>
           </OrderProvider>

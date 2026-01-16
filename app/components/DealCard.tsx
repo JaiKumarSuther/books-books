@@ -35,7 +35,6 @@ export default function DealCard({ product, className = "", compact = false, vie
 
     const handleAddToCart = () => {
         addToCart({ id: product.id, title: product.title, price: product.price, image: product.image });
-        toast.success("Added to cart");
     };
 
     const toggleWishlist = (e: React.MouseEvent) => {
