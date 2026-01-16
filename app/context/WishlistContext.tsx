@@ -9,12 +9,17 @@ type WishlistContextType = {
     removeFromWishlist: (id: string) => void;
     isInWishlist: (id: string) => boolean;
     wishlistCount: number;
+    isBannerOpen: boolean;
+    setIsBannerOpen: (open: boolean) => void;
+    recentlyAddedItem: DealProduct | null;
 };
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
     const [wishlistItems, setWishlistItems] = useState<DealProduct[]>([]);
+    const [isBannerOpen, setIsBannerOpen] = useState(false);
+    const [recentlyAddedItem, setRecentlyAddedItem] = useState<DealProduct | null>(null);
 
     // Hydrate from local storage on mount
     useEffect(() => {
@@ -38,6 +43,8 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
             if (prev.some((i) => i.id === item.id)) return prev;
             return [...prev, item];
         });
+        setRecentlyAddedItem(item);
+        setIsBannerOpen(true);
     };
 
     const removeFromWishlist = (id: string) => {
@@ -49,7 +56,16 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <WishlistContext.Provider value={{ wishlistItems, addToWishlist, removeFromWishlist, isInWishlist, wishlistCount: wishlistItems.length }}>
+        <WishlistContext.Provider value={{
+            wishlistItems,
+            addToWishlist,
+            removeFromWishlist,
+            isInWishlist,
+            wishlistCount: wishlistItems.length,
+            isBannerOpen,
+            setIsBannerOpen,
+            recentlyAddedItem
+        }}>
             {children}
         </WishlistContext.Provider>
     );

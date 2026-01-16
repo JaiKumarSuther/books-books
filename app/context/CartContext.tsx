@@ -22,6 +22,8 @@ type CartContextType = {
     setIsCartOpen: (open: boolean) => void;
     isModalOpen: boolean;
     setIsModalOpen: (open: boolean) => void;
+    isBannerOpen: boolean;
+    setIsBannerOpen: (open: boolean) => void;
     recentlyAddedItem: CartItem | null;
 };
 
@@ -31,6 +33,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isBannerOpen, setIsBannerOpen] = useState(false);
     const [recentlyAddedItem, setRecentlyAddedItem] = useState<CartItem | null>(null);
 
     // Hydrate from local storage on mount
@@ -67,6 +70,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         // Find or create the added item for the modal
         const currentItemInCart = items.find(i => i.id === newItem.id);
         setRecentlyAddedItem(currentItemInCart ? { ...currentItemInCart, quantity: currentItemInCart.quantity + 1 } : { ...newItem, quantity: 1 });
+        setIsBannerOpen(true);
         setIsModalOpen(true);
     };
 
@@ -102,6 +106,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             setIsCartOpen,
             isModalOpen,
             setIsModalOpen,
+            isBannerOpen,
+            setIsBannerOpen,
             recentlyAddedItem
         }}>
             {children}

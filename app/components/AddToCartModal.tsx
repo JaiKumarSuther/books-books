@@ -24,42 +24,24 @@ export default function AddToCartModal() {
                         className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] transition-all"
                     />
 
-                    {/* Blue Sticky Banner (Top) */}
-                    <motion.div
-                        initial={{ y: -100 }}
-                        animate={{ y: 0 }}
-                        exit={{ y: -100 }}
-                        className="fixed top-0 left-0 w-full bg-[#0066FF] text-white py-3 px-6 z-[110] flex items-center justify-between shadow-lg"
-                    >
-                        <div className="flex items-center gap-3">
-                            <CheckCircle2 size={20} className="text-white" />
-                            <p className="text-sm font-medium">
-                                Success: You have added <span className="font-bold underline">{recentlyAddedItem.title}</span> to your shopping cart!
-                            </p>
-                        </div>
-                        <button onClick={() => setIsModalOpen(false)} className="hover:opacity-70 transition">
-                            <X size={20} />
-                        </button>
-                    </motion.div>
-
                     {/* Modal Content */}
                     <div className="fixed inset-0 flex items-center justify-center p-4 z-[120] pointer-events-none">
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                            className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden pointer-events-auto relative mt-12"
+                            className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden pointer-events-auto relative"
                         >
                             {/* Close Button Inside Modal */}
                             <button
                                 onClick={() => setIsModalOpen(false)}
-                                className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors z-30"
+                                className="absolute top-4 right-4 text-gray-400 hover:text-secondary transition-colors z-30"
                             >
                                 <X size={24} />
                             </button>
 
                             <div className="p-8">
-                                <h2 className="text-[#2B9E49] text-xl font-bold mb-8 flex items-center gap-2">
+                                <h2 className="text-secondary text-xl font-bold mb-8 flex items-center gap-2">
                                     Added to cart successfully. What is next?
                                 </h2>
 
@@ -77,7 +59,7 @@ export default function AddToCartModal() {
                                             <h3 className="font-bold text-gray-900 leading-tight">
                                                 {recentlyAddedItem.title}
                                             </h3>
-                                            <p className="text-gray-600 font-medium">
+                                            <p className="text-gray-600 font-medium text-sm">
                                                 {recentlyAddedItem.quantity} x <span className="text-gray-900 font-bold">Rs. {recentlyAddedItem.price.toLocaleString()}</span>
                                             </p>
                                         </div>
@@ -88,14 +70,14 @@ export default function AddToCartModal() {
                                         <Link
                                             href="/checkout"
                                             onClick={() => setIsModalOpen(false)}
-                                            className="w-full bg-[#0066FF] hover:bg-black text-white font-bold py-4 rounded-xl text-center shadow-lg transition-all flex items-center justify-center gap-2 group"
+                                            className="w-full bg-primary hover:bg-primary-hover text-secondary font-bold py-4 rounded-xl text-center shadow-lg transition-all flex items-center justify-center gap-2 group"
                                         >
                                             CHECKOUT <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                                         </Link>
 
                                         <div className="text-center py-2">
-                                            <p className="text-gray-500 text-sm font-medium mb-1 uppercase tracking-wider">Order subtotal</p>
-                                            <p className="text-[#F91D54] text-3xl font-black font-mono tracking-tighter">
+                                            <p className="text-gray-500 text-xs font-bold mb-1 uppercase tracking-widest">Order subtotal</p>
+                                            <p className="text-secondary text-3xl font-black font-mono tracking-tighter">
                                                 Rs. {cartTotal.toLocaleString()}
                                             </p>
                                         </div>
@@ -107,14 +89,14 @@ export default function AddToCartModal() {
                                         <div className="flex flex-col gap-3 pt-2">
                                             <button
                                                 onClick={() => setIsModalOpen(false)}
-                                                className="w-full bg-white text-gray-900 border border-gray-200 font-bold py-3 px-6 rounded-xl hover:border-black transition-all text-sm uppercase tracking-wide"
+                                                className="w-full bg-white text-secondary border border-gray-200 font-bold py-3 px-6 rounded-xl hover:border-secondary transition-all text-xs uppercase tracking-widest"
                                             >
                                                 Continue Shopping
                                             </button>
                                             <Link
                                                 href="/cart"
                                                 onClick={() => setIsModalOpen(false)}
-                                                className="w-full bg-white text-gray-900 border border-gray-200 font-bold py-3 px-6 rounded-xl hover:border-black transition-all text-sm text-center uppercase tracking-wide"
+                                                className="w-full bg-white text-secondary border border-gray-200 font-bold py-3 px-6 rounded-xl hover:border-secondary transition-all text-xs text-center uppercase tracking-widest"
                                             >
                                                 View Cart
                                             </Link>

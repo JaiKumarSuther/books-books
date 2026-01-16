@@ -41,40 +41,10 @@ export default function DealCard({ product, className = "", compact = false, vie
         e.preventDefault();
         e.stopPropagation();
 
-        if (!isAuthenticated) {
-            toast.custom((t) => (
-                <div
-                    className={`${t.visible ? 'animate-enter' : 'animate-leave'
-                        } max-w-4xl w-full bg-primary shadow-lg pointer-events-auto flex items-center justify-between p-4 rounded-md text-secondary border-t-4 border-secondary/20`}
-                >
-                    <div className="flex items-center gap-3">
-                        <div className="bg-secondary/10 rounded-full p-1 text-secondary">
-                            <span className="text-xs font-bold px-1">!</span>
-                        </div>
-                        <p className="text-sm font-medium">
-                            You must <Link href="/signin" className="font-bold underline hover:text-black">login</Link> or <Link href="/signup" className="font-bold underline hover:text-black">create an account</Link> to save <strong>{product.title}</strong> to your wish list!
-                        </p>
-                    </div>
-                    <button
-                        onClick={() => toast.dismiss(t.id)}
-                        className="text-secondary/60 hover:text-secondary transition"
-                    >
-                        <X size={18} />
-                    </button>
-                </div>
-            ), {
-                position: "top-center",
-                duration: 5000,
-            });
-            return;
-        }
-
         if (isWishlisted) {
             removeFromWishlist(product.id);
-            toast.success("Removed from wishlist");
         } else {
             addToWishlist(product);
-            toast.success("Added to wishlist");
         }
     };
 
