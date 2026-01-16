@@ -3,12 +3,17 @@
 import Link from "next/link";
 import { useOrders } from "../context/OrderContext";
 import { Package, CheckCircle, Clock } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function OrdersPage() {
     const { orders } = useOrders();
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12">
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="min-h-screen bg-gray-50 py-12"
+        >
             <div className="max-w-[1000px] mx-auto px-4">
                 <div className="flex items-center justify-between mb-8">
                     <h1 className="text-3xl font-bold text-gray-900">My Orders</h1>
@@ -26,8 +31,14 @@ export default function OrdersPage() {
                     </div>
                 ) : (
                     <div className="space-y-6">
-                        {orders.map((order) => (
-                            <div key={order.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        {orders.map((order, idx) => (
+                            <motion.div
+                                key={order.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+                            >
                                 {/* Header */}
                                 <div className="bg-gray-50/50 p-4 sm:p-6 border-b border-gray-100 flex flex-wrap gap-4 justify-between items-center">
                                     <div className="flex items-center gap-4">
@@ -75,11 +86,11 @@ export default function OrdersPage() {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 }

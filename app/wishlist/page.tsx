@@ -5,6 +5,7 @@ import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
 import { Heart, ShoppingCart, Trash2 } from "lucide-react";
 import DealCard from "../components/DealCard";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function WishlistPage() {
     const { wishlistItems, removeFromWishlist } = useWishlist();
@@ -26,25 +27,39 @@ export default function WishlistPage() {
     }
 
     return (
-        <div className="max-w-[1600px] mx-auto px-4 py-8 md:py-12">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-[1600px] mx-auto px-4 py-8 md:py-12"
+        >
             <h1 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
                 <Heart className="fill-red-500 text-red-500" /> My Wishlist ({wishlistItems.length})
             </h1>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                {wishlistItems.map((item) => (
-                    <div key={item.id} className="relative group">
-                        <DealCard product={item} />
-                        <button
-                            onClick={() => removeFromWishlist(item.id)}
-                            className="absolute top-2 left-2 z-30 bg-white text-red-500 p-2 rounded-full shadow-md hover:bg-red-50 transition-colors tooltip"
-                            title="Remove from Wishlist"
+                <AnimatePresence>
+                    {wishlistItems.map((item, idx) => (
+                        <motion.div
+                            key={item.id}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            transition={{ delay: idx * 0.05 }}
+                            className="relative group"
                         >
-                            <Trash2 size={16} />
-                        </button>
-                    </div>
-                ))}
+                            <DealCard product={item} />
+                            <button
+                                onClick={() => removeFromWishlist(item.id)}
+                                className="absolute top-2 left-2 z-30 bg-white text-red-500 p-2 rounded-full shadow-md hover:bg-red-50 transition-colors tooltip"
+                                title="Remove from Wishlist"
+                            >
+                                <Trash2 size={16} />
+                            </button>
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
             </div>
-        </div>
+        </motion.div>
     );
 }

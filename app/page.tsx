@@ -6,6 +6,7 @@ import {
   Rocket, RefreshCw, Headphones, Gift, ChevronRight, Star,
   BookOpen, Calculator, Shirt, Backpack, Menu
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 import HeroSlider from "./components/HeroSlider";
 import ProductCard from "./components/ProductCard";
@@ -143,7 +144,12 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
 
           {/* --- LEFT SIDEBAR (Desktop) --- */}
-          <aside className="hidden lg:block space-y-6 relative z-30">
+          <motion.aside
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden lg:block space-y-6 relative z-30"
+          >
             {/* Categories Menu */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 relative">
               <div className="bg-primary px-5 py-4 flex items-center gap-3 text-secondary font-bold tracking-wide rounded-t-xl">
@@ -152,7 +158,13 @@ export default function Home() {
               </div>
               <div className="py-2">
                 {sidebarCategories.map((c, i) => (
-                  <div key={i} className="group relative">
+                  <motion.div
+                    key={i}
+                    className="group relative"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + (i * 0.05) }}
+                  >
                     <Link
                       href={c.href}
                       className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 text-sm font-medium text-gray-700 hover:text-secondary transition-colors border-b border-gray-50 last:border-0"
@@ -205,7 +217,7 @@ export default function Home() {
                         </div>
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -240,7 +252,7 @@ export default function Home() {
                 CHECK NOW
               </Link>
             </div>
-          </aside>
+          </motion.aside>
 
           {/* --- RIGHT MAIN CONTENT --- */}
           <main className="space-y-8 min-w-0">
@@ -251,7 +263,14 @@ export default function Home() {
             {/* 2. FEATURES BAR */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {features.map((f, i) => (
-                <div key={i} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4 hover:-translate-y-1 transition-transform cursor-default">
+                <motion.div
+                  key={i}
+                  className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4 hover:-translate-y-1 transition-all cursor-default"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                >
                   <div className="w-12 h-12 rounded-full bg-primary-light text-secondary flex items-center justify-center shrink-0">
                     <f.icon size={24} />
                   </div>
@@ -259,7 +278,7 @@ export default function Home() {
                     <h4 className="font-bold text-gray-900 text-sm">{f.title}</h4>
                     <p className="text-xs text-gray-500">{f.sub}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
@@ -267,10 +286,17 @@ export default function Home() {
             <CategoriesSlider categories={topCategories} />
 
             {/* 4. DEALS OF THE DAY */}
-            <DealsSlider
-              endTime={new Date(new Date().getTime() + 145 * 24 * 60 * 60 * 1000).toISOString()}
-              products={dealsData}
-            />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <DealsSlider
+                endTime={new Date(new Date().getTime() + 145 * 24 * 60 * 60 * 1000).toISOString()}
+                products={dealsData}
+              />
+            </motion.div>
 
             {/* 5. TABS & FEATURED PRODUCTS */}
             <section>
@@ -289,43 +315,67 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-                {products.map((p) => (
-                  <DealCard
+              <motion.div
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                {products.map((p, idx) => (
+                  <motion.div
                     key={p.id}
-                    product={{
-                      id: p.id,
-                      title: p.title || p.name,
-                      image: p.image,
-                      price: typeof p.price === 'number' ? p.price : parseFloat((p.price as any).toString().replace(/[^0-9.]/g, '')),
-                      oldPrice: p.oldPrice || (typeof p.price === 'number' ? p.price * 1.2 : 0),
-                      rating: p.rating || 4,
-                      discount: p.oldPrice ? Math.round(((p.oldPrice - (typeof p.price === 'number' ? p.price : 0)) / p.oldPrice) * 100) : undefined,
-                      // For featured products, we might not have stock info, omit to hide progress bar
-                      /* available: 10, totalStock: 20 */
-                    }}
-                  />
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: (idx % 6) * 0.05 }}
+                  >
+                    <DealCard
+                      product={{
+                        id: p.id,
+                        title: p.title || p.name,
+                        image: p.image,
+                        price: typeof p.price === 'number' ? p.price : parseFloat((p.price as any).toString().replace(/[^0-9.]/g, '')),
+                        oldPrice: p.oldPrice || (typeof p.price === 'number' ? p.price * 1.2 : 0),
+                        rating: p.rating || 4,
+                        discount: p.oldPrice ? Math.round(((p.oldPrice - (typeof p.price === 'number' ? p.price : 0)) / p.oldPrice) * 100) : undefined,
+                      }}
+                    />
+                  </motion.div>
                 ))}
                 {/* Duplicate for grid fill */}
-                {products.slice(0, 3).map((p) => (
-                  <DealCard
+                {products.slice(0, 3).map((p, idx) => (
+                  <motion.div
                     key={`dup-${p.id}`}
-                    product={{
-                      id: `dup-${p.id}`,
-                      title: p.title || p.name,
-                      image: p.image,
-                      price: typeof p.price === 'number' ? p.price : parseFloat((p.price as any).toString().replace(/[^0-9.]/g, '')),
-                      oldPrice: p.oldPrice || (typeof p.price === 'number' ? p.price * 1.2 : 0),
-                      rating: p.rating || 4,
-                      discount: p.oldPrice ? Math.round(((p.oldPrice - (typeof p.price === 'number' ? p.price : 0)) / p.oldPrice) * 100) : undefined
-                    }}
-                  />
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: (products.length + idx) % 6 * 0.05 }}
+                  >
+                    <DealCard
+                      product={{
+                        id: `dup-${p.id}`,
+                        title: p.title || p.name,
+                        image: p.image,
+                        price: typeof p.price === 'number' ? p.price : parseFloat((p.price as any).toString().replace(/[^0-9.]/g, '')),
+                        oldPrice: p.oldPrice || (typeof p.price === 'number' ? p.price * 1.2 : 0),
+                        rating: p.rating || 4,
+                        discount: p.oldPrice ? Math.round(((p.oldPrice - (typeof p.price === 'number' ? p.price : 0)) / p.oldPrice) * 100) : undefined
+                      }}
+                    />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </section>
 
             {/* 6. BOTTOM BANNERS */}
-            <section className="grid md:grid-cols-2 gap-4">
+            <motion.section
+              className="grid md:grid-cols-2 gap-4"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
               <MiniBanner
                 title="School Bags"
                 subtitle="Starting from Rs 5,000"
@@ -342,7 +392,7 @@ export default function Home() {
                 buttonColor="bg-primary text-secondary"
                 image="/cat-art.png"
               />
-            </section>
+            </motion.section>
 
           </main>
         </div>

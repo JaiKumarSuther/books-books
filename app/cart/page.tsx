@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
 import { Trash2, Minus, Plus, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function CartPage() {
     const { items, updateQuantity, removeFromCart, cartTotal, clearCart } = useCart();
@@ -22,7 +23,12 @@ export default function CartPage() {
     }
 
     return (
-        <div className="max-w-[1200px] mx-auto px-4 py-8 md:py-12">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-[1200px] mx-auto px-4 py-8 md:py-12"
+        >
             <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8">
@@ -104,7 +110,12 @@ export default function CartPage() {
                 </div>
 
                 {/* SUMMARY */}
-                <div className="space-y-6">
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="space-y-6"
+                >
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sticky top-24">
                         <h3 className="font-bold text-lg mb-6">Order Summary</h3>
 
@@ -138,9 +149,9 @@ export default function CartPage() {
                             </Link>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
             </div>
-        </div>
+        </motion.div>
     );
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
     Search, User, Heart, ShoppingCart, ChevronDown, Menu, X, Trash2
 } from "lucide-react";
@@ -25,68 +26,89 @@ export default function Header() {
     return (
         <div className="bg-white relative z-50">
             {/* OVERLAY for Mobile Menu or Cart */}
-            {(isMobileMenuOpen || isCartOpen) && (
-                <div
-                    className="fixed inset-0 bg-black/50 z-40 transition-opacity"
-                    onClick={() => { setIsMobileMenuOpen(false); setIsCartOpen(false); }}
-                />
-            )}
+            <AnimatePresence>
+                {(isMobileMenuOpen || isCartOpen) && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/50 z-40 transition-opacity"
+                        onClick={() => { setIsMobileMenuOpen(false); setIsCartOpen(false); }}
+                    />
+                )}
+            </AnimatePresence>
 
             {/* CART DRAWER */}
-            <div className={`fixed top-0 right-0 h-full w-[320px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-                <div className="p-4 border-b flex items-center justify-between">
-                    <h2 className="font-bold text-lg">Shopping Cart ({cartCount})</h2>
-                    <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">
-                        <X size={20} />
-                    </button>
-                </div>
-                <div className="p-4 flex-1 overflow-y-auto h-[calc(100%-140px)]">
-                    {items.length === 0 ? (
-                        <div className="h-full flex flex-col items-center justify-center text-gray-500 gap-2">
-                            <ShoppingCart size={48} className="opacity-20" />
-                            <p>Your cart is empty</p>
-                            <button onClick={() => setIsCartOpen(false)} className="text-secondary text-sm font-bold">Start Shopping</button>
+            <AnimatePresence>
+                {isCartOpen && (
+                    <motion.div
+                        initial={{ x: "100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed top-0 right-0 h-full w-[320px] bg-white shadow-2xl z-50 overflow-hidden flex flex-col"
+                    >
+                        <div className="p-4 border-b flex items-center justify-between">
+                            <h2 className="font-bold text-lg">Shopping Cart ({cartCount})</h2>
+                            <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">
+                                <X size={20} />
+                            </button>
                         </div>
-                    ) : (
-                        <div className="space-y-4">
-                            {items.map(item => (
-                                <div key={item.id} className="flex gap-3 border-b pb-3">
-                                    <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center text-xs text-gray-400">IMG</div>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-bold text-gray-900 line-clamp-2">{item.title}</p>
-                                        <p className="text-xs text-gray-500">{item.quantity} x Rs {item.price.toLocaleString()}</p>
-                                    </div>
-                                    <button onClick={() => removeFromCart(item.id)} className="text-secondary hover:text-red-700 p-1">
-                                        <Trash2 size={16} />
-                                    </button>
+                        <div className="p-4 flex-1 overflow-y-auto">
+                            {items.length === 0 ? (
+                                <div className="h-full flex flex-col items-center justify-center text-gray-500 gap-2">
+                                    <ShoppingCart size={48} className="opacity-20" />
+                                    <p>Your cart is empty</p>
+                                    <button onClick={() => setIsCartOpen(false)} className="text-secondary text-sm font-bold">Start Shopping</button>
                                 </div>
-                            ))}
+                            ) : (
+                                <div className="space-y-4">
+                                    {items.map((item, idx) => (
+                                        <motion.div
+                                            key={item.id}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: idx * 0.05 }}
+                                            className="flex gap-3 border-b pb-3"
+                                        >
+                                            <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center text-xs text-gray-400">IMG</div>
+                                            <div className="flex-1">
+                                                <p className="text-sm font-bold text-gray-900 line-clamp-2">{item.title}</p>
+                                                <p className="text-xs text-gray-500">{item.quantity} x Rs {item.price.toLocaleString()}</p>
+                                            </div>
+                                            <button onClick={() => removeFromCart(item.id)} className="text-secondary hover:text-red-700 p-1">
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-                <div className="absolute bottom-0 w-full bg-gray-50 p-4 border-t space-y-3">
-                    <div className="flex justify-between font-bold text-lg">
-                        <span>Total:</span>
-                        <span>Rs {cartTotal.toLocaleString()}</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                        <Link
-                            href="/cart"
-                            onClick={() => setIsCartOpen(false)}
-                            className="flex items-center justify-center w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-bold hover:bg-white hover:text-black transition"
-                        >
-                            View Cart
-                        </Link>
-                        <Link
-                            href="/checkout"
-                            onClick={() => setIsCartOpen(false)}
-                            className="flex items-center justify-center w-full bg-primary text-secondary py-3 rounded-lg font-bold hover:bg-primary-hover transition"
-                        >
-                            Checkout
-                        </Link>
-                    </div>
-                </div>
-            </div>
+                        <div className="bg-gray-50 p-4 border-t space-y-3">
+                            <div className="flex justify-between font-bold text-lg">
+                                <span>Total:</span>
+                                <span>Rs {cartTotal.toLocaleString()}</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <Link
+                                    href="/cart"
+                                    onClick={() => setIsCartOpen(false)}
+                                    className="flex items-center justify-center w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-bold hover:bg-white hover:text-black transition text-sm"
+                                >
+                                    View Cart
+                                </Link>
+                                <Link
+                                    href="/checkout"
+                                    onClick={() => setIsCartOpen(false)}
+                                    className="flex items-center justify-center w-full bg-primary text-secondary py-3 rounded-lg font-bold hover:bg-primary-hover transition text-sm"
+                                >
+                                    Checkout
+                                </Link>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* TOP THIN BAR */}
             <div className="border-b border-gray-200 bg-white relative z-30">
@@ -238,53 +260,69 @@ export default function Header() {
             </header>
 
             {/* MOBILE MENU DRAWER */}
-            <div className={`fixed top-0 left-0 h-full w-[280px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                <div className="p-4 border-b flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <img src="/books logo.png" alt="Logo" className="h-8 w-auto object-contain" />
-                        <span className="font-bold text-lg">Menu</span>
-                    </div>
-                    <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">
-                        <X size={20} />
-                    </button>
-                </div>
-                <div className="p-4 overflow-y-auto h-[calc(100%-70px)] flex flex-col gap-4">
-                    {[
-                        { label: "Home", href: "/" },
-                        { label: "Products", href: "/products" },
-                        { label: "Blog", href: "/blog" },
-                        { label: "FAQ", href: "/faq" },
-                        { label: "About Us", href: "/about" },
-                        { label: "Contact", href: "/contact" },
-                    ].map((x) => (
-                        <Link
-                            key={x.label}
-                            href={x.href}
-                            className="text-gray-700 font-semibold hover:text-secondary py-2 border-b border-gray-50 last:border-0"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            {x.label}
-                        </Link>
-                    ))}
-                    <Link
-                        href="/deals"
-                        className="text-secondary font-bold py-2"
-                        onClick={() => setIsMobileMenuOpen(false)}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ x: "-100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "-100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed top-0 left-0 h-full w-[280px] bg-white shadow-2xl z-50 overflow-hidden flex flex-col"
                     >
-                        TODAY'S DEALS
-                    </Link>
+                        <div className="p-4 border-b flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <img src="/books logo.png" alt="Logo" className="h-8 w-auto object-contain" />
+                                <span className="font-bold text-lg">Menu</span>
+                            </div>
+                            <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="p-4 overflow-y-auto flex-1 flex flex-col gap-4">
+                            {[
+                                { label: "Home", href: "/" },
+                                { label: "Products", href: "/products" },
+                                { label: "Blog", href: "/blog" },
+                                { label: "FAQ", href: "/faq" },
+                                { label: "About Us", href: "/about" },
+                                { label: "Contact", href: "/contact" },
+                            ].map((x, idx) => (
+                                <motion.div
+                                    key={x.label}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: idx * 0.05 }}
+                                >
+                                    <Link
+                                        href={x.href}
+                                        className="text-gray-700 font-semibold hover:text-secondary block py-2 border-b border-gray-50 last:border-0"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        {x.label}
+                                    </Link>
+                                </motion.div>
+                            ))}
+                            <Link
+                                href="/deals"
+                                className="text-secondary font-bold py-2"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                TODAY'S DEALS
+                            </Link>
 
-                    {/* Mobile Extra Links */}
-                    <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
-                        <Link href="/track-order" className="flex items-center gap-3 text-sm text-gray-600">
-                            Track Order
-                        </Link>
-                        <Link href="/help" className="flex items-center gap-3 text-sm text-gray-600">
-                            Help Center
-                        </Link>
-                    </div>
-                </div>
-            </div>
+                            {/* Mobile Extra Links */}
+                            <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
+                                <Link href="/track-order" className="flex items-center gap-3 text-sm text-gray-600">
+                                    Track Order
+                                </Link>
+                                <Link href="/help" className="flex items-center gap-3 text-sm text-gray-600">
+                                    Help Center
+                                </Link>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
