@@ -18,6 +18,9 @@ export const metadata: Metadata = {
 
 import { CartProvider } from "./context/CartContext";
 import { OrderProvider } from "./context/OrderContext";
+import { WishlistProvider } from "./context/WishlistContext";
+import { AuthProvider } from "./context/AuthContext";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -27,20 +30,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased flex flex-col min-h-screen`}>
-        <OrderProvider>
-          <CartProvider>
-            {/* Client Side Header (includes Top Bar) */}
-            <Header />
+        <AuthProvider>
+          <OrderProvider>
+            <WishlistProvider>
+              <CartProvider>
+                {/* Client Side Header (includes Top Bar) */}
+                <Header />
 
-            {/* Main Content */}
-            <main className="flex-grow bg-gray-50">
-              {children}
-            </main>
+                {/* Main Content */}
+                <main className="flex-grow bg-gray-50">
+                  {children}
+                </main>
 
-            {/* Footer */}
-            <Footer />
-          </CartProvider>
-        </OrderProvider>
+                {/* Footer */}
+                <Footer />
+                <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
+              </CartProvider>
+            </WishlistProvider>
+          </OrderProvider>
+        </AuthProvider>
       </body>
     </html>
   );

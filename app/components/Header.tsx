@@ -6,6 +6,7 @@ import {
     Search, User, Heart, ShoppingCart, ChevronDown, Menu, X, Trash2
 } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,6 +18,7 @@ export default function Header() {
 
     // Cart Context
     const { cartCount, items, removeFromCart, cartTotal, isCartOpen, setIsCartOpen } = useCart();
+    const { wishlistCount } = useWishlist();
 
     const chip = "inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs text-gray-700 shadow-sm hover:bg-gray-50 relative";
 
@@ -192,9 +194,10 @@ export default function Header() {
                             <Link href="/signin" className="rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50">
                                 <User size={18} />
                             </Link>
-                            <button className="rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50">
+                            <Link href="/wishlist" className="rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50 relative">
                                 <Heart size={18} />
-                            </button>
+                                {wishlistCount > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{wishlistCount}</span>}
+                            </Link>
                             <button
                                 onClick={() => setIsCartOpen(true)}
                                 className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50 group hover:border-primary active:bg-gray-50 transition-all cursor-pointer"

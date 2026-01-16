@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Heart, RefreshCw, ShoppingCart, Star, Search } from "lucide-react";
+import { Heart, RefreshCw, ShoppingCart, Star, Search, X } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 export interface DealProduct {
     id: string;
@@ -26,6 +29,55 @@ interface DealCardProps {
 
 export default function DealCard({ product, className = "", compact = false, viewMode = 'grid' }: DealCardProps) {
     const { addToCart } = useCart();
+    const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+    const { isAuthenticated } = useAuth();
+    const isWishlisted = isInWishlist(product.id);
+
+    const handleAddToCart = () => {
+        addToCart({ id: product.id, title: product.title, price: product.price, image: product.image });
+        toast.success("Added to cart");
+    };
+
+    const toggleWishlist = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!isAuthenticated) {
+            toast.custom((t) => (
+                <div
+                    className={`${t.visible ? 'animate-enter' : 'animate-leave'
+                        } max-w-4xl w-full bg-primary shadow-lg pointer-events-auto flex items-center justify-between p-4 rounded-md text-secondary border-t-4 border-secondary/20`}
+                >
+                    <div className="flex items-center gap-3">
+                        <div className="bg-secondary/10 rounded-full p-1 text-secondary">
+                            <span className="text-xs font-bold px-1">!</span>
+                        </div>
+                        <p className="text-sm font-medium">
+                            You must <Link href="/signin" className="font-bold underline hover:text-black">login</Link> or <Link href="/signup" className="font-bold underline hover:text-black">create an account</Link> to save <strong>{product.title}</strong> to your wish list!
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => toast.dismiss(t.id)}
+                        className="text-secondary/60 hover:text-secondary transition"
+                    >
+                        <X size={18} />
+                    </button>
+                </div>
+            ), {
+                position: "top-center",
+                duration: 5000,
+            });
+            return;
+        }
+
+        if (isWishlisted) {
+            removeFromWishlist(product.id);
+            toast.success("Removed from wishlist");
+        } else {
+            addToWishlist(product);
+            toast.success("Added to wishlist");
+        }
+    };
 
     // LIST VIEW
     if (viewMode === 'list') {
@@ -78,15 +130,18 @@ export default function DealCard({ product, className = "", compact = false, vie
                     {/* Actions */}
                     <div className="flex items-center gap-4">
                         <button
-                            onClick={() => addToCart({ id: product.id, title: product.title, price: product.price, image: product.image })}
+                            onClick={handleAddToCart}
                             className="bg-primary hover:bg-primary-hover text-secondary text-xs font-bold px-6 py-3 rounded-full flex items-center gap-2 transition-colors uppercase tracking-wider"
                         >
                             <ShoppingCart size={16} /> Add to Cart
                         </button>
 
                         <div className="flex items-center gap-2">
-                            <button className="p-2 text-gray-400 hover:text-red-500 transition-colors bg-transparent border-none">
-                                <Heart size={18} />
+                            <button
+                                onClick={toggleWishlist}
+                                className={`p-2 transition-colors bg-transparent border-none ${isWishlisted ? "text-red-500" : "text-gray-400 hover:text-red-500"}`}
+                            >
+                                <Heart size={18} className={isWishlisted ? "fill-red-500" : ""} />
                             </button>
                             <button className="p-2 text-gray-400 hover:text-secondary transition-colors bg-transparent border-none">
                                 <RefreshCw size={18} />
@@ -128,10 +183,11 @@ export default function DealCard({ product, className = "", compact = false, vie
                 {/* ACTION ICONS (Left Side) - Only show on hover */}
                 <div className="absolute top-2 left-2 flex flex-col gap-2 p-1 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0 z-20">
                     <button
-                        className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-500 hover:bg-secondary hover:text-white transition-colors"
-                        title="Add to Wishlist"
+                        onClick={toggleWishlist}
+                        className={`w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center transition-colors ${isWishlisted ? "text-red-500" : "text-gray-500 hover:bg-secondary hover:text-white"}`}
+                        title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
                     >
-                        <Heart size={14} />
+                        <Heart size={14} className={isWishlisted ? "fill-red-500" : ""} />
                     </button>
                     <button
                         className="w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-gray-500 hover:bg-black hover:text-white transition-colors"
@@ -149,7 +205,7 @@ export default function DealCard({ product, className = "", compact = false, vie
 
                 {/* ADD TO CART - Bottom Blue Bar */}
                 <button
-                    onClick={() => addToCart({ id: product.id, title: product.title, price: product.price, image: product.image })}
+                    onClick={handleAddToCart}
                     className="absolute bottom-0 left-0 w-full bg-primary hover:bg-primary-hover text-secondary font-bold text-xs py-2.5 transition-transform duration-300 translate-y-full group-hover:translate-y-0 flex items-center justify-center gap-2 z-20"
                 >
                     ADD TO CART
