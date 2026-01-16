@@ -14,15 +14,16 @@ import {
     Mail,
     Phone
 } from "lucide-react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 const HELP_TOPICS = [
-    { icon: <Truck size={24} />, title: "Shipping & Delivery", desc: "Track orders and delivery times" },
-    { icon: <RotateCcw size={24} />, title: "Returns & Refunds", desc: "7-day easy return policy" },
-    { icon: <CreditCard size={24} />, title: "Payments", desc: "COD and Bank Transfer options" },
-    { icon: <User size={24} />, title: "My Account", desc: "Manage your profile and orders" },
-    { icon: <ShieldCheck size={24} />, title: "Security", desc: "Your data protection is priority" },
-    { icon: <MessageCircle size={24} />, title: "Feedback", desc: "Share your experience with us" },
+    { icon: <Truck size={24} />, title: "Shipping & Delivery", desc: "Track orders and delivery times", slug: "shipping-delivery" },
+    { icon: <RotateCcw size={24} />, title: "Returns & Refunds", desc: "7-day easy return policy", slug: "returns-refunds" },
+    { icon: <CreditCard size={24} />, title: "Payments", desc: "COD and Bank Transfer options", slug: "payments" },
+    { icon: <User size={24} />, title: "My Account", desc: "Manage your profile and orders", slug: "my-account" },
+    { icon: <ShieldCheck size={24} />, title: "Security", desc: "Your data protection is priority", slug: "security" },
+    { icon: <MessageCircle size={24} />, title: "Feedback", desc: "Share your experience with us", slug: "feedback" },
 ];
 
 export default function HelpCenter() {
@@ -55,7 +56,7 @@ export default function HelpCenter() {
                         <input
                             type="text"
                             placeholder="Search for articles, topics..."
-                            className="w-full h-16 rounded-2xl px-14 text-lg font-medium bg-white shadow-2xl shadow-secondary/10 border-none outline-none focus:ring-4 focus:ring-secondary/5 transition-all"
+                            className="w-full h-16 rounded-2xl px-14 text-lg font-medium bg-white shadow-2xl shadow-secondary/10 border-none outline-none focus:ring-4 focus:ring-secondary/5 transition-all text-secondary placeholder:text-gray-400"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -72,27 +73,28 @@ export default function HelpCenter() {
                 {/* TOPIC CARDS */}
                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {HELP_TOPICS.map((topic, idx) => (
-                        <motion.div
-                            key={topic.title}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 + idx * 0.05 }}
-                            whileHover={{ y: -5 }}
-                            className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-primary transition-all cursor-pointer group"
-                        >
-                            <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-secondary mb-6 group-hover:bg-primary transition-colors">
-                                {topic.icon}
-                            </div>
-                            <h3 className="text-xl font-black text-secondary mb-2 uppercase tracking-tight italic">
-                                {topic.title}
-                            </h3>
-                            <p className="text-gray-500 font-medium leading-relaxed mb-6">
-                                {topic.desc}
-                            </p>
-                            <div className="flex items-center gap-2 text-secondary font-black text-xs uppercase tracking-widest">
-                                Read More <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                            </div>
-                        </motion.div>
+                        <Link href={`/help/${topic.slug}`} key={topic.title} className="block h-full">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 + idx * 0.05 }}
+                                whileHover={{ y: -5 }}
+                                className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-primary transition-all cursor-pointer group h-full"
+                            >
+                                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-secondary mb-6 group-hover:bg-primary transition-colors">
+                                    {topic.icon}
+                                </div>
+                                <h3 className="text-xl font-black text-secondary mb-2 uppercase tracking-tight italic">
+                                    {topic.title}
+                                </h3>
+                                <p className="text-gray-500 font-medium leading-relaxed mb-6">
+                                    {topic.desc}
+                                </p>
+                                <div className="flex items-center gap-2 text-secondary font-black text-xs uppercase tracking-widest">
+                                    Read More <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                </div>
+                            </motion.div>
+                        </Link>
                     ))}
                 </section>
 
@@ -141,12 +143,12 @@ export default function HelpCenter() {
                             <input
                                 type="text"
                                 placeholder="Order ID (Optional)"
-                                className="w-full bg-white/50 backdrop-blur-sm border border-secondary/10 rounded-xl px-5 py-4 focus:bg-white transition-all outline-none font-medium"
+                                className="w-full bg-white border border-secondary/10 rounded-xl px-5 py-4 text-secondary placeholder:text-gray-400 focus:ring-4 focus:ring-secondary/10 transition-all outline-none font-bold"
                             />
                             <textarea
                                 placeholder="Describe your issue..."
                                 rows={4}
-                                className="w-full bg-white/50 backdrop-blur-sm border border-secondary/10 rounded-xl px-5 py-4 focus:bg-white transition-all outline-none font-medium"
+                                className="w-full bg-white border border-secondary/10 rounded-xl px-5 py-4 text-secondary placeholder:text-gray-400 focus:ring-4 focus:ring-secondary/10 transition-all outline-none font-bold"
                             ></textarea>
                             <button className="w-full bg-secondary text-white font-black py-4 rounded-xl uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-secondary/20 active:scale-[0.98]">
                                 Submit Ticket
