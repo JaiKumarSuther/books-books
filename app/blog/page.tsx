@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 export default function BlogPage() {
     return (
         <div className="min-h-screen bg-white py-8 font-sans">
-            <div className="max-w-[1200px] mx-auto px-4">
+            <div className="max-w-[1600px] mx-auto px-4">
 
                 {/* Breadcrumb */}
                 <div className="flex items-center gap-2 text-xs text-gray-500 mb-8 font-medium">
@@ -70,9 +70,6 @@ export default function BlogPage() {
                                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] w-56 object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
                                 style={{ filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.15))" }}
                             />
-
-                            {/* Button implied by entire card click, but visually present if needed, 
-                                though mockup doesn't show button, just yellow card. Keeping it clean as per image. */}
                         </div>
                     </aside>
 
@@ -81,7 +78,11 @@ export default function BlogPage() {
                         <h2 className="text-2xl font-bold text-gray-900 mb-8">Blog</h2>
                         <div className="space-y-6">
                             {blogs.map((post) => (
-                                <div key={post.id} className="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col md:flex-row gap-6 hover:shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-all duration-300 group">
+                                <Link
+                                    key={post.id}
+                                    href={`/blog/${post.id}`}
+                                    className="block bg-white border border-gray-100 rounded-2xl p-4 flex flex-col md:flex-row gap-6 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-gray-200 transition-all duration-300 group cursor-pointer"
+                                >
 
                                     {/* Left: Image */}
                                     <div className="w-full md:w-[280px] shrink-0 h-48 md:h-auto relative overflow-hidden rounded-xl">
@@ -121,17 +122,16 @@ export default function BlogPage() {
                                             {post.excerpt}
                                         </p>
 
-                                        {/* Link */}
+                                        {/* Link Visual */}
                                         <div className="mt-auto">
-                                            <Link
-                                                href={`/blog/${post.id}`}
+                                            <span
                                                 className="inline-flex items-center text-[11px] font-bold text-gray-900 border-b-2 border-gray-200 group-hover:border-secondary group-hover:text-secondary pb-0.5 transition-all uppercase tracking-wide"
                                             >
                                                 + Continue Reading
-                                            </Link>
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     </main>
