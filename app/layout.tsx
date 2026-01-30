@@ -41,7 +41,7 @@ export default function RootLayout({
                 <Header />
 
                 {/* Main Content */}
-                <main className="flex-grow bg-gray-50 overflow-x-hidden">
+                <main className="flex-grow bg-gray-50">
                   <ClientWrapper>
                     {children}
                   </ClientWrapper>

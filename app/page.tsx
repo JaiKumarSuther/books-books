@@ -137,7 +137,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("Best Sellers");
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+    <div className="bg-gray-50 text-gray-900 font-sans">
 
       {/* MAIN CONTAINER */}
       <div className="mx-auto max-w-[1600px] px-4 py-6">
